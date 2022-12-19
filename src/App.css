@@ -1,0 +1,358 @@
+@charset "UTF-8";
+@font-face {
+    font-family: Sahel;
+    src: url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-FD.eot");
+    src: url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-FD.eot?#iefix") format("embedded-opentype"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-FD.woff2") format("woff2"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-FD.woff") format("woff"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-FD.ttf") format("truetype");
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Sahel;
+    src: url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Bold-FD.eot");
+    src: url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Bold-FD.eot?#iefix") format("embedded-opentype"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Bold-FD.woff2") format("woff2"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Bold-FD.woff") format("woff"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Bold-FD.ttf") format("truetype");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Sahel;
+    src: url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Light-FD.eot");
+    src: url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Light-FD.eot?#iefix") format("embedded-opentype"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Light-FD.woff2") format("woff2"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Light-FD.woff") format("woff"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Light-FD.ttf") format("truetype");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Sahel;
+    src: url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-SemiBold-FD.eot");
+    src: url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-SemiBold-FD.eot?#iefix") format("embedded-opentype"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-SemiBold-FD.woff2") format("woff2"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-SemiBold-FD.woff") format("woff"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-SemiBold-FD.ttf") format("truetype");
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Sahel;
+    src: url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Black-FD.eot");
+    src: url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Black-FD.eot?#iefix") format("embedded-opentype"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Black-FD.woff2") format("woff2"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Black-FD.woff") format("woff"),
+    url("/node_modules/sahel-font/dist/Farsi-Digits/Sahel-Black-FD.ttf") format("truetype");
+    font-weight: 900;
+}
+
+
+@font-face {
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: bold;
+    src: url('Assets/fonts/eot/IRANSansWeb_Bold.eot');
+    src: url('Assets/fonts/eot/IRANSansWeb_Bold.eot?#iefix') format('embedded-opentype'),
+    url('Assets/fonts/woff2/IRANSansWeb_Bold.woff2') format('woff2'),
+    url('Assets/fonts/woff/IRANSansWeb_Bold.woff') format('woff'),
+    url('Assets/fonts/ttf/IRANSansWeb_Bold.ttf') format('truetype');
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: 500;
+    src: url('Assets/fonts/eot/IRANSansWeb_Medium.eot');
+    src: url('Assets/fonts/eot/IRANSansWeb_Medium.eot?#iefix') format('embedded-opentype'),
+    url('Assets/fonts/woff2/IRANSansWeb_Medium.woff2') format('woff2'),
+    url('Assets/fonts/woff/IRANSansWeb_Medium.woff') format('woff'),
+    url('Assets/fonts/ttf/IRANSansWeb_Medium.ttf') format('truetype');
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: 300;
+    src: url('Assets/fonts/eot/IRANSansWeb_Light.eot');
+    src: url('Assets/fonts/eot/IRANSansWeb_Light.eot?#iefix') format('embedded-opentype'),
+    url('Assets/fonts/woff2/IRANSansWeb_Light.woff2') format('woff2'),
+    url('Assets/fonts/woff/IRANSansWeb_Light.woff') format('woff'),
+    url('Assets/fonts/ttf/IRANSansWeb_Light.ttf') format('truetype');
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: 200;
+    src: url('Assets/fonts/eot/IRANSansWeb_UltraLight.eot');
+    src: url('Assets/fonts/eot/IRANSansWeb_UltraLight.eot?#iefix') format('embedded-opentype'),
+    url('Assets/fonts/woff2/IRANSansWeb_UltraLight.woff2') format('woff2'),
+    url('Assets/fonts/woff/IRANSansWeb_UltraLight.woff') format('woff'),
+    url('Assets/fonts/ttf/IRANSansWeb_UltraLight.ttf') format('truetype');
+    font-display: fallback;
+}
+
+@font-face {
+    font-family: IRANSans;
+    font-style: normal;
+    font-weight: normal;
+    src: url('Assets/fonts/eot/IRANSansWeb.eot');
+    src: url('Assets/fonts/eot/IRANSansWeb.eot?#iefix') format('embedded-opentype'),
+    url('Assets/fonts/woff2/IRANSansWeb.woff2') format('woff2'),
+    url('Assets/fonts/woff/IRANSansWeb.woff') format('woff'),
+    url('Assets/fonts/ttf/IRANSansWeb.ttf') format('truetype');
+    font-display: fallback;
+}
+
+:root {
+    --btnBgColor: #fff;
+    --btnBgColorHover: #5450D6;
+    --btnRed: #F84459;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    scrollbar-width: thin !important;
+    scrollbar-color: #89c8c8 #f6f5ff;
+    font-family: IRANSans, serif;
+    user-select: none;
+
+}
+
+html {
+    scrollbar-width: thin !important;
+    scrollbar-color: #89c8c8 #f6f5ff;
+}
+
+::-webkit-scrollbar {
+    width: 5px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    background: #afbbbb;
+    border-radius: 8px;
+    min-height: 40px;
+}
+
+::-webkit-scrollbar-track-piece {
+    /*background-color: #e8ecec;*/
+}
+
+p {
+    margin-bottom: 0;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+:focus {
+    outline: none;
+}
+
+:disabled {
+    background-color: transparent;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+li {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+input:focus {
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+button:focus {
+    outline: 0 !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul {
+    margin-bottom: 0;
+}
+
+
+.greenBtn {
+    border-color: #309383;
+    color: #309383;
+    transition: ease 0.3s;
+}
+
+.greenBtn:hover {
+    color: #fff;
+    background-color: #309383;
+}
+
+.redBtn {
+    border-color: #F84459;
+    color: #F84459;
+    transition: ease 0.3s;
+}
+
+.redBtn:hover {
+    color: #fff;
+    background-color: #F84459;
+}
+
+.width__345 {
+    width: 345px;
+    height: 40px
+}
+
+.margin_top_5 {
+    margin-top: 5rem;
+}
+
+.margin_top_4 {
+    margin-top: 4rem;
+}
+
+.cursor_pointer {
+    cursor: pointer;
+}
+
+.green__color {
+    color: #309383
+}
+
+.fd-font {
+    font-family: Sahel, serif;
+}
+
+.custom__input__login__code {
+    width: 37px;
+    border: none;
+    border-bottom: 2px solid #B3B3B3;
+    text-align: center;
+}
+
+.width__195 {
+    width: 215px;
+}
+
+.ltr {
+    direction: ltr;
+}
+
+.center__Loader {
+    height: 100vh;
+    /*background: aqua;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+}
+
+.package__section {
+    display: flex;
+    flex-flow: wrap row;
+    justify-content: center;
+    /*space-between the  cols? they has their Margins */
+}
+
+.package__section .single__package:nth-child(1){background: #B5EAD6;}
+.package__section .single__package:nth-child(2){background: #E2F0CC;}
+.package__section .single__package:nth-child(3){background: #FFDAC0;}
+.package__section .single__package:nth-child(4){background: #FEB6B7;}
+.package__section .single__package {
+    margin: 0 10px;
+    width: 235px;
+    border-radius: 25px;
+    /*background: #46dff0;*/
+    overflow: hidden;
+    display: flex;
+    /* flex-wrap: wrap; */
+    flex-flow: column wrap;
+    /* justify-content: center; */
+    align-items: center;
+    position: relative;
+    padding: 0 15px 15px;
+    border: 1px solid rgba(0, 0, 0, 0%);
+}
+
+
+.package__section .single__package .top__hand__section {
+
+    display: flex;
+    justify-content: center;
+    margin: 3px auto 0 auto;
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*-ms-transform: translate(-50%, -50%);*/
+    /*transform: translate(-50%, -50%);*/
+}
+
+.package__section .package__width__header {
+    text-align: center;
+    color: red;
+    /*position: absolute;*/
+}
+
+.package__section .single__package .add__To__basket__section {
+    clear: both;
+    cursor: pointer;
+    background: white;
+    width: 215px;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px;
+    margin: 3px 0;
+    position: absolute;
+    bottom: 10px;
+    /*height: 35px;*/
+
+}
+
+.package__section .single__package .package__width__body {
+    margin:0 0  45px 0;
+}
+
+.form__control__check__box {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.form__control__check__box input[type='checkbox'] {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-left: 5px;
+    height: 30px;
+}

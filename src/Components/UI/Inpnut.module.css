@@ -1,0 +1,21 @@
+.default_input_style {
+    /*border-radius:10px;*/
+    /*border:1px solid #309383;*/
+    /*padding: 8px 15px;*/
+    /*background-color:#fff;*/
+    /*width:100px;*/
+    /*height:40px;*/
+    /*font-size:14px;*/
+    /*margin:0 5px;*/
+    /*font-weight: 500;*/
+    /*color:#309383;*/
+
+    height: 40px;
+    background: #F4F4F4;
+    opacity: 0.99;
+    border-radius: 10px;
+    border: 0;
+    padding: 0 10px;
+}
+
+

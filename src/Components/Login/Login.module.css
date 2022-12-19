@@ -1,0 +1,14 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    background:#F9F9F9 url(./login_bg.png);
+    background-size: 100% 100%;
+    overflow: scroll;
+}
+
+.svg__bg {
+    position: absolute;
+    top: 0;
+    right:0;
+
+}
