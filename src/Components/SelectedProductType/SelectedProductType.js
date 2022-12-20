@@ -82,10 +82,10 @@ const SelectedProductType = (props) => {
       }
     }
 
-    const changeItemCheck = (event, planId, price) => {
+    const changeItemCheck1 = (event, planId, price) => {
 
     }
-    const changeItemCheck1 = (event, planId, price) => {
+    const changeItemCheck = (event, planId, price) => {
       // debugger
       const temp = [...data];
 
