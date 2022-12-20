@@ -128,22 +128,22 @@ const SelectedProductType = (props) => {
             </div>
             <div>
               <div className={"w-100 d-block text-center "}>
-                <div ref={selectTimeRef} className={"d-flex justify-content-center removeOtherClassJs"}>
-                  <div  className={"mx-2 rounded p-2 " + "bg-info"}
+                <form ref={selectTimeRef} className={"d-flex justify-content-center removeOtherClassJs"}>
+                  <Button  className={"mx-2 rounded p-2 " + "bg-info"}
                           onClick={(event) => changeTimeHandler(event, 'month')}>
                     یک ماهه
-                  </div>
+                  </Button>
 
-                  <div className={"mx-2 rounded p-2 "}
+                  <Button className={"mx-2 rounded p-2 "}
                        onClick={(event) => changeTimeHandler(event, 'month_3')}> سه ماهه
-                  </div>
-                  <div className={"mx-2 rounded p-2 "}
+                  </Button>
+                  <Button className={"mx-2 rounded p-2 "}
                        onClick={(event) => changeTimeHandler(event, 'month_6')}> شش ماهه
-                  </div>
-                  <div className={"mx-2 rounded p-2 "}
+                  </Button>
+                  <Button className={"mx-2 rounded p-2 "}
                        onClick={(event) => changeTimeHandler(event, 'month_12')}> یک ساله
-                  </div>
-                </div>
+                  </Button>
+                </form>
               </div>
 
 
