@@ -49,48 +49,6 @@ const SelectedProductType = (props) => {
   }, [])
 
 
-  const changeTimeHandler = (event, inputTime) => {
-    event.preventDefault();
-
-
-    // اگه موردی رو انتخاب کرده اول از حالت انتخاب درش بیار
-    removeBoxShadowFromSingleItem()
-    // سبد خرید رو آپدیت کن مطمئن شو که اکه از قبل چیزی انتخاب کرده از سبد خرید حذف بشه
-    // چون داره باز یه ماهه دیکه ای رو انتخاب میکنه
-    setCard(prevState => {
-      return {planTime: inputTime, planId: 0, options: [], modules: prevState.modules,}
-    })
-    // debugger
-    console.log(dataHolder)
-
-
-    // setTotalPriceState(resetTotalPrice(temp))
-    // setPlanTime(inputTime);
-
-    const nodeList = planItemsRef.current.querySelectorAll('.package__section input[type=checkbox]');
-    // remove if check Box are true
-    if (nodeList.length > 0) {
-      for (const nodeKey in nodeList) {
-        if (typeof (nodeList[nodeKey]) === 'object') {
-          nodeList[nodeKey].checked = false
-        }
-      }
-    }
-    // change Bg Image
-    if (selectTimeRef.current) {
-      const div = selectTimeRef.current;
-      const parent = div.childNodes;
-
-      parent.forEach((element, index) => {
-        element.classList.remove("bg-info")
-      })
-      event.target.classList.toggle("bg-info")
-      // debugger
-
-    } else {
-      console.log("Error Ref")
-    }
-  }
 
   const changeItemCheck = (event, planId, price, itemId, itemTitle, planTime) => {
 
@@ -115,6 +73,10 @@ const SelectedProductType = (props) => {
           temp_card.options.splice(removeIndex, 1);
         }
       }
+
+      temp_card.totalPrice=calculateTotalPrice(temp_card)
+
+
       setCard(temp_card)
     } else {
       //Just Do Nothing!
@@ -186,8 +148,6 @@ const SelectedProductType = (props) => {
           {/*</div>*/}
 
         </div>
-
-
         <div ref={planItemsRef}>
 
           <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -296,8 +256,6 @@ const SelectedProductType = (props) => {
           {/*</React.Fragment>)}*/}
 
         </div>
-
-
       </div>
 
     </>}
