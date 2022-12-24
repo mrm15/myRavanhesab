@@ -15,6 +15,7 @@ function App() {
       localStorage.setItem(
         "apiUrl",
         "http://localhost/Git/myRavanhesab/"
+        // "http://my.ravanhesab.com/myRavanhesab/"
       );
     } else {
       localStorage.setItem(
@@ -59,8 +60,8 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
-    response.data.token!==undefined &&localStorage.setItem('token', response.data.token)
-    console.log('token: ' + response.data.token);
+    response.data.token !== undefined && localStorage.setItem('token', response.data.token)
+    // console.log('token: ' + response.data.token);
     return response;
   },
   (error) => {
@@ -99,7 +100,7 @@ axios.interceptors.response.use(
       // toast.error("لطفا مجددا وارد سامانه شوید");
 
       return error;
-    }else if(error.message){
+    } else if (error.message) {
       alert(error.message)
     }
 

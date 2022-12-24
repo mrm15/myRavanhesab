@@ -73,13 +73,13 @@ const Pages = () => {
         <Route
           path="/login"
           element={isLogin ? <Navigate to={"Dashboard"}/> : <Login setIsLogin={setIsLogin}
-                                                                   // setToken={setToken}
+            // setToken={setToken}
           />}/>
         <Route
           exact
           path="/"
           element={isLogin ? <MainPage/> : <Login setIsLogin={setIsLogin}
-                                                  // setToken={setToken}
+            // setToken={setToken}
           />}
         >
           <Route path="/" element={<Dashboard/>}/>

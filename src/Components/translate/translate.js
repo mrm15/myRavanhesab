@@ -21,7 +21,7 @@ const tr = {
   enter: "وارد کنید",
   back: "بازگشت",
   enter_a_valid_phone_number: "یک شماره تماس معتبر وارد کنید.",
-  add_to_basket:"افزودن به سبد خرید",
+  add_to_card:"افزودن به سبد خرید",
   receiving_data: "در حال دریافت اطلاعات...",
 
 }
