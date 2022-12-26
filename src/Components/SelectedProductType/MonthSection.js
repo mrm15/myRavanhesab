@@ -5,21 +5,14 @@ import tr from "../translate/translate";
 import numeric from "../utils/NumericFunction"
 
 const MonthSection = (props) => {
-  const [holder, setHolder] = useState(props.dataHolder)
+  const [holder, setHolder] = useState([])
   const [optionsHolder, setOptionsHolder] = useState([])
-  const [basePriceState, setBasePriceState] = useState([])
   const [randomString, setRandomString] = useState(Math.floor(Math.random() * 10000000000000000) + "_W_L_F")
 
-  useEffect(() => {
-    console.log("MonthSection.js :  " + props.planTime)
 
-    const temp_basePrice = [];
-    props.dataHolder.forEach(v => {
-      temp_basePrice.push({planId: v.planId, totalPrice: v.totalPrice});
-    })
-
-    setBasePriceState(temp_basePrice);
-  }, [holder])
+  useEffect(()=>{
+    setHolder(props.dataHolder)
+  })
 
   function changeItemCheck(event, planId, price, itemId, title) {
     setOptionsHolder(ps => {
@@ -57,9 +50,69 @@ const MonthSection = (props) => {
   }
 
   function addToCardHandler(event, planId, planPrice) {
-
     props.onSelectPlan(event, planId, optionsHolder, props.planTime, planPrice)
   }
+
+  // return <div className={"package__section"}>
+  //   {holder.map((v, index) => <React.Fragment key={index + ""}>
+  //     <>
+  //       <div className={"single__package"}>
+  //         {/**/}
+  //         <div className={"package__width__header"} style={{
+  //           // 'background': `url(${v.pictureUrl})`,
+  //           // 'backgroundSize': '200px 100px',
+  //         }}>
+  //           <div className={"top__hand__section"}>
+  //             <PlanTopHeader/>
+  //             <div className={"header__title font_20_bold"}>{v.planTitle}</div>
+  //           </div>
+  //           <div className={"p-4 text-center font_20_bold"}>
+  //             _{v.planId}_
+  //             {v.totalPrice} {/* i mean BasePrice */}
+  //           </div>
+  //           {props.planTime}
+  //
+  //         </div>
+  //         {/* آیتم ها */}
+  //         <div className={"package__width__body"}>
+  //           {/*{console.log(v.data)}*/}
+  //           {v.data.map((item, indexNumber) => <React.Fragment key={indexNumber + ""}>
+  //             {item.fixed ? <div className={"d-flex"}>
+  //               <div className={"check__box__before"}/>
+  //               <div className={"py-1 "}>
+  //                 {/*{console.log(item)}*/}
+  //                 {/*{item.itemId}*/}
+  //                 {item.title}
+  //                 {/*{props.planTime}*/}
+  //                 {/*{item.price}*/}
+  //               </div>
+  //             </div> : <div className={"form__control__check__box"}>
+  //               <Input id={v.planId + "_" + item.itemId + "" + indexNumber + randomString}
+  //                      onChange={(event) => changeItemCheck(event, v.planId, item.price, item.itemId, item.title)}
+  //                      type="checkbox"
+  //                      value={item.price}/>
+  //               <label htmlFor={v.planId + "_" + item.itemId + "" + indexNumber + randomString}>
+  //                 <div style={{direction: "rtl"}}>
+  //                   <span>_{item.itemId}_</span><span>_{item.title}_</span><span>_{item.price}_</span>
+  //                 </div>
+  //               </label>
+  //             </div>}
+  //           </React.Fragment>)}
+  //         </div>
+  //         <div
+  //           className={"add__To__card__section"}
+  //         >
+  //           <div
+  //             onClick={(event) => addToCardHandler(event, v.planId, v.totalPrice)}
+  //             className={"single__add__To__basket_button "}>
+  //             {/*{tr.add_to_card}*/}
+  //             <Basket/>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </>
+  //   </React.Fragment>)}
+  // </div>
 
   return <div className={"package__section"}>
     {holder.map((v, index) => <React.Fragment key={index + ""}>
@@ -74,27 +127,29 @@ const MonthSection = (props) => {
               <PlanTopHeader/>
               <div className={"header__title font_20_bold"}>{v.planTitle}</div>
             </div>
+
             <div className={"p-4 text-center font_20_bold"}>
-              {/*_{v.planId}_*/}
-              {/*{v.totalPrice} /!* i mean BasePrice *!/__*/}
-              {basePriceState.length > 0 && numeric.e2p(basePriceState[index].totalPrice.toLocaleString())}&nbsp;ريال
+              _{v.planId}_
+              {v.totalPrice} {/* i mean BasePrice */}
             </div>
+
+            {props.planTime}
+
           </div>
           {/* آیتم ها */}
           <div className={"package__width__body"}>
             {/*{console.log(v.data)}*/}
             {v.data.map((item, indexNumber) => <React.Fragment key={indexNumber + ""}>
-              {item.fixed ?
-                <div className={"d-flex"}>
-                  <div className={"check__box__before"}/>
-                  <div className={"py-1 "}>
-                    {/*{console.log(item)}*/}
-                    {/*{item.itemId}*/}
-                    {item.title}
-                    {/*{item.price}*/}
-                  </div>
+              {item.fixed ? <div className={"d-flex"}>
+                <div className={"check__box__before"}/>
+                <div className={"py-1 "}>
+                  {/*{console.log(item)}*/}
+                  {/*{item.itemId}*/}
+                  {item.title}
+                  {/*{props.planTime}*/}
+                  {/*{item.price}*/}
                 </div>
-                : <div className={"form__control__check__box"}>
+              </div> : <div className={"form__control__check__box"}>
                 <Input id={v.planId + "_" + item.itemId + "" + indexNumber + randomString}
                        onChange={(event) => changeItemCheck(event, v.planId, item.price, item.itemId, item.title)}
                        type="checkbox"
@@ -111,7 +166,7 @@ const MonthSection = (props) => {
             className={"add__To__card__section"}
           >
             <div
-              onClick={(event) => addToCardHandler(event, v.planId, basePriceState.length > 0 ? basePriceState[index].totalPrice : 0)}
+              onClick={(event) => addToCardHandler(event, v.planId, v.totalPrice)}
               className={"single__add__To__basket_button "}>
               {/*{tr.add_to_card}*/}
               <Basket/>
