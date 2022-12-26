@@ -50,10 +50,7 @@ const SelectedProductType = (props) => {
       axios.get(prefixUrl + "?id=" + id).then(r => {
         const backData = r.data.data;
         setDataHolder(backData) // نگه دارنده دیتا برای زمانی که زمان رو عوض کرد دیتا  و جمع کل دوباره ریست بشه
-        debugger
-        setDataShow(backData.plans[planTime].slice())
-        // setData(backData[planTime]) //  نمایش دیتا
-        // setTotalPriceState(calculateTotalPrice(backData[planTime]))
+        setDataShow(backData.plans["month"].slice())
       });
     }
   }, [])
@@ -130,6 +127,12 @@ const SelectedProductType = (props) => {
     })
   }
 
+  function selectMonthHandler(str) {
+    // debugger
+    setPlanTime(str)
+    setDataShow([...dataHolder.plans[str].slice()])
+  }
+
   return (<div>
     {Object.keys(dataHolder).length === 0 ? <Loader className={"center__Loader"}/> : <>
 
@@ -175,37 +178,25 @@ const SelectedProductType = (props) => {
               role="tablist">
             <li className="nav-item" role="presentation">
 
-              <button onClick={() => {
-                setPlanTime("month")
-                setDataShow(dataHolder.plans[planTime])
-              }} className="nav-link " id="pills-tab_month_1"
+              <button onClick={() => selectMonthHandler("month")} className="nav-link " id="pills-tab_month_1"
                       data-bs-toggle="pill" data-bs-target="#month_1"
                       type="button" role="tab" aria-controls="pills-home" aria-selected="true">یک ماهه
               </button>
             </li>
             <li className="nav-item" role="presentation">
-              <button onClick={() => {
-                setPlanTime("month_3")
-                setDataShow(dataHolder.plans[planTime])
-              }} className="nav-link" id="pills-tab_month_3"
+              <button onClick={() => selectMonthHandler("month_3")} className="nav-link" id="pills-tab_month_3"
                       data-bs-toggle="pill" data-bs-target="#month_3"
                       type="button" role="tab" aria-controls="pills-profile" aria-selected="false">سه ماهه
               </button>
             </li>
             <li className="nav-item" role="presentation">
-              <button onClick={() => {
-                setPlanTime("month_6")
-                setDataShow(dataHolder.plans[planTime])
-              }} className="nav-link" id="pills-tab_month_6"
+              <button onClick={() => selectMonthHandler("month_6")} className="nav-link" id="pills-tab_month_6"
                       data-bs-toggle="pill" data-bs-target="#month_6"
                       type="button" role="tab" aria-controls="pills-contact" aria-selected="false">شش ماهه
               </button>
             </li>
             <li className="nav-item" role="presentation">
-              <button onClick={() => {
-                setPlanTime("month_12")
-                setDataShow(dataHolder.plans[planTime])
-              }} className="nav-link active" id="pills-tab_month_12"
+              <button onClick={() => selectMonthHandler("month_12")} className="nav-link active" id="pills-tab_month_12"
                       data-bs-toggle="pill"
                       data-bs-target="#month_12"
                       type="button" role="tab" aria-controls="pills-contact" aria-selected="false">یک ساله
@@ -217,14 +208,12 @@ const SelectedProductType = (props) => {
           <div className="" id="">
             <div className="" id="" role="" aria-labelledby="">
 
-              {dataShow.map(v =>
-                <MonthSection
-                  changeItemCheck={changeItemCheck}
-                  planTime={planTime}
-                  onSelectPlan={onSelectPlan}
-                  dataHolder={dataHolder[planTime]}
-                />
-              )}
+              {dataShow.length >0 && <MonthSection
+                changeItemCheck={changeItemCheck}
+                planTime={planTime}
+                onSelectPlan={onSelectPlan}
+                dataHolder={dataShow}
+              />}
 
             </div>
             {/*<div className="tab-pane " id="month_3" role="tabpanel" aria-labelledby="pills-tab_month_3">*/}
