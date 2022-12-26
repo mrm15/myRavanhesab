@@ -22,7 +22,11 @@ const tr = {
   back: "بازگشت",
   enter_a_valid_phone_number: "یک شماره تماس معتبر وارد کنید.",
   add_to_card:"افزودن به سبد خرید",
+  ravanHesab_modules:"ماژول های روان حساب",
   receiving_data: "در حال دریافت اطلاعات...",
+  ravanhesab_software: "نرم افزار حسابداری روان حساب",
+  select_your_plan: "طرح مناسب خود را انتخاب کنید"
+
 
 }
 export default tr;

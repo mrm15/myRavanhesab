@@ -2,12 +2,13 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useLocation} from "react-router-dom";
 import Loader from "../Loader/Loader";
 import Input from "../UI/Input";
-import {BasketTopHand} from "../../Assets/svg";
+import {BasketTopHand, BgPlans} from "../../Assets/svg";
 import tr from "../translate/translate";
 import axios from "axios";
 import Button from "../UI/Button";
 import {click} from "@testing-library/user-event/dist/click";
 import MonthSection from "./MonthSection";
+import SingleModule from "./SingleModule";
 
 const SelectedProductType = (props) => {
   const prefixUrl = localStorage.getItem("apiUrl") + "ravanhesabPlans/";
@@ -15,9 +16,16 @@ const SelectedProductType = (props) => {
   const reactLocation = useLocation();
 
   const [dataHolder, setDataHolder] = useState({})
+
+  const [dataShow, setDataShow] = useState([])
+
+  const [planTime, setPlanTime] = useState("month")
+  console.log("planTime: " + planTime)
+
   // const [data, setData] = useState([])
   // const [planTime, setPlanTime] = useState("month") // || month, month_3, month_6, month_12
   // const [totalPriceState, setTotalPriceState] = useState([])
+
   const [card, setCard] = useState({
     planTime: "", planId: 0, options: [], modules: [], planPrice: 0, totalPrice: 0,
   })
@@ -41,13 +49,14 @@ const SelectedProductType = (props) => {
       const id = reactLocation.state.id;
       axios.get(prefixUrl + "?id=" + id).then(r => {
         const backData = r.data.data;
-        setDataHolder(backData.plans) // نگه دارنده دیتا برای زمانی که زمان رو عوض کرد دیتا  و جمع کل دوباره ریست بشه
+        setDataHolder(backData) // نگه دارنده دیتا برای زمانی که زمان رو عوض کرد دیتا  و جمع کل دوباره ریست بشه
+        debugger
+        setDataShow(backData.plans[planTime].slice())
         // setData(backData[planTime]) //  نمایش دیتا
         // setTotalPriceState(calculateTotalPrice(backData[planTime]))
       });
     }
   }, [])
-
 
 
   const changeItemCheck = (event, planId, price, itemId, itemTitle, planTime) => {
@@ -74,7 +83,7 @@ const SelectedProductType = (props) => {
         }
       }
 
-      temp_card.totalPrice=calculateTotalPrice(temp_card)
+      temp_card.totalPrice = calculateTotalPrice(temp_card)
 
 
       setCard(temp_card)
@@ -84,12 +93,18 @@ const SelectedProductType = (props) => {
   };
 
   const removeBoxShadowFromSingleItem = () => {
+    // debugger
     const singlePlanSelected = planItemsRef.current.querySelector(".set_box_shadow_to_singleItem")
     singlePlanSelected !== null && singlePlanSelected.classList.remove("set_box_shadow_to_singleItem")
+    singlePlanSelected !== null && singlePlanSelected.querySelector(".bg__orange").classList.remove("bg__orange")
   }
 
   const addBoxShadowToSingleItem = (event) => {
-    event.target.parentElement.parentElement.classList.add("set_box_shadow_to_singleItem");
+    // debugger
+    // event.target.parentElement.parentElement.parentElement.classList.add("set_box_shadow_to_singleItem");
+    event.target.closest(".single__package").classList.add("set_box_shadow_to_singleItem");
+    event.target.closest(".single__add__To__basket_button").classList.add("bg__orange");
+
   }
 
   function onSelectPlan(event, planId, options, planTime, planPrice) {
@@ -128,7 +143,9 @@ const SelectedProductType = (props) => {
         <span>جمع کل : {card.totalPrice}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
       </div>
       <div>
-        <div className={"w-100 d-block text-center "}>
+        <div className={"title__bar"}>{tr.ravanhesab_software}</div>
+        <div className={"sub__title__bar mb-2  mt-4"}>{tr.select_your_plan}</div>
+        <div className={"w-100 d-block text-center"}>
 
           {/*<div ref={selectTimeRef} className={"d-flex justify-content-center removeOtherClassJs"}>*/}
           {/*  <div className={"mx-2 rounded p-2 " + "bg-info"}*/}
@@ -148,50 +165,80 @@ const SelectedProductType = (props) => {
           {/*</div>*/}
 
         </div>
-        <div ref={planItemsRef}>
+        <div ref={planItemsRef} className={"position-relative "}>
+          <div className={"position-absolute w-100 bg_plans"}>
+            {/*123*/}
+            {/*<BgPlans />*/}
+          </div>
 
-          <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <ul className={"nav nav-pills d-flex justify-content-around w_770 mb-5 mx-auto"} id="pills-tab"
+              role="tablist">
             <li className="nav-item" role="presentation">
-              <button className="nav-link " id="pills-tab_month_1" data-bs-toggle="pill" data-bs-target="#month_1"
+
+              <button onClick={() => {
+                setPlanTime("month")
+                setDataShow(dataHolder.plans[planTime])
+              }} className="nav-link " id="pills-tab_month_1"
+                      data-bs-toggle="pill" data-bs-target="#month_1"
                       type="button" role="tab" aria-controls="pills-home" aria-selected="true">یک ماهه
               </button>
             </li>
             <li className="nav-item" role="presentation">
-              <button className="nav-link" id="pills-tab_month_3" data-bs-toggle="pill" data-bs-target="#month_3"
+              <button onClick={() => {
+                setPlanTime("month_3")
+                setDataShow(dataHolder.plans[planTime])
+              }} className="nav-link" id="pills-tab_month_3"
+                      data-bs-toggle="pill" data-bs-target="#month_3"
                       type="button" role="tab" aria-controls="pills-profile" aria-selected="false">سه ماهه
               </button>
             </li>
             <li className="nav-item" role="presentation">
-              <button className="nav-link" id="pills-tab_month_6" data-bs-toggle="pill" data-bs-target="#month_6"
+              <button onClick={() => {
+                setPlanTime("month_6")
+                setDataShow(dataHolder.plans[planTime])
+              }} className="nav-link" id="pills-tab_month_6"
+                      data-bs-toggle="pill" data-bs-target="#month_6"
                       type="button" role="tab" aria-controls="pills-contact" aria-selected="false">شش ماهه
               </button>
             </li>
             <li className="nav-item" role="presentation">
-              <button className="nav-link active" id="pills-tab_month_12" data-bs-toggle="pill"
+              <button onClick={() => {
+                setPlanTime("month_12")
+                setDataShow(dataHolder.plans[planTime])
+              }} className="nav-link active" id="pills-tab_month_12"
+                      data-bs-toggle="pill"
                       data-bs-target="#month_12"
                       type="button" role="tab" aria-controls="pills-contact" aria-selected="false">یک ساله
               </button>
             </li>
           </ul>
-          <div className="tab-content" id="pills-tabContent">
-            <div className="tab-pane  " id="month_1" role="tabpanel" aria-labelledby="pills-tab_month_1">
 
-              <MonthSection changeItemCheck={changeItemCheck} planTime={"month"} onSelectPlan={onSelectPlan}
-                            dataHolder={dataHolder['month']}/>
+
+          <div className="" id="">
+            <div className="" id="" role="" aria-labelledby="">
+
+              {dataShow.map(v =>
+                <MonthSection
+                  changeItemCheck={changeItemCheck}
+                  planTime={planTime}
+                  onSelectPlan={onSelectPlan}
+                  dataHolder={dataHolder[planTime]}
+                />
+              )}
 
             </div>
-            <div className="tab-pane " id="month_3" role="tabpanel" aria-labelledby="pills-tab_month_3">
-              <MonthSection changeItemCheck={changeItemCheck} planTime={"month_3"} onSelectPlan={onSelectPlan}
-                            dataHolder={dataHolder['month_3']}/>
-            </div>
-            <div className="tab-pane " id="month_6" role="tabpanel" aria-labelledby="pills-tab_month_6">
-              <MonthSection changeItemCheck={changeItemCheck} planTime={"month_6"} onSelectPlan={onSelectPlan}
-                            dataHolder={dataHolder['month_6']}/>
-            </div>
-            <div className="tab-pane show active" id="month_12" role="tabpanel" aria-labelledby="pills-tab_month_12">
-              <MonthSection changeItemCheck={changeItemCheck} planTime={"month_12"} onSelectPlan={onSelectPlan}
-                            dataHolder={dataHolder['month_12']}/>
-            </div>
+            {/*<div className="tab-pane " id="month_3" role="tabpanel" aria-labelledby="pills-tab_month_3">*/}
+            {/*  <MonthSection changeItemCheck={changeItemCheck} planTime={"month_3"} onSelectPlan={onSelectPlan}*/}
+            {/*                dataHolder={dataHolder['month_3']}/>*/}
+            {/*</div>*/}
+            {/*<div className="tab-pane " id="month_6" role="tabpanel" aria-labelledby="pills-tab_month_6">*/}
+            {/*  <MonthSection changeItemCheck={changeItemCheck} planTime={"month_6"} onSelectPlan={onSelectPlan}*/}
+            {/*                dataHolder={dataHolder['month_6']}/>*/}
+            {/*</div>*/}
+            {/*<div className="tab-pane show active" id="month_12" role="tabpanel" aria-labelledby="pills-tab_month_12">*/}
+            {/*  <MonthSection changeItemCheck={changeItemCheck} planTime={"month_12"} onSelectPlan={onSelectPlan}*/}
+            {/*                dataHolder={dataHolder['month_12']}/>*/}
+            {/*</div>*/}
           </div>
 
 
@@ -256,6 +303,19 @@ const SelectedProductType = (props) => {
           {/*</React.Fragment>)}*/}
 
         </div>
+      </div>
+      <div className={"my-4"}>
+        <div className={"w-100 text-center font_20_bold my-4"}>
+          {tr.ravanHesab_modules}
+        </div>
+        <div className={"w-100 d-block text-center "}>
+
+          <div className={"d-flex justify-content-center removeOtherClassJs"}>
+            <SingleModule/>
+          </div>
+
+        </div>
+
       </div>
 
     </>}
