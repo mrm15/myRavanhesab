@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {BasketTopHand} from "../../Assets/svg";
+import {Basket, BasketTopHand, PlanTopHeader} from "../../Assets/svg";
 import Input from "../UI/Input";
 import tr from "../translate/translate";
+import numeric from "../utils/NumericFunction"
 
 const MonthSection = (props) => {
   const [holder, setHolder] = useState(props.dataHolder)
@@ -10,13 +11,15 @@ const MonthSection = (props) => {
   const [randomString, setRandomString] = useState(Math.floor(Math.random() * 10000000000000000) + "_W_L_F")
 
   useEffect(() => {
+    console.log("MonthSection.js :  " + props.planTime)
+
     const temp_basePrice = [];
     props.dataHolder.forEach(v => {
       temp_basePrice.push({planId: v.planId, totalPrice: v.totalPrice});
     })
 
     setBasePriceState(temp_basePrice);
-  }, [])
+  }, [holder])
 
   function changeItemCheck(event, planId, price, itemId, title) {
     setOptionsHolder(ps => {
@@ -68,37 +71,30 @@ const MonthSection = (props) => {
             // 'backgroundSize': '200px 100px',
           }}>
             <div className={"top__hand__section"}>
-              <BasketTopHand/>
+              <PlanTopHeader/>
+              <div className={"header__title font_20_bold"}>{v.planTitle}</div>
             </div>
-            <div className={"p-4"}>
-              _{v.planId}_
-              _{v.planTitle}_ &nbsp;
-
-              {/*{totalPriceState[index].basePriceState}*/}
-
-
-              {/*_{totalPriceState[planTime].filter(x => x.planId === v.planId)[0].basePriceState}_*/}
-              <br/>
-              {v.totalPrice} {/* i mean BasePrice */}__
-              {basePriceState.length > 0 && basePriceState[index].totalPrice}
-
-              {/*  <React.Fragment key={indexItem + ""}>*/}
-              {/*    {items.basePriceState}*/}
-              {/*  </React.Fragment>*/}
-              {/*  : <></>)*/}
-              {/*}*/}
+            <div className={"p-4 text-center font_20_bold"}>
+              {/*_{v.planId}_*/}
+              {/*{v.totalPrice} /!* i mean BasePrice *!/__*/}
+              {basePriceState.length > 0 && numeric.e2p(basePriceState[index].totalPrice.toLocaleString())}&nbsp;ريال
             </div>
           </div>
           {/* آیتم ها */}
           <div className={"package__width__body"}>
             {/*{console.log(v.data)}*/}
             {v.data.map((item, indexNumber) => <React.Fragment key={indexNumber + ""}>
-              {item.fixed ? <div className={"py-1"}>
-                {/*{console.log(item)}*/}
-                {/*{item.itemId}*/}
-                {item.title}
-                {/*{item.price}*/}
-              </div> : <div className={"form__control__check__box"}>
+              {item.fixed ?
+                <div className={"d-flex"}>
+                  <div className={"check__box__before"}/>
+                  <div className={"py-1 "}>
+                    {/*{console.log(item)}*/}
+                    {/*{item.itemId}*/}
+                    {item.title}
+                    {/*{item.price}*/}
+                  </div>
+                </div>
+                : <div className={"form__control__check__box"}>
                 <Input id={v.planId + "_" + item.itemId + "" + indexNumber + randomString}
                        onChange={(event) => changeItemCheck(event, v.planId, item.price, item.itemId, item.title)}
                        type="checkbox"
@@ -116,7 +112,10 @@ const MonthSection = (props) => {
           >
             <div
               onClick={(event) => addToCardHandler(event, v.planId, basePriceState.length > 0 ? basePriceState[index].totalPrice : 0)}
-              className={"p-2"}>{tr.add_to_card}</div>
+              className={"single__add__To__basket_button "}>
+              {/*{tr.add_to_card}*/}
+              <Basket/>
+            </div>
           </div>
         </div>
       </>
