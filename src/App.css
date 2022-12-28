@@ -524,3 +524,34 @@ ul.w_770 li.nav-item button.nav-link.active {
     /*z-index: 1;*/
     bottom: 0;
 }
+.modules__section {
+    width: 1080px;
+    /*background: yellowgreen;*/
+    /* word-break: break-word; */
+    display: flex;
+    flex-flow: wrap row;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+.single__module {
+    height: 79px;
+    width: 243px;
+    border-radius: 5px;
+    background: #fff;
+    padding: 10px;
+    overflow: hidden;
+    /*border: 1px solid red;*/
+    box-sizing: content-box;
+    margin-bottom: 10px;
+}
+
+.single__module .single__module__title {
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+}
+.little__basket__icon {
+    cursor: pointer;
+}
+
