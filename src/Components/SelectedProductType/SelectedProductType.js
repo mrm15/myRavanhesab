@@ -18,6 +18,7 @@ const SelectedProductType = (props) => {
   const [dataHolder, setDataHolder] = useState({})
 
   const [dataShow, setDataShow] = useState([])
+  const [modules, setModules] = useState([])
 
   const [planTime, setPlanTime] = useState("month")
   console.log("planTime: " + planTime)
@@ -27,20 +28,27 @@ const SelectedProductType = (props) => {
   // const [totalPriceState, setTotalPriceState] = useState([])
 
   const [card, setCard] = useState({
-    planTime: "", planId: 0, options: [], modules: [], planPrice: 0, totalPrice: 0,
+    planTime: "",
+    planId: 0,
+    planName: "",
+    modules: [
+      // {moduleId: 0, moduleName: "", modulePrice: 0}
+    ],
+    planPrice: 0,
+    totalPrice: 0,
   })
   const selectTimeRef = useRef();
   const planItemsRef = useRef();
 
-  const calculateTotalPrice = (card) => {
+  const calculateTotalPrice = (temp) => {
     let sum = 0;
     // اول از همه بیا قیمت پایه رو بهش اضافه کن
-    sum += +card.planPrice;
-
-    //حالا بیا قیمت آپشن ها رو بهش اضافه کن
-    card.options.forEach(v => sum += +v.value)
-
-    // حالا بیا مايول ها رو هم حساب کنیم.
+    sum += +temp.planPrice;
+    // حالا بیا ماژول ها رو هم حساب کنیم.
+    temp.modules.forEach(v => {
+      // debugger
+      sum += +v.modulePrice;
+    })
     // محل محاسبه جمع قیمت ماژول
     return sum;
   }
@@ -51,6 +59,7 @@ const SelectedProductType = (props) => {
         const backData = r.data.data;
         setDataHolder(backData) // نگه دارنده دیتا برای زمانی که زمان رو عوض کرد دیتا  و جمع کل دوباره ریست بشه
         setDataShow(backData.plans["month"].slice())
+        setModules(backData.modules["month"].slice())
       });
     }
   }, [])
@@ -127,19 +136,33 @@ const SelectedProductType = (props) => {
     })
   }
 
-  function selectMonthHandler(str) {
-    // debugger
+  const selectMonthHandler = (str) => {
     setPlanTime(str)
     setDataShow([...dataHolder.plans[str].slice()])
+    setModules([...dataHolder.modules[str].slice()])
+    // debugger
   }
 
+  const selectSingleModule = (moduleId, moduleName, modulePrice) => {
+    const temp = {...card}
+    const filterLength = temp.modules.filter(v => v.moduleId === moduleId).length;
+    if (filterLength === 0) {
+      temp.modules.push({moduleId: moduleId, moduleName: moduleName, modulePrice: modulePrice})
+    } else {
+      temp.modules = temp.modules.filter(v => v.moduleId !== moduleId);
+    }
+
+
+    temp.totalPrice = calculateTotalPrice(temp)
+    setCard(temp)
+  };
   return (<div>
     {Object.keys(dataHolder).length === 0 ? <Loader className={"center__Loader"}/> : <>
 
       <div style={{position: "sticky", top: 0, padding: 22, background: "whitesmoke"}}>
         <span>آیدی پلن انتخابی: {card.planId}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
         <span>زمان پلن انتخابی: {card.planTime}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-        <span>تیک های پلن انتخابی: {card.options.map(v => <>[{v.itemTitle},{v.value}]</>)}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <span>تیک های پلن انتخابی: {card.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
         {/*<span>ماژول های پلن انتخابی: {card.modules.map(v => <>{v},</>)}</span>&nbsp;&nbsp;|&nbsp;&nbsp;*/}
 
 
@@ -207,14 +230,16 @@ const SelectedProductType = (props) => {
 
           <div className="" id="">
             <div className="" id="" role="" aria-labelledby="">
-
-              {dataShow.length >0 && <MonthSection
-                changeItemCheck={changeItemCheck}
-                planTime={planTime}
-                onSelectPlan={onSelectPlan}
-                dataHolder={dataShow}
-              />}
-
+              {dataShow.length > 0 &&
+                <MonthSection
+                  changeItemCheck={changeItemCheck}
+                  planTime={planTime}
+                  onSelectPlan={onSelectPlan}
+                  dataHolder={dataShow}
+                  modules={modules}
+                  selectSingleModule={selectSingleModule}
+                />
+              }
             </div>
             {/*<div className="tab-pane " id="month_3" role="tabpanel" aria-labelledby="pills-tab_month_3">*/}
             {/*  <MonthSection changeItemCheck={changeItemCheck} planTime={"month_3"} onSelectPlan={onSelectPlan}*/}
@@ -293,19 +318,7 @@ const SelectedProductType = (props) => {
 
         </div>
       </div>
-      <div className={"my-4"}>
-        <div className={"w-100 text-center font_20_bold my-4"}>
-          {tr.ravanHesab_modules}
-        </div>
-        <div className={"w-100 d-block text-center "}>
 
-          <div className={"d-flex justify-content-center removeOtherClassJs"}>
-            <SingleModule/>
-          </div>
-
-        </div>
-
-      </div>
 
     </>}
 
