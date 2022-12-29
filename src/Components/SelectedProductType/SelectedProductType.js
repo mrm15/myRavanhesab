@@ -188,16 +188,27 @@ const SelectedProductType = (props) => {
   return (<div>
     {Object.keys(dataHolder).length === 0 ? <Loader className={"center__Loader"}/> : <>
 
-      <div style={{height: 55, width: "100%", position: "absolute", top: 0, background: '#fff', zIndex: 12}}>
-        <>
-          <>آیدی پلن انتخابی: {card.planId}</>&nbsp;&nbsp;|&nbsp;&nbsp;
-          <>زمان پلن انتخابی: {card.planTime}</>&nbsp;&nbsp;|&nbsp;&nbsp;
-          <>تیک های پلن انتخابی: {card.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>&nbsp;&nbsp;|&nbsp;&nbsp;
-          {/*<span>ماژول های پلن انتخابی: {card.modules.map(v => <>{v},</>)}</span>&nbsp;&nbsp;|&nbsp;&nbsp;*/}
+      <div style={{height: 55,
+        width: "100%",
+        position: "absolute",
+        top: 0,
+        background: '#fff',
+        zIndex: 12,
+        padding:15
 
-        </>
+      }}>
+
 
         <ul className={"d-flex align-content-center justify-content-between"}>
+          <li>
+            <>
+              <>آیدی پلن انتخابی: {card.planId}</>&nbsp;&nbsp;|&nbsp;&nbsp;
+              <>زمان پلن انتخابی: {card.planTime}</>&nbsp;&nbsp;|&nbsp;&nbsp;
+              <>تیک های پلن انتخابی: {card.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>&nbsp;&nbsp;|&nbsp;&nbsp;
+              {/*<span>ماژول های پلن انتخابی: {card.modules.map(v => <>{v},</>)}</span>&nbsp;&nbsp;|&nbsp;&nbsp;*/}
+
+            </>
+          </li>
           <li>
             جمع کل : {numeric.e2p(card.totalPrice.toLocaleString())} ريال
           </li>
