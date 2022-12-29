@@ -9,6 +9,8 @@ import Button from "../UI/Button";
 import {click} from "@testing-library/user-event/dist/click";
 import MonthSection from "./MonthSection";
 import SingleModule from "./SingleModule";
+import f from "../../utils/UtilsFunction";
+import numeric from "../utils/NumericFunction";
 
 const SelectedProductType = (props) => {
   const prefixUrl = localStorage.getItem("apiUrl") + "ravanhesabPlans/";
@@ -65,38 +67,38 @@ const SelectedProductType = (props) => {
   }, [])
 
 
-  const changeItemCheck = (event, planId, price, itemId, itemTitle, planTime) => {
-
-    // اینجا خیلی مهمه
-    //باید چک کنم آیا این تیکی که خورده الان جزو اونایی هست که توی سبد خریده؟
-    // هم پلن تایم و هم پلن آیدی رو چک میکنیم.
-    //اگه هر دوش برابر بود با همونی که توی سبد خریده
-    // باید سبد خرید آپدیت بشه
-    // اگه هم پلن آیدی و پلن تایم یکی نبود نباید سبد خرید آپدیت بشه
-
-    const temp_card = {...card}
-    if (temp_card.planId === planId && temp_card.planTime === planTime) {
-      if (event.target.checked) {
-        //  اگه تیک زد ببینم اگه توی اون سبد خرید بخش آپشن مورد نبود قرارش بدم
-        temp_card.options.filter(v => v.itemId === itemId).length === 0 && temp_card.options.push({
-          planId: planId, itemId: itemId, value: event.target.value, itemTitle: itemTitle
-        })
-      } else {
-        // اگه تیک برداشت ببین اگه توی آپشن بود حذفش کن
-        const removeIndex = temp_card.options.map(item => item.itemId).indexOf(itemId);
-        if (removeIndex !== -1) {
-          temp_card.options.splice(removeIndex, 1);
-        }
-      }
-
-      temp_card.totalPrice = calculateTotalPrice(temp_card)
-
-
-      setCard(temp_card)
-    } else {
-      //Just Do Nothing!
-    }
-  };
+  // const changeItemCheck = (event, planId, price, itemId, itemTitle, planTime) => {
+  //
+  //   // اینجا خیلی مهمه
+  //   //باید چک کنم آیا این تیکی که خورده الان جزو اونایی هست که توی سبد خریده؟
+  //   // هم پلن تایم و هم پلن آیدی رو چک میکنیم.
+  //   //اگه هر دوش برابر بود با همونی که توی سبد خریده
+  //   // باید سبد خرید آپدیت بشه
+  //   // اگه هم پلن آیدی و پلن تایم یکی نبود نباید سبد خرید آپدیت بشه
+  //
+  //   const temp_card = {...card}
+  //   if (temp_card.planId === planId && temp_card.planTime === planTime) {
+  //     if (event.target.checked) {
+  //       //  اگه تیک زد ببینم اگه توی اون سبد خرید بخش آپشن مورد نبود قرارش بدم
+  //       temp_card.options.filter(v => v.itemId === itemId).length === 0 && temp_card.options.push({
+  //         planId: planId, itemId: itemId, value: event.target.value, itemTitle: itemTitle
+  //       })
+  //     } else {
+  //       // اگه تیک برداشت ببین اگه توی آپشن بود حذفش کن
+  //       const removeIndex = temp_card.options.map(item => item.itemId).indexOf(itemId);
+  //       if (removeIndex !== -1) {
+  //         temp_card.options.splice(removeIndex, 1);
+  //       }
+  //     }
+  //
+  //     temp_card.totalPrice = calculateTotalPrice(temp_card)
+  //
+  //
+  //     setCard(temp_card)
+  //   } else {
+  //     //Just Do Nothing!
+  //   }
+  // };
 
   const removeBoxShadowFromSingleItem = () => {
     // debugger
@@ -137,36 +139,69 @@ const SelectedProductType = (props) => {
   }
 
   const selectMonthHandler = (str) => {
-    setPlanTime(str)
+    setPlanTime(str);
+
+    setCard(prevState => {
+      const temp = {...prevState};
+      temp.planTime = str;
+      temp.totalPrice = calculateTotalPrice(temp)
+
+      return temp;
+    })
+
+
     setDataShow([...dataHolder.plans[str].slice()])
     setModules([...dataHolder.modules[str].slice()])
     // debugger
   }
 
   const selectSingleModule = (moduleId, moduleName, modulePrice) => {
-    const temp = {...card}
+    // const temp = {...card}
+
+    const temp = f.copyObject(card);
+
     const filterLength = temp.modules.filter(v => v.moduleId === moduleId).length;
     if (filterLength === 0) {
       temp.modules.push({moduleId: moduleId, moduleName: moduleName, modulePrice: modulePrice})
     } else {
       temp.modules = temp.modules.filter(v => v.moduleId !== moduleId);
     }
+    temp.totalPrice = calculateTotalPrice(temp);
 
-
-    temp.totalPrice = calculateTotalPrice(temp)
     setCard(temp)
+
+
+    // setCard(ps => {
+    //   const temp = {...ps.slice()}
+    //   const filterLength = temp.modules.filter(v => v.moduleId === moduleId).length;
+    //   if (filterLength === 0) {
+    //     temp.modules.push({moduleId: moduleId, moduleName: moduleName, modulePrice: modulePrice})
+    //   } else {
+    //     temp.modules = temp.modules.filter(v => v.moduleId !== moduleId);
+    //   }
+    //   temp.totalPrice = calculateTotalPrice(temp)
+    //
+    // })
+
+
   };
   return (<div>
     {Object.keys(dataHolder).length === 0 ? <Loader className={"center__Loader"}/> : <>
 
-      <div style={{position: "sticky", top: 0, padding: 22, background: "whitesmoke"}}>
-        <span>آیدی پلن انتخابی: {card.planId}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-        <span>زمان پلن انتخابی: {card.planTime}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-        <span>تیک های پلن انتخابی: {card.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
-        {/*<span>ماژول های پلن انتخابی: {card.modules.map(v => <>{v},</>)}</span>&nbsp;&nbsp;|&nbsp;&nbsp;*/}
+      <div style={{height: 55, width: "100%", position: "absolute", top: 0, background: '#fff', zIndex: 12}}>
+        <>
+          <>آیدی پلن انتخابی: {card.planId}</>&nbsp;&nbsp;|&nbsp;&nbsp;
+          <>زمان پلن انتخابی: {card.planTime}</>&nbsp;&nbsp;|&nbsp;&nbsp;
+          <>تیک های پلن انتخابی: {card.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>&nbsp;&nbsp;|&nbsp;&nbsp;
+          {/*<span>ماژول های پلن انتخابی: {card.modules.map(v => <>{v},</>)}</span>&nbsp;&nbsp;|&nbsp;&nbsp;*/}
 
+        </>
 
-        <span>جمع کل : {card.totalPrice}</span>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <ul className={"d-flex align-content-center justify-content-between"}>
+          <li>
+            جمع کل : {numeric.e2p(card.totalPrice.toLocaleString())} ريال
+          </li>
+        </ul>
       </div>
       <div>
         <div className={"title__bar"}>{tr.ravanhesab_software}</div>
@@ -232,7 +267,7 @@ const SelectedProductType = (props) => {
             <div className="" id="" role="" aria-labelledby="">
               {dataShow.length > 0 &&
                 <MonthSection
-                  changeItemCheck={changeItemCheck}
+                  // changeItemCheck={changeItemCheck}
                   planTime={planTime}
                   onSelectPlan={onSelectPlan}
                   dataHolder={dataShow}
