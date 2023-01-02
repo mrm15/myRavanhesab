@@ -1,6 +1,7 @@
 import React, {useRef} from 'react';
 import {Outlet} from "react-router-dom";
 import {toast} from "react-toastify";
+import Footer from "../../Components/Footer/footer";
 
 const MainPage = () => {
 
@@ -28,6 +29,8 @@ const MainPage = () => {
     <div style={{backgroundColor:"#f1f1f1", height:'100vh' , overflowY:"scroll",  }}>
       <h6>من کانتیر اصلی هستم 👻</h6>
       <Outlet/>
+
+      <Footer/>
     </div>
   );
 };

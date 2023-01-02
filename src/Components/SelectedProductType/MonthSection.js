@@ -54,8 +54,8 @@ const MonthSection = (props) => {
   //   props.changeItemCheck(event, planId, price, itemId, title, props.planTime)
   // }
 
-  function addToCardHandler(event, planId, planPrice) {
-    props.onSelectPlan(event, planId, [], props.planTime, planPrice)
+  function addToCardHandler(event, planId, planPrice,planTitle) {
+    props.onSelectPlan(event, planId, [], props.planTime, planPrice,planTitle)
   }
 
   // return <div className={"package__section"}>
@@ -156,7 +156,7 @@ const MonthSection = (props) => {
             </div>
             <div className={"add__To__card__section"}>
               <div
-                onClick={(event) => addToCardHandler(event, v.planId, v.totalPrice)}
+                onClick={(event) => addToCardHandler(event, v.planId, v.totalPrice, v.planTitle)}
                 className={"single__add__To__basket_button "}>
                 {/*{tr.add_to_card}*/}
                 <Basket/>

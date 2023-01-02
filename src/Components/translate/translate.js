@@ -21,11 +21,16 @@ const tr = {
   enter: "وارد کنید",
   back: "بازگشت",
   enter_a_valid_phone_number: "یک شماره تماس معتبر وارد کنید.",
-  add_to_card:"افزودن به سبد خرید",
-  ravanHesab_modules:"ماژول های روان حساب",
+  add_to_card: "افزودن به سبد خرید",
+  ravanHesab_modules: "ماژول های روان حساب",
   receiving_data: "در حال دریافت اطلاعات...",
   ravanhesab_software: "نرم افزار حسابداری روان حساب",
-  select_your_plan: "طرح مناسب خود را انتخاب کنید"
+  select_your_plan: "طرح مناسب خود را انتخاب کنید",
+  added_to_basket: "به سبد خرید اضافه شد",
+  removed_from_basket: "از سبد خرید حذف شد",
+  plan: "پلن",
+  module: "ماژول",
+  company_name: "شرکت برنامه سازان ورکان خاورمیانه"
 
 
 }
