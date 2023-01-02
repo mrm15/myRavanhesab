@@ -595,3 +595,66 @@ ul.w_770 li.nav-item button.nav-link.active {
 .footer__head {
     font-weight: 500;
 }
+
+.your__plans__text {
+    font-family: 'IRANSans', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    color: #009360;
+}
+.single__product__name__box:nth-child(10n+1){background: #FFF89C;}
+.single__product__name__box:nth-child(10n+2){background: #FFDCA9;}
+.single__product__name__box:nth-child(10n+3){background: #FEB6B7;}
+.single__product__name__box:nth-child(10n+4){background: #E2F0CC;}
+.single__product__name__box:nth-child(10n+5){background: #B6E2A1;}
+.single__product__name__box:nth-child(10n+6){background: #B6E2A1;}
+.single__product__name__box:nth-child(10n+7){background: #F1F7B5;}
+.single__product__name__box:nth-child(10n+8){background: #DCB5B5;}
+.single__product__name__box:nth-child(10n+9){background: #B1F8F8;}
+.single__product__name__box:nth-child(10n+10){background: #C0D3FF;}
+.single__product__name__box {
+    width: 277px;
+    height: 60px;
+    color: #494949;
+    font-family: 'IRANSans', serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #fff;
+
+}
+.single__product__name__box__suggested:nth-child(10n+1){background: #86C8BC;}
+.single__product__name__box__suggested:nth-child(10n+2){background: #C0D3FF;}
+.single__product__name__box__suggested:nth-child(10n+3){background: #B1F8F8;}
+.single__product__name__box__suggested:nth-child(10n+4){background: #DCB5B5;}
+.single__product__name__box__suggested:nth-child(10n+5){background: #F1F7B5;}
+.single__product__name__box__suggested:nth-child(10n+6){background: #DCB5B5;}
+.single__product__name__box__suggested:nth-child(10n+7){background: #F1F7B5;}
+.single__product__name__box__suggested:nth-child(10n+8){background: #B6E2A1;}
+.single__product__name__box__suggested:nth-child(10n+9){background: #FEB6B7;}
+.single__product__name__box__suggested:nth-child(10n+10){background: #FFDCA9;}
+.single__product__name__box__suggested {
+    width: 277px;
+    height: 60px;
+    color: #494949;
+    font-family: 'IRANSans', serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #fff;
+
+}
+
+

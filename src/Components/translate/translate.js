@@ -30,7 +30,13 @@ const tr = {
   removed_from_basket: "از سبد خرید حذف شد",
   plan: "پلن",
   module: "ماژول",
-  company_name: "شرکت برنامه سازان ورکان خاورمیانه"
+  company_name: "شرکت برنامه سازان ورکان خاورمیانه",
+  your_plans: "پلن های شما",
+  suggested_plans: "پلن های پیشنهادی",
+  remainingDays: "روز های باقیمانده",
+  remain: " باقیمانده",
+  day: "روز",
+  expired: "منقضی شده"
 
 
 }
