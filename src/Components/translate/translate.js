@@ -36,7 +36,9 @@ const tr = {
   remainingDays: "روز های باقیمانده",
   remain: " باقیمانده",
   day: "روز",
-  expired: "منقضی شده"
+  expired: "منقضی شده",
+  footer_address: "گلستان ، گرگان ، میدان مفتح کارخانه نوآوری استان گلستان",
+  varkan: "ورکان"
 
 
 }

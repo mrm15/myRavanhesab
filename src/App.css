@@ -124,7 +124,7 @@
     scrollbar-width: thin !important;
     scrollbar-color: #89c8c8 #f6f5ff;
     font-family: IRANSans, serif;
-    user-select: none;
+    /*user-select: none;*/
 
     transition: all 0.2s;
 
@@ -629,17 +629,17 @@ ul.w_770 li.nav-item button.nav-link.active {
     border: 1px solid #fff;
 
 }
-.single__product__name__box__suggested:nth-child(10n+1){background: #86C8BC;}
-.single__product__name__box__suggested:nth-child(10n+2){background: #C0D3FF;}
-.single__product__name__box__suggested:nth-child(10n+3){background: #B1F8F8;}
-.single__product__name__box__suggested:nth-child(10n+4){background: #DCB5B5;}
-.single__product__name__box__suggested:nth-child(10n+5){background: #F1F7B5;}
-.single__product__name__box__suggested:nth-child(10n+6){background: #DCB5B5;}
-.single__product__name__box__suggested:nth-child(10n+7){background: #F1F7B5;}
-.single__product__name__box__suggested:nth-child(10n+8){background: #B6E2A1;}
-.single__product__name__box__suggested:nth-child(10n+9){background: #FEB6B7;}
-.single__product__name__box__suggested:nth-child(10n+10){background: #FFDCA9;}
-.single__product__name__box__suggested {
+.other_products_section .single__product__name__box__suggested:nth-child(10n+1){background: #86C8BC;}
+.other_products_section .single__product__name__box__suggested:nth-child(10n+2){background: #C0D3FF;}
+.other_products_section .single__product__name__box__suggested:nth-child(10n+3){background: #B1F8F8;}
+.other_products_section .single__product__name__box__suggested:nth-child(10n+4){background: #DCB5B5;}
+.other_products_section .single__product__name__box__suggested:nth-child(10n+5){background: #F1F7B5;}
+.other_products_section .single__product__name__box__suggested:nth-child(10n+6){background: #DCB5B5;}
+.other_products_section .single__product__name__box__suggested:nth-child(10n+7){background: #F1F7B5;}
+.other_products_section .single__product__name__box__suggested:nth-child(10n+8){background: #B6E2A1;}
+.other_products_section .single__product__name__box__suggested:nth-child(10n+9){background: #FEB6B7;}
+.other_products_section .single__product__name__box__suggested:nth-child(10n+10){background: #FFDCA9;}
+.other_products_section .single__product__name__box__suggested {
     width: 277px;
     height: 60px;
     color: #494949;
@@ -654,6 +654,36 @@ ul.w_770 li.nav-item button.nav-link.active {
     justify-content: center;
     cursor: pointer;
     border: 1px solid #fff;
+
+}
+.footer__ravanhesab{
+    background-color: #dedede;
+    padding: 30px 0 0 0;
+}
+.footer__head__before__ul {
+    flex-flow: row wrap;
+    justify-content: start;
+}
+.footer__head__before__ul ul li a{
+    padding: 5px;
+    display: block;
+
+    font-family: 'IRANSans', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #303030;
+}
+.footer__head__before__ul ul li a:hover{
+    color: #5450D6;
+}
+.footer__address {
+    font-family: IRANSans, serif;
+    font-size: 14px;
+    font-weight: 400;
+
+}
+.footer__copy__right{
 
 }
 

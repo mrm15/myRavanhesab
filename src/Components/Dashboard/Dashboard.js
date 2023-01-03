@@ -82,6 +82,19 @@ const Dashboard = () => {
                   )
                 }
               </div>
+              <div className={"d-flex justify-content-lg-start mx-1"}>
+                {
+                  listItem.otherProducts.map((v, index) =>
+                    <React.Fragment key={index}>
+                      <div className={"single__product__name__box__suggested"}
+                           onClick={() => navigateTo("/selectedProductType", {state: {id: v.id, name: v.name}})}
+                      >
+                        {v.name}
+                      </div>
+                    </React.Fragment>
+                  )
+                }
+              </div>
             </div>
           }
         </div>
