@@ -13,6 +13,7 @@ import f from "../../utils/UtilsFunction";
 import numeric from "../utils/NumericFunction";
 import {toast} from "react-toastify";
 import ravanhesabLogo from "../../Assets/img/ravanhesabLogo.png"
+import Header from "../Header/Header";
 
 const SelectedProductType = (props) => {
   const prefixUrl = localStorage.getItem("apiUrl") + "ravanhesabPlans/";
@@ -146,7 +147,7 @@ const SelectedProductType = (props) => {
     const tempDataHolder = {...dataHolder}
     const planTime = temp.planTime;
     const planId = temp.planId;
-    debugger
+    // debugger
     if (temp.planTitle !== "")
       temp.planTitle = tempDataHolder['plans'][planTime].filter(v => v.planId === planId)[0].planTitle;
     if (temp.planPrice !== 0)
@@ -215,7 +216,7 @@ const SelectedProductType = (props) => {
 
     temp.planTime = inputPlanTime;
 
-    debugger
+    // debugger
     if (card.planId !== 0 || card.modules.length > 0) {
       temp = replacePrices(temp)
     }
@@ -265,54 +266,83 @@ const SelectedProductType = (props) => {
     {Object.keys(dataHolder).length === 0 ? <Loader className={"center__Loader"}/> : <>
       <div className={"bg__section___selectedProduct"}>
 
-        <div style={{
-          height: 55,
-          width: "100%",
-          position: "absolute",
-          top: 0,
-          background: '#fff',
-          zIndex: 12,
-          padding: 15,
+        {/*<div style={{*/}
+        {/*  height: 55,*/}
+        {/*  width: "100%",*/}
+        {/*  position: "absolute",*/}
+        {/*  top: 0,*/}
+        {/*  background: '#fff',*/}
+        {/*  zIndex: 12,*/}
+        {/*  padding: 15,*/}
 
 
-        }}>
+        {/*}}>*/}
 
-          <ul style={{float: "right"}}>
-            <li><span className={"px-4"}>
-            <img className={""} src={ravanhesabLogo} alt={"روانحساب"}/>
-          </span></li>
-          </ul>
+        {/*  <ul style={{float: "right"}}>*/}
+        {/*    <li><span className={"px-4"}>*/}
+        {/*    <img className={""} src={ravanhesabLogo} alt={"روانحساب"}/>*/}
+        {/*  </span></li>*/}
+        {/*  </ul>*/}
 
-          <ul
-            style={{float: "left"}}
-            className={"d-flex justify-content-end"}>
-            <li>
-              {/*<>*/}
-              {/*  <>آیدی پلن انتخابی: {card.planId}</>*/}
-              {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
-              {/*  <>زمان پلن انتخابی: {card.planTime}</>*/}
-              {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
-              {/*  <>تیک های پلن انتخابی: {card.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>*/}
-              {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
+        {/*  <ul*/}
+        {/*    style={{float: "left"}}*/}
+        {/*    className={"d-flex justify-content-end"}>*/}
+        {/*    <li>*/}
+        {/*      /!*<>*!/*/}
+        {/*      /!*  <>آیدی پلن انتخابی: {card.planId}</>*!/*/}
+        {/*      /!*  &nbsp;&nbsp;|&nbsp;&nbsp;*!/*/}
+        {/*      /!*  <>زمان پلن انتخابی: {card.planTime}</>*!/*/}
+        {/*      /!*  &nbsp;&nbsp;|&nbsp;&nbsp;*!/*/}
+        {/*      /!*  <>تیک های پلن انتخابی: {card.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>*!/*/}
+        {/*      /!*  &nbsp;&nbsp;|&nbsp;&nbsp;*!/*/}
 
-              {/*</>*/}
-            </li>
-            <li>
-              {(card.modules.length > 0 || card.planId !== 0) ?
-                <div className={"position-relative "}>
-                  <BasketRoundedFill/>
-                  <div className={"number__basket"}>
-                    <div className={"number__basket_number"}> {numeric.e2p(counter + "")}</div>
+        {/*      /!*</>*!/*/}
+        {/*    </li>*/}
+        {/*    <li>*/}
+        {/*      {(card.modules.length > 0 || card.planId !== 0) ?*/}
+        {/*        <div className={"position-relative "}>*/}
+        {/*          <BasketRoundedFill/>*/}
+        {/*          <div className={"number__basket"}>*/}
+        {/*            <div className={"number__basket_number"}> {numeric.e2p(counter + "")}</div>*/}
+        {/*          </div>*/}
+        {/*        </div>*/}
+        {/*        : <BasketRounded/>}*/}
+
+        {/*    </li>*/}
+        {/*    <li>*/}
+        {/*      جمع کل : {numeric.e2p(card.totalPrice.toLocaleString())} ريال*/}
+        {/*    </li>*/}
+        {/*  </ul>*/}
+        {/*</div>*/}
+        <Header>
+            <div>
+              <div>
+                {/*<>*/}
+                {/*  <>آیدی پلن انتخابی: {card.planId}</>*/}
+                {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
+                {/*  <>زمان پلن انتخابی: {card.planTime}</>*/}
+                {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
+                {/*  <>تیک های پلن انتخابی: {card.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>*/}
+                {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
+          {/**/}
+                {/*</>*/}
+              </div>
+              <div >
+                {(card.modules.length > 0 || card.planId !== 0) ?
+                  <div className={"position-relative cursor_pointer"}>
+                    <BasketRoundedFill/>
+                    <div className={"number__basket"}>
+                      <div className={"number__basket_number"}> {numeric.e2p(counter + "")}</div>
+                    </div>
                   </div>
-                </div>
-                : <BasketRounded/>}
-
-            </li>
-            <li>
-              جمع کل : {numeric.e2p(card.totalPrice.toLocaleString())} ريال
-            </li>
-          </ul>
-        </div>
+                  : <div className={"position-relative cursor_pointer"}><BasketRounded/></div>}
+          {/**/}
+              </div>
+              <div className={"d-none"}>
+                جمع کل : {numeric.e2p(card.totalPrice.toLocaleString())} ريال
+              </div>
+            </div>
+        </Header>
         <div className={"padding_top_80"}>
           <div className={"title__bar"}>{tr.ravanhesab_software}</div>
           <div className={"sub__title__bar mb-2  mt-4"}>{tr.select_your_plan}</div>

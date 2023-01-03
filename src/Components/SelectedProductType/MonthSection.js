@@ -4,6 +4,7 @@ import Input from "../UI/Input";
 import tr from "../translate/translate";
 import numeric from "../utils/NumericFunction"
 import SingleModule from "./SingleModule";
+import {toast} from "react-toastify";
 
 const MonthSection = (props) => {
   const [holder, setHolder] = useState([])
@@ -54,8 +55,8 @@ const MonthSection = (props) => {
   //   props.changeItemCheck(event, planId, price, itemId, title, props.planTime)
   // }
 
-  function addToCardHandler(event, planId, planPrice,planTitle) {
-    props.onSelectPlan(event, planId, [], props.planTime, planPrice,planTitle)
+  function addToCardHandler(event, planId, planPrice, planTitle) {
+    props.onSelectPlan(event, planId, [], props.planTime, planPrice, planTitle)
   }
 
   // return <div className={"package__section"}>
@@ -155,12 +156,21 @@ const MonthSection = (props) => {
               </React.Fragment>)}
             </div>
             <div className={"add__To__card__section"}>
-              <div
-                onClick={(event) => addToCardHandler(event, v.planId, v.totalPrice, v.planTitle)}
-                className={"single__add__To__basket_button "}>
-                {/*{tr.add_to_card}*/}
-                <Basket/>
-              </div>
+              {v.active ?
+                <div
+                  onClick={(event) => addToCardHandler(event, v.planId, v.totalPrice, v.planTitle)}
+                  className={"single__add__To__basket_button "}>
+                  {/*{tr.add_to_card}*/}
+                  <Basket/>
+                </div>
+                :
+                <div
+                  onClick={(event) => toast.info(tr.not_available)}
+                  className={"single__add__To__basket_button_not_active "}>
+                  {/*{tr.add_to_card}*/}
+                  <Basket/>
+                </div>
+              }
             </div>
           </div>
         </>

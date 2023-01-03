@@ -7,6 +7,7 @@ import axios from "axios";
 import Footer from "../Footer/footer";
 import {ArrowLeft} from "../../Assets/svg";
 import numeric from "../utils/NumericFunction";
+import Header from "../Header/Header";
 
 
 const Dashboard = () => {
@@ -15,21 +16,24 @@ const Dashboard = () => {
   const navigateTo = useNavigate();
   useEffect(() => {
     // اینجا درخواست میزنم بک اند تا لیست روان حساب ها رو بده
-    // و اینو  توی همین صفحه نشون میدم
+    // و اینو توی همین صفحه نشون میدم
 
     axios.get(prefixUrl).then(r => {
 
       setListItem(r.data.productsData);
+      localStorage.setItem("userData", JSON.stringify(r.data.userData))
     });
 
   }, [])
 
+
+
   return (
     <div>
-      <h6>من داشبودم در بالا</h6>
+      <Header></Header>
       {/*<Outlet/>*/}
       {Object.keys(listItem).length > 0 ?
-        <div className={"all_products__section px-5"}>
+        <div className={"all_products__section px-5 pt-5"}>
           {listItem.boughtProducts.length > 0 &&
             <div className={"bought_products_section"}>
               <div className={"pb-4"}>
@@ -42,7 +46,7 @@ const Dashboard = () => {
                     <React.Fragment key={index}>
                       <div>
                         <div className={"single__product__name__box"}
-                             onClick={() => navigateTo("/selectedProductType", {state: {id: v.id, name: v.name}})}
+                             onClick={() => navigateTo("/selectedProductType", {state: {id: v.id, name: v.name , }})}
                         >
                           {v.name}
                         </div>
@@ -68,19 +72,6 @@ const Dashboard = () => {
               <div className={"pb-4"}>
                 <ArrowLeft/>
                 <span className={"your__plans__text"}>&nbsp;&nbsp;{tr.suggested_plans}</span>
-              </div>
-              <div className={"d-flex justify-content-lg-start mx-1"}>
-                {
-                  listItem.otherProducts.map((v, index) =>
-                    <React.Fragment key={index}>
-                      <div className={"single__product__name__box__suggested"}
-                           onClick={() => navigateTo("/selectedProductType", {state: {id: v.id, name: v.name}})}
-                      >
-                        {v.name}
-                      </div>
-                    </React.Fragment>
-                  )
-                }
               </div>
               <div className={"d-flex justify-content-lg-start mx-1"}>
                 {

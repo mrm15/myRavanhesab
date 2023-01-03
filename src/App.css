@@ -416,7 +416,9 @@ ul {
 
 }
 
-.package__section .single__package .single__add__To__basket_button {
+.package__section .single__package .single__add__To__basket_button ,
+.package__section .single__package .single__add__To__basket_button_not_active
+{
     /*transition: all 0.9s;*/
     /*visibility: hidden;*/
     /*background: #E96415;*/
@@ -437,6 +439,14 @@ ul {
 .package__section .single__package:hover .single__add__To__basket_button {
     /*visibility: visible;*/
     background: #E96415;
+}
+.package__section .single__package .single__add__To__basket_button_not_active svg path {
+    fill: white;
+}
+
+.package__section .single__package:hover .single__add__To__basket_button_not_active {
+    /*visibility: visible;*/
+    background: #cfd0d1;
 }
 
 .package__section .single__package .package__width__body {
@@ -460,7 +470,7 @@ ul {
 .set_box_shadow_to_singleItem {
     /*border: 1px solid #000000;*/
     /*box-shadow: 0 0 3px 0 #000000;*/
-    box-shadow: 0px 0px 5px 0px #000000 !important;
+    box-shadow: 0 0 5px 0 #00000082 !important;
     /*border: 1px solid black;*/
     z-index: +10;
     /*transform: scale(1,1.1);*/
