@@ -13,24 +13,28 @@ import Header from "../Header/Header";
 const Dashboard = () => {
   const prefixUrl = localStorage.getItem("apiUrl") + "getRavanhesabProducts/";
   const [listItem, setListItem] = useState([]);
+  const [showHeader, setShowHeader] = useState(false);
+
   const navigateTo = useNavigate();
   useEffect(() => {
     // اینجا درخواست میزنم بک اند تا لیست روان حساب ها رو بده
     // و اینو توی همین صفحه نشون میدم
-
     axios.get(prefixUrl).then(r => {
 
       setListItem(r.data.productsData);
+
       localStorage.setItem("userData", JSON.stringify(r.data.userData))
+      if (localStorage.getItem("userData") !== undefined) {
+        setShowHeader(true)
+      }
     });
 
   }, [])
 
 
-
   return (
     <div>
-      <Header></Header>
+      {showHeader && <Header></Header>}
       {/*<Outlet/>*/}
       {Object.keys(listItem).length > 0 ?
         <div className={"all_products__section px-5 pt-5"}>
@@ -46,7 +50,7 @@ const Dashboard = () => {
                     <React.Fragment key={index}>
                       <div>
                         <div className={"single__product__name__box"}
-                             onClick={() => navigateTo("/selectedProductType", {state: {id: v.id, name: v.name , }})}
+                             onClick={() => navigateTo("/selectedProductType", {state: {id: v.id, name: v.name,}})}
                         >
                           {v.name}
                         </div>

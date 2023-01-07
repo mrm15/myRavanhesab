@@ -16,6 +16,7 @@ import Loader from "../Components/Loader/Loader";
 import axios from "axios";
 import SelectedProductType from "../Components/SelectedProductType/SelectedProductType";
 import Bill from "../Components/Bill/Bill";
+import PaymentResult from "../Components/PaymentResult/PaymentResult";
 
 
 const Pages = () => {
@@ -86,6 +87,7 @@ const Pages = () => {
           <Route path="Dashboard" element={<Dashboard/>}/>
           <Route path="selectedProductType" element={<SelectedProductType/>}/>
           <Route path="bill" element={<Bill /> }/>
+          <Route path="paymentResult" element={<PaymentResult /> }/>
 
 
           {/*<Route*/}

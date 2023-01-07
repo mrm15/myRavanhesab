@@ -21,6 +21,7 @@ const Button = (props) => {
         //     " greenBtn " + Styles.default_btn_style // green is default style
       }
       type={props.type !== undefined ? props.type : undefined}
+      disabled={props.disabled}
 
     >
       {props.children}

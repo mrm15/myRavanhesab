@@ -10,10 +10,12 @@ import Input from "../UI/Input";
 import {toast} from "react-toastify";
 import Button from "../UI/Button";
 
-const Bill = () => {
-  const [reload, setReload] = useState(true)
-
+const Bill = (target, source) => {
   const prefixUrl = localStorage.getItem("apiUrl");
+  const [reload, setReload] = useState(true)
+  const [payButtonActive, setPayButtonActive] = useState(true)
+
+
 
   const navigateTo = useNavigate()
   const [billData, setBillData] = useState({})
@@ -65,6 +67,35 @@ const Bill = () => {
       }
     })
 
+  }
+
+  function payButtonHandler() {
+    setPayButtonActive(false);
+    const ax = axios.get(prefixUrl + "getPaymentGatewayLink/?billId=" + billData.billId).then(r => {
+      // debugger
+      console.log(r.data)
+      // debugger
+      if(r.data.status){
+        const url =  r.data.link;
+        toast.info(r.data.message)
+        window.location.assign(url)
+
+        // navigateTo(r.data.link)
+      }else {
+        toast.error(r.data.message);
+        setPayButtonActive(true);
+      }
+
+
+      toast.promise(ax, {
+        pending: 'در حال بررسی سبد خرید...',
+        // success: 'Got the data',
+        // error: 'Error when fetching',
+      }).then(r => {
+        console.log(r)
+      })
+
+    })
   }
 
   return (<div>
@@ -151,7 +182,7 @@ const Bill = () => {
           <div className={"d-flex justify-content-between my-3 px-4 pb-2 "}>
             <div></div>
             <div className={"position-relative text__bills__prices__section"}>
-              <Button>پرداخت</Button>
+              <Button onClick={payButtonHandler} disabled={!payButtonActive}>پرداخت</Button>
             </div>
           </div>
         </div> : <Loader/>

@@ -280,11 +280,11 @@ const SelectedProductType = (props) => {
       console.log(error)
     })
 
-    toast.promise(promise_, {
-      loading: 'در حال بررسی سبد خرید...',
-      // success: 'Got the data',
-      // error: 'Error when fetching',
-    })
+    // toast.promise(promise_, {
+    //   loading: 'در حال بررسی سبد خرید...',
+    //   // success: 'Got the data',
+    //   // error: 'Error when fetching',
+    // })
 
   }
 

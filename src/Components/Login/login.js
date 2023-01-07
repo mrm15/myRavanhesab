@@ -74,7 +74,7 @@ const Login = (props) => {
     // data.append('type', 'clodth');
 
     // axios.post(prefixUrl + "sendRegisterCode/", registerFormData).then((r) => {
-    axios.post("http://localhost/Git/myRavanhesab/sendRegisterCode/", registerFormData)
+    axios.post(prefixUrl + "sendRegisterCode/", registerFormData)
 
       .then((r) => {
         if (r.data.status) {
