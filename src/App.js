@@ -6,7 +6,8 @@ import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import tr from "./Components/translate/translate";
 
 
 function App() {
@@ -15,12 +16,12 @@ function App() {
       localStorage.setItem(
         "apiUrl",
         "http://localhost/Git/myRavanhesab/"
-        // "http://my.ravanhesab.com/myRavanhesab/"
+        // "https://my.ravanhesab.com/myRavanhesab/"
       );
     } else {
       localStorage.setItem(
         "apiUrl",
-        "/myRavanhesab"
+        "/myRavanhesab/"
       );
     }
   }, [])

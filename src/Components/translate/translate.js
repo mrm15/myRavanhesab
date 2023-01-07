@@ -39,7 +39,10 @@ const tr = {
   expired: "منقضی شده",
   footer_address: "گلستان ، گرگان ، میدان مفتح کارخانه نوآوری استان گلستان",
   varkan: "ورکان",
-  not_available: "این پلن فعال نیست"
+  not_available: "این پلن فعال نیست",
+  currency_unit: "ريال",
+  total_price_you: "جمع کل خرید شما : ",
+  discount: "تخفیف : ",
 
 
 }

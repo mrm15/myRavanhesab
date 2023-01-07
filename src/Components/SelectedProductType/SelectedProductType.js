@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Loader from "../Loader/Loader";
 import Input from "../UI/Input";
 import {BasketLittle, BasketRounded, BasketRoundedFill, BasketTopHand, BgPlans, BgSvg} from "../../Assets/svg";
@@ -16,10 +16,11 @@ import ravanhesabLogo from "../../Assets/img/ravanhesabLogo.png"
 import Header from "../Header/Header";
 
 const SelectedProductType = (props) => {
-  const prefixUrl = localStorage.getItem("apiUrl") + "ravanhesabPlans/";
+  const prefixUrl = localStorage.getItem("apiUrl") + "";
 
-  const reactLocation = useLocation();
+  const reactLocation = useLocation()
 
+  const navigateTo = useNavigate()
   const [dataHolder, setDataHolder] = useState({})
   const [counter, setCounter] = useState(0)
 
@@ -33,7 +34,7 @@ const SelectedProductType = (props) => {
   // const [planTime, setPlanTime] = useState("month") // || month, month_3, month_6, month_12
   // const [totalPriceState, setTotalPriceState] = useState([])
 
-  const [card, setCard] = useState({
+  const [cart, setCart] = useState({
     planTime: "",
     planId: 0,
     planTitle: "",
@@ -63,13 +64,13 @@ const SelectedProductType = (props) => {
   useEffect(() => {
     if (reactLocation.state) {
       const id = reactLocation.state.id;
-      setCard(prevState => {
+      setCart(prevState => {
         const temp = prevState;
         temp.productId = id;
         return temp
       })
 
-      axios.get(prefixUrl + "?id=" + id).then(r => {
+      axios.get(prefixUrl + "ravanhesabPlans/?id=" + id).then(r => {
         const backData = r.data.data;
         setDataHolder(backData) // نگه دارنده دیتا برای زمانی که زمان رو عوض کرد دیتا  و جمع کل دوباره ریست بشه
         setDataShow(backData.plans["month"].slice())
@@ -89,7 +90,7 @@ const SelectedProductType = (props) => {
   //   // باید سبد خرید آپدیت بشه
   //   // اگه هم پلن آیدی و پلن تایم یکی نبود نباید سبد خرید آپدیت بشه
   //
-  //   const temp_card = {...card}
+  //   const temp_card = {...cart}
   //   if (temp_card.planId === planId && temp_card.planTime === planTime) {
   //     if (event.target.checked) {
   //       //  اگه تیک زد ببینم اگه توی اون سبد خرید بخش آپشن مورد نبود قرارش بدم
@@ -173,13 +174,13 @@ const SelectedProductType = (props) => {
 
     // حالا چک کنم آیا اصلا این همونیه که از قبل انتخاب شده
     // اگه این همونیه که از قبل توی سبد خرید هست باید از توی سبد خرید در بیاد و تمام
-    const temp = f.copyObject(card);
+    const temp = f.copyObject(cart);
     if (temp.planId === planId) {
       temp.planId = 0
       temp.planPrice = 0
       temp.planTitle = ''
       toast.info(tr.plan + " " + planTitle + " " + tr.removed_from_basket)
-      setCard(temp)
+      setCart(temp)
       setCounter(countBasket(temp))
       return
     }
@@ -198,7 +199,7 @@ const SelectedProductType = (props) => {
 
     temp.planTime = planTime
 
-    setCard(temp)
+    setCart(temp)
     addBoxShadowToSingleItem(event);
     toast.info(tr.plan + " " + planTitle + " " + tr.added_to_basket)
     setCounter(countBasket(temp))
@@ -211,19 +212,19 @@ const SelectedProductType = (props) => {
     // اینجا باید بر اساس پلنی که انتخاب کرده باید
     // باید ببینیم آیا چیزی توی کارتش داره یا نه
     // اگه چیزی توی کارتش بود باید  بر اساس ماهی که روش کلیک شده قیمت ها آپدیت بش تا بعد جمعش اون بالا نمایش داده بشه
-    let temp = f.copyObject(card);
+    let temp = f.copyObject(cart);
     // پس باید
 
     temp.planTime = inputPlanTime;
 
     // debugger
-    if (card.planId !== 0 || card.modules.length > 0) {
+    if (cart.planId !== 0 || cart.modules.length > 0) {
       temp = replacePrices(temp)
     }
 
     // debugger
     temp.totalPrice = calculateTotalPrice(temp);
-    setCard(temp)
+    setCart(temp)
 
     setDataShow([...dataHolder.plans[inputPlanTime].slice()])
     setModules([...dataHolder.modules[inputPlanTime].slice()])
@@ -231,9 +232,9 @@ const SelectedProductType = (props) => {
   }
 
   const selectSingleModule = (moduleId, moduleName, modulePrice) => {
-    // const temp = {...card}
+    // const temp = {...cart}
 
-    const temp = f.copyObject(card);
+    const temp = f.copyObject(cart);
 
     const filterLength = temp.modules.filter(v => v.moduleId === moduleId).length;
     if (filterLength === 0) {
@@ -245,7 +246,7 @@ const SelectedProductType = (props) => {
     }
     temp.totalPrice = calculateTotalPrice(temp);
 
-    setCard(temp)
+    setCart(temp)
     setCounter(countBasket(temp))
 
     // setCard(ps => {
@@ -262,6 +263,31 @@ const SelectedProductType = (props) => {
 
 
   };
+
+  function cardClickHandler() {
+
+    toast.info("در حال بررسی سبد خرید...");
+
+    const promise_ = axios.post(prefixUrl + "addBill/", cart).then(r => {
+      console.log(r.data);
+      if (r.data.status) {
+        navigateTo("/bill")
+      } else {
+        toast.error(r.data.message)
+      }
+    }).catch(error => {
+      debugger
+      console.log(error)
+    })
+
+    toast.promise(promise_, {
+      loading: 'در حال بررسی سبد خرید...',
+      // success: 'Got the data',
+      // error: 'Error when fetching',
+    })
+
+  }
+
   return (<div>
     {Object.keys(dataHolder).length === 0 ? <Loader className={"center__Loader"}/> : <>
       <div className={"bg__section___selectedProduct"}>
@@ -289,17 +315,17 @@ const SelectedProductType = (props) => {
         {/*    className={"d-flex justify-content-end"}>*/}
         {/*    <li>*/}
         {/*      /!*<>*!/*/}
-        {/*      /!*  <>آیدی پلن انتخابی: {card.planId}</>*!/*/}
+        {/*      /!*  <>آیدی پلن انتخابی: {cart.planId}</>*!/*/}
         {/*      /!*  &nbsp;&nbsp;|&nbsp;&nbsp;*!/*/}
-        {/*      /!*  <>زمان پلن انتخابی: {card.planTime}</>*!/*/}
+        {/*      /!*  <>زمان پلن انتخابی: {cart.planTime}</>*!/*/}
         {/*      /!*  &nbsp;&nbsp;|&nbsp;&nbsp;*!/*/}
-        {/*      /!*  <>تیک های پلن انتخابی: {card.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>*!/*/}
+        {/*      /!*  <>تیک های پلن انتخابی: {cart.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>*!/*/}
         {/*      /!*  &nbsp;&nbsp;|&nbsp;&nbsp;*!/*/}
 
         {/*      /!*</>*!/*/}
         {/*    </li>*/}
         {/*    <li>*/}
-        {/*      {(card.modules.length > 0 || card.planId !== 0) ?*/}
+        {/*      {(cart.modules.length > 0 || cart.planId !== 0) ?*/}
         {/*        <div className={"position-relative "}>*/}
         {/*          <BasketRoundedFill/>*/}
         {/*          <div className={"number__basket"}>*/}
@@ -310,38 +336,38 @@ const SelectedProductType = (props) => {
 
         {/*    </li>*/}
         {/*    <li>*/}
-        {/*      جمع کل : {numeric.e2p(card.totalPrice.toLocaleString())} ريال*/}
+        {/*      جمع کل : {numeric.e2p(cart.totalPrice.toLocaleString())} ريال*/}
         {/*    </li>*/}
         {/*  </ul>*/}
         {/*</div>*/}
         <Header>
+          <div>
             <div>
-              <div>
-                {/*<>*/}
-                {/*  <>آیدی پلن انتخابی: {card.planId}</>*/}
-                {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
-                {/*  <>زمان پلن انتخابی: {card.planTime}</>*/}
-                {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
-                {/*  <>تیک های پلن انتخابی: {card.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>*/}
-                {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
-          {/**/}
-                {/*</>*/}
-              </div>
-              <div >
-                {(card.modules.length > 0 || card.planId !== 0) ?
-                  <div className={"position-relative cursor_pointer"}>
-                    <BasketRoundedFill/>
-                    <div className={"number__basket"}>
-                      <div className={"number__basket_number"}> {numeric.e2p(counter + "")}</div>
-                    </div>
-                  </div>
-                  : <div className={"position-relative cursor_pointer"}><BasketRounded/></div>}
-          {/**/}
-              </div>
-              <div className={"d-none"}>
-                جمع کل : {numeric.e2p(card.totalPrice.toLocaleString())} ريال
-              </div>
+              {/*<>*/}
+              {/*  <>آیدی پلن انتخابی: {cart.planId}</>*/}
+              {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
+              {/*  <>زمان پلن انتخابی: {cart.planTime}</>*/}
+              {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
+              {/*  <>تیک های پلن انتخابی: {cart.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>*/}
+              {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
+              {/**/}
+              {/*</>*/}
             </div>
+            <div>
+              {(cart.modules.length > 0 || cart.planId !== 0) ?
+                <div onClick={cardClickHandler} className={"position-relative cursor_pointer"}>
+                  <BasketRoundedFill/>
+                  <div className={"number__basket"}>
+                    <div className={"number__basket_number"}> {numeric.e2p(counter + "")}</div>
+                  </div>
+                </div>
+                : <div className={"position-relative cursor_pointer"}><BasketRounded/></div>}
+              {/**/}
+            </div>
+            <div className={"d-none"}>
+              جمع کل : {numeric.e2p(cart.totalPrice.toLocaleString())} {tr.currency_unit}
+            </div>
+          </div>
         </Header>
         <div className={"padding_top_80"}>
           <div className={"title__bar"}>{tr.ravanhesab_software}</div>

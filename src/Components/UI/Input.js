@@ -5,6 +5,7 @@ const Input = (props) => {
 
   return (
     <input
+      style={props.style}
       defaultValue={props.defaultValue!==undefined ? props.defaultValue : undefined}
       value={props.value!==undefined ? props.value : undefined}
       id={props.id !== undefined ? props.id : undefined}
@@ -19,6 +20,7 @@ const Input = (props) => {
         Styles.default_input_style
       }
       type={props.type !== undefined ? props.type : undefined}
+      disabled={props.disabled}
 
     />
   )

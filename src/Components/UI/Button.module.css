@@ -1,12 +1,11 @@
 .default_btn_style {
     border-radius: 10px;
-    border: 1px solid #309383;
     padding: 0 15px;
-    background: #4CA7A8;
     width: 115px;
     height: 35px;
     font-size: 14px;
     margin: 0 5px;
     font-weight: 500;
-    color: #ffffff;
+    transition: ease 0.3s;
+
 }

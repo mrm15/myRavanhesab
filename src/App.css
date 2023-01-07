@@ -210,14 +210,25 @@ ul {
 
 
 .greenBtn {
-    border-color: #309383;
-    color: #309383;
-    transition: ease 0.3s;
+    background: #009360;
+    border: 1px solid #309383;
+    color: #ffffff;
 }
 
 .greenBtn:hover {
     color: #fff;
-    background-color: #309383;
+    background-color: #007850;
+}
+
+.btn__empty{
+    background: none;
+    border: 1px solid #009360;
+    color: #009360;
+}
+.btn__empty:hover{
+    color: white;
+    background-color: #009360;
+    /*background-color: #fff;*/
 }
 
 .redBtn {
@@ -696,5 +707,40 @@ ul.w_770 li.nav-item button.nav-link.active {
 .footer__copy__right{
 
 }
+.bill__box{
+    width: 836px;
+}
+.green_color{
+    color: #009360;
+}
+.single_product_in_bill{
+    /*width: 835px;*/
+    height: 45px;
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 10px 0 ;
+    line-height: 22px;
+}
+.font_14_400{
+    font-size: 14px;
+    font-weight: 400;
+}
+.discount_input{
+    background-color: #fff !important;
+}
 
+.border__bottom__dash{
+    border-bottom: 1px dashed #D9D9D9;
 
+}
+.text__bills__prices__section{
+    /*width: 300px;*/
+    /*background: aqua;*/
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+}
+.text__bills__prices__section span{
+    width: 120px;
+    text-align: end;
+}

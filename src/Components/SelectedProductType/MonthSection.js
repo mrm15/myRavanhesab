@@ -136,7 +136,7 @@ const MonthSection = (props) => {
 
               <div className={"p-4 text-center font_20_bold"}>
                 {/*_{v.planId}_*/}
-                {numeric.e2p(v.totalPrice.toLocaleString())} ريال {/* i mean BasePrice */}
+                {numeric.e2p(v.totalPrice.toLocaleString())} {tr.currency_unit} {/* i mean BasePrice */}
               </div>
             </div>
             {/* آیتم ها */}

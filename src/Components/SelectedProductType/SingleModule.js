@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import numeric from "../utils/NumericFunction";
 import {Basket, BasketLittle, BasketLittleSelected} from "../../Assets/svg";
+import tr from "../translate/translate";
 
 const SingleModule = (props) => {
   const {moduleId, moduleName, modulePrice, pictureUrl, fixed} = props.module;
@@ -21,7 +22,7 @@ const SingleModule = (props) => {
         </div>
         <hr/>
         <div className={"d-flex  justify-content-between"}>
-          <div>{modulePrice!==undefined && numeric.e2p(modulePrice.toLocaleString())} ريال</div>
+          <div>{modulePrice!==undefined && numeric.e2p(modulePrice.toLocaleString())} {tr.currency_unit}</div>
           <div onClick={() => selectModule(moduleId, moduleName, modulePrice)}
                className={"little__basket__icon"}>
 

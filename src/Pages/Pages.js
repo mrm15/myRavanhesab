@@ -15,6 +15,7 @@ import MainPage from "./MainPage/MainPage";
 import Loader from "../Components/Loader/Loader";
 import axios from "axios";
 import SelectedProductType from "../Components/SelectedProductType/SelectedProductType";
+import Bill from "../Components/Bill/Bill";
 
 
 const Pages = () => {
@@ -71,8 +72,7 @@ const Pages = () => {
       :
       <Routes>
         <Route
-          path="/login"
-          element={isLogin ? <Navigate to={"Dashboard"}/> : <Login setIsLogin={setIsLogin}
+          path="/login" element={isLogin ? <Navigate to={"Dashboard"}/> : <Login setIsLogin={setIsLogin}
             // setToken={setToken}
           />}/>
         <Route
@@ -85,6 +85,7 @@ const Pages = () => {
           <Route path="/" element={<Dashboard/>}/>
           <Route path="Dashboard" element={<Dashboard/>}/>
           <Route path="selectedProductType" element={<SelectedProductType/>}/>
+          <Route path="bill" element={<Bill /> }/>
 
 
           {/*<Route*/}
