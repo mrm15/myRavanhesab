@@ -11,7 +11,7 @@ import Header from "../Header/Header";
 
 
 const Dashboard = () => {
-  const prefixUrl = localStorage.getItem("apiUrl") + "getRavanhesabProducts/";
+  // const prefixUrl = localStorage.getItem("apiUrl") + "getRavanhesabProducts/";
   const [listItem, setListItem] = useState([]);
   const [showHeader, setShowHeader] = useState(false);
 
@@ -19,7 +19,7 @@ const Dashboard = () => {
   useEffect(() => {
     // اینجا درخواست میزنم بک اند تا لیست روان حساب ها رو بده
     // و اینو توی همین صفحه نشون میدم
-    axios.get(prefixUrl).then(r => {
+    axios.get("getRavanhesabProducts/").then(r => {
 
       setListItem(r.data.productsData);
 

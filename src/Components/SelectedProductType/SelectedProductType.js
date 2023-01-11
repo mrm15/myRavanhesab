@@ -16,8 +16,6 @@ import ravanhesabLogo from "../../Assets/img/ravanhesabLogo.png"
 import Header from "../Header/Header";
 
 const SelectedProductType = (props) => {
-  const prefixUrl = localStorage.getItem("apiUrl") + "";
-
   const reactLocation = useLocation()
 
   const navigateTo = useNavigate()
@@ -70,7 +68,7 @@ const SelectedProductType = (props) => {
         return temp
       })
 
-      axios.get(prefixUrl + "ravanhesabPlans/?id=" + id).then(r => {
+      axios.get("ravanhesabPlans/?id=" + id).then(r => {
         const backData = r.data.data;
         setDataHolder(backData) // نگه دارنده دیتا برای زمانی که زمان رو عوض کرد دیتا  و جمع کل دوباره ریست بشه
         setDataShow(backData.plans["month"].slice())
@@ -268,7 +266,7 @@ const SelectedProductType = (props) => {
 
     toast.info("در حال بررسی سبد خرید...");
 
-    const promise_ = axios.post(prefixUrl + "addBill/", cart).then(r => {
+    const promise_ = axios.post( "addBill/", cart).then(r => {
       console.log(r.data);
       if (r.data.status) {
         navigateTo("/bill")

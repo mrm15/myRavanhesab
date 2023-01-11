@@ -1,11 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import Loader from "../Loader/Loader";
+import numeric from "../utils/NumericFunction";
+import Button from "../UI/Button";
+import {ErrorIconAfterPay, SuccessIconAfterPay} from "../../Assets/svg";
+import Header from "../Header/Header";
 
 const PaymentResult = () => {
+  const navigateTo = useNavigate()
   const prefixUrl = localStorage.getItem("apiUrl")
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState({});
 
   const location = useLocation();
   const urlParams = location.search.slice(1).split('&').reduce((acc, s) => {
@@ -21,25 +28,58 @@ const PaymentResult = () => {
     }, {});
 
     axios.post(prefixUrl + "verifyPayment/", urlParams).then(r => {
-
-      debugger
-
-      console.log(r.data)
+      setIsLoading(false)
+      setData(r.data)
     }).catch(err => {
       console.log(err)
     })
 
-  })
+  }, [])
 
 
   return (
 
-    <div className={"bg__section___selectedProduct"}>
+    <div className={""}>
+      {isLoading ?
+        <Loader/> :
+        <div>
+          <Header/>
+          <div className={"w-100 d-flex justify-content-center align-items-center flex-column"}
+               style={{height: '50vh',}}>
+            <div className={'d-flex justify-content-center align-items-center'}>
+              {data.status ?
+                <>
+                  <SuccessIconAfterPay/>
+                  <h5>{numeric.e2p(data.message)}</h5>
+                </>
+                :
+                <>
+                  <ErrorIconAfterPay/>
+                  <h5>{numeric.e2p(data.message)}</h5>
+                </>
+              }
+            </div>
+            <hr className={"hr__style"}/>
+            <div>
+              {data.status ?
+                <>
+                  <Button onClick={()=>navigateTo("/")} className={"btn__empty"} > صفحه اصلی</Button>
+                  <Button
+                  onClick={
+                    ()=> navigateTo("/wizard", {state: data})
+                  }
+                  > تکمیل اطلاعات </Button>
+                </> :
+                <>
+                  <Button onClick={()=>navigateTo("/")} > صفحه اصلی</Button>
+                </>
+              }
+            </div>
 
-      <div>
-        به کال بک یو آر ال خودش آمدید
+          </div>
+        </div>
+      }
 
-      </div>
     </div>
   );
 };

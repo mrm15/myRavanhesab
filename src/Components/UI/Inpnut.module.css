@@ -10,12 +10,18 @@
     /*font-weight: 500;*/
     /*color:#309383;*/
 
-    height: 40px;
-    background: #F4F4F4;
+    height: 45px;
+
     opacity: 0.99;
     border-radius: 10px;
     border: 0;
     padding: 0 10px;
+}
+.default_input_style:focus{
+    background-color: white;
+}
+.default_input_style:active{
+    background-color: white;
 }
 
 

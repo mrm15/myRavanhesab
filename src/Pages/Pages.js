@@ -17,6 +17,7 @@ import axios from "axios";
 import SelectedProductType from "../Components/SelectedProductType/SelectedProductType";
 import Bill from "../Components/Bill/Bill";
 import PaymentResult from "../Components/PaymentResult/PaymentResult";
+import Wizard from "../Components/Wizard/Wizard";
 
 
 const Pages = () => {
@@ -25,6 +26,7 @@ const Pages = () => {
   // const [token, setToken] = useState("")
   const [isLogin, setIsLogin] = useState(false)
   useEffect(() => {
+    debugger
     const token = localStorage.getItem("token");
     // اینجا ریکوئست میزنم بک ببینم کاربرم لاگین هست یا نه تا چک کنم آیا توکن اعتبار داره یا خیر
     if (token === null) {
@@ -88,6 +90,7 @@ const Pages = () => {
           <Route path="selectedProductType" element={<SelectedProductType/>}/>
           <Route path="bill" element={<Bill /> }/>
           <Route path="paymentResult" element={<PaymentResult /> }/>
+          <Route path="wizard" element={<Wizard /> }/>
 
 
           {/*<Route*/}

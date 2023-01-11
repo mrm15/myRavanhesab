@@ -13,7 +13,7 @@ import {BackInLoginCode} from "../../Assets/svg/index"
 import f from "../../utils/UtilsFunction";
 
 const Login = (props) => {
-  const prefixUrl = localStorage.getItem("apiUrl");
+  // const prefixUrl = localStorage.getItem("apiUrl");
   const [registerFormData, setRegisterFormData] = useState({
     name: "", family_name: '', phone_number: '',
   })
@@ -43,6 +43,14 @@ const Login = (props) => {
 
   // میخواد ثبت نام کنه
   const submitRegisterForm = () => {
+
+    // ریجکس تست کن ببین کاراکتر های عجیب داره یا نه؟
+    const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    if (format.test(registerFormData.name)) {
+      toast.error("Erro")
+      return
+    }
+
     if (registerFormData.name === '') {
       toast.error(tr.enter_name)
       return
@@ -74,7 +82,7 @@ const Login = (props) => {
     // data.append('type', 'clodth');
 
     // axios.post(prefixUrl + "sendRegisterCode/", registerFormData).then((r) => {
-    axios.post(prefixUrl + "sendRegisterCode/", registerFormData)
+    axios.post("sendRegisterCode/", registerFormData)
 
       .then((r) => {
         if (r.data.status) {
@@ -148,7 +156,7 @@ const Login = (props) => {
       data = {...data, ...registerFormData}
       requestUrl = "loginConfirm/"
     }
-    axios.post(prefixUrl + requestUrl, data).then((r) => {
+    axios.post( requestUrl, data).then((r) => {
       // console.log(r.data)
       if (r.data.status) {
         toast.success(r.data.message)
@@ -171,13 +179,31 @@ const Login = (props) => {
 
   };
 
+  const putCodeInPlace = (t,idT,valueT)=>{
+    idT === "1" ?
+      t.firstDigit = valueT :
+      idT === "2" ?
+        t.secondDigit = valueT :
+        idT === "3" ?
+          t.thirdDigit = valueT :
+          idT === "4" ?
+            t.fourthDigit = valueT :
+            idT === "5" ?
+              t.fifthDigit = valueT :
+              t.none = "";
+    return t
+
+  }
   const OnKeyUpCode = (event) => {
+    debugger
     if (event.target.value.length > 1) {
       event.target.value = event.target.value[0]
     }
     const acceptedKeys = '1234567890';
     const key = event.key;
     if (key === "Backspace" || key === "Delete") {
+      const t = {...code}
+      setCode(putCodeInPlace(t,event.target.id,event.target.value))
       if (event.target.previousElementSibling === null) {
         event.target.value = ''
       } else {
@@ -193,18 +219,7 @@ const Login = (props) => {
       }
     } else if (acceptedKeys.includes(event.key)) {
       const t = {...code}
-      event.target.id === "1" ?
-        t.firstDigit = event.target.value :
-        event.target.id === "2" ?
-          t.secondDigit = event.target.value :
-          event.target.id === "3" ?
-            t.thirdDigit = event.target.value :
-            event.target.id === "4" ?
-              t.fourthDigit = event.target.value :
-              event.target.id === "5" ?
-                t.fifthDigit = event.target.value :
-                t.none = ""
-      setCode(t)
+      setCode(putCodeInPlace(t,event.target.id,event.target.value))
       if (event.target.nextElementSibling === null) {
         document.getElementById("buttonToFocusAfterLastDigit").focus();
       } else {
@@ -256,7 +271,7 @@ const Login = (props) => {
                 <div>&nbsp;</div>
                 <div className={"mx-5 mt-4"}>
                   <label htmlFor={tr.mobile} className={"d-block  text-end  my-1"}>{tr.mobile}</label>
-                  <Input className={"width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"
+                  <Input className={"input__bg__login width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"
                          value={registerFormData.phone_number}
                          onChange={event => {
                            setRegisterFormData(ps => {
@@ -271,7 +286,7 @@ const Login = (props) => {
 
                 </div>
                 <div className={" text-center"}>
-                  <Button onClick={submitLoginForm} className={"my-4 "}>{tr.send_login_code}</Button>
+                  <Button onClick={submitLoginForm} className={"my-4 greenBtn"}>{tr.send_login_code}</Button>
                 </div>
                 <div className={"mx-5 my-2"}>
                   <div className={"d-block  text-end  py-4"}>
@@ -309,11 +324,11 @@ const Login = (props) => {
                 <div className={"mx-5 mt-4"}>
                   <label className={"d-block  text-end  my-1"}>{tr.code_sended_to_numer} <span
                     className={"green__color fd-font"}>{registerFormData.phone_number}</span> {tr.ra}{tr.enter}</label>
-                  {/*<Input className={"width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"/>*/}
-                  {/*<Input className={"width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"/>*/}
-                  {/*<Input className={"width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"/>*/}
-                  {/*<Input className={"width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"/>*/}
-                  {/*<Input className={"width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"/>*/}
+                  {/*<Input className={"input__bg__login width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"/>*/}
+                  {/*<Input className={"input__bg__login width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"/>*/}
+                  {/*<Input className={"input__bg__login width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"/>*/}
+                  {/*<Input className={"input__bg__login width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"/>*/}
+                  {/*<Input className={"input__bg__login width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"/>*/}
                   <div className={"d-flex justify-content-center text-center "}>
                     <div className={"d-flex justify-content-around mt-4 width__195 ltr"}>
                       <input id={"1"} onClick={onClickInputCodes} autoFocus={true} onKeyUp={OnKeyUpCode}
@@ -336,7 +351,7 @@ const Login = (props) => {
                 </div>
                 <div className={" text-center"}>
                   <Button id={"buttonToFocusAfterLastDigit"} onClick={submitLoginCode}
-                          className={"my-4 "}>{tr.verify_number}
+                          className={"my-4 greenBtn"}>{tr.verify_number}
                   </Button>
                 </div>
                 <div className={"mx-5 my-2"}>
@@ -368,7 +383,7 @@ const Login = (props) => {
                 <div>&nbsp;</div>
                 <div className={"mx-5 mt-4"}>
                   <label htmlFor={tr.name} className={"d-block  text-end  my-1"}>{tr.name}</label>
-                  <Input className={"width__345 my-2"} id={tr.name} placeholder={tr.enter_name} type="text"
+                  <Input className={"input__bg__login width__345 my-2"} id={tr.name} placeholder={tr.enter_name} type="text"
 
                          onChange={event => setRegisterFormData(ps => {
                            const temp = {...ps}
@@ -380,7 +395,7 @@ const Login = (props) => {
                 </div>
                 <div className={"mx-5 mt-4"}>
                   <label htmlFor={tr.family} className={"d-block  text-end  my-1"}>{tr.family}</label>
-                  <Input className={"width__345 my-2"} id={tr.family} placeholder={tr.enter_family} type="text"
+                  <Input className={"input__bg__login width__345 my-2"} id={tr.family} placeholder={tr.enter_family} type="text"
                          value={registerFormData.family_name}
                          onChange={event => setRegisterFormData(ps => {
                            const temp = {...ps}
@@ -391,7 +406,7 @@ const Login = (props) => {
                 </div>
                 <div className={"mx-5 mt-4"}>
                   <label htmlFor={tr.mobile} className={"d-block  text-end  my-1"}>{tr.mobile}</label>
-                  <Input className={"width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"
+                  <Input className={"input__bg__login width__345 my-2"} id={tr.mobile} placeholder={tr.enter_mobile} type="number"
                          value={registerFormData.phone_number}
                          onChange={event => setRegisterFormData(ps => {
                            const temp = {...ps}
@@ -402,7 +417,7 @@ const Login = (props) => {
                 </div>
                 <div className={" text-center"}>
 
-                  <Button onClick={submitRegisterForm} className={"my-4 "}>{tr.register}</Button>
+                  <Button onClick={submitRegisterForm} className={"my-4 greenBtn"}>{tr.register}</Button>
                 </div>
                 <div className={"mx-5 my-2"}>
                   <div className={"d-block  text-end  py-4"}>
