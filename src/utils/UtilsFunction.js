@@ -1,3 +1,5 @@
+import {toast} from "react-toastify";
+
 function stringContainsNumber(_string) {
   return /\d/.test(_string);
 }
@@ -8,6 +10,8 @@ function copyObject(objectKeyValuePairs) {
     temp[tempElement] = objectKeyValuePairs[tempElement]
   return temp;
 }
+
+
 
 const f = {
   stringContainsNumber,

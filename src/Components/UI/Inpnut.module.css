@@ -17,11 +17,7 @@
     border: 0;
     padding: 0 10px;
 }
-.default_input_style:focus{
-    background-color: white;
-}
-.default_input_style:active{
-    background-color: white;
-}
+
+
 
 

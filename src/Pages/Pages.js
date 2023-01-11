@@ -26,7 +26,7 @@ const Pages = () => {
   // const [token, setToken] = useState("")
   const [isLogin, setIsLogin] = useState(false)
   useEffect(() => {
-    debugger
+    // debugger
     const token = localStorage.getItem("token");
     // اینجا ریکوئست میزنم بک ببینم کاربرم لاگین هست یا نه تا چک کنم آیا توکن اعتبار داره یا خیر
     if (token === null) {

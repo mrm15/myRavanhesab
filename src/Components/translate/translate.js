@@ -42,7 +42,9 @@ const tr = {
   not_available: "این پلن فعال نیست",
   currency_unit: "ريال",
   total_price_you: "جمع کل خرید شما : ",
-  discount: "تخفیف : ",
+  discount: "تخفیف : ", province: "استان",
+  minDomainLength: "5",
+  maxDomainLength: "20"
 
 
 }
