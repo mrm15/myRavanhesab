@@ -47,8 +47,7 @@ const Wizard = () => {
     let shopName = data.shopName;
     shopName = shopName.trim()
 
-    const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-    if (format.test(shopName)) {
+    if (f.hasBadCharacter(shopName)) {
       toast.error("Erro")
       return
     }
@@ -90,6 +89,7 @@ const Wizard = () => {
   const submitSection3From = () => {
     // debugger
     const subDomain = data.subDomain;
+
     debugger
     setFillStatus("4")
 
@@ -123,6 +123,19 @@ const Wizard = () => {
 
 
     const subDomain = e.target.value.replaceAll(" ","");
+
+    // میگه شروعش نباید با عدد باشه
+    if (subDomain.length>0){
+      if(f.onlyNumbers(subDomain[0])){
+        toast.error("کاراکتری عددی در ابتدا مجاز نیست.")
+      }
+
+    }
+
+    debugger
+    if(!f.onlyLettersAndNumbers(subDomain)){
+      return;
+    }
     if(subDomain.length> +tr.maxDomainLength){
       return
     }
@@ -271,8 +284,6 @@ const Wizard = () => {
         placeholder={"02133229911"}
         value={data.phoneNumber}
         onChange={(e) => {
-          const phoneNumber = e.target.value;
-
           updateDataState('phoneNumber' ,e.target.value)
         } }
       />
@@ -360,7 +371,7 @@ const Wizard = () => {
       <Button
         onClick={submitSection3From}
         className={"my-4 greenBtn cursor_pointer"}
-        disabled={domainAvailability !== "ok"}
+        // disabled={domainAvailability !== "ok"}
       >{"تایید"}</Button>
     </div>
     {/*  */}
