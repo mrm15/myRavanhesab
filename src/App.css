@@ -902,19 +902,19 @@ ul.w_770 li.nav-item button.nav-link.active {
     align-items: center;
     height: 300px;
     border-radius: 20px;
-    background-color: #00ff32;
-    animation-name: result__wizard;
-    animation-duration: 4s;
+    background-color: #0093601a;
+    animation: result__wizard 2s ease 2s infinite reverse both;
 }
 
 @keyframes result__wizard {
-    from {
-        background-color: #ffffff;
-        width: 500px;
-
+    0%,
+    50%,
+    100% {
+        opacity: 1;
     }
-    to {
-        background-color: #00ff32;
-        /*width: 200px*/
+
+    25%,
+    75% {
+        opacity: 0.5;
     }
 }
