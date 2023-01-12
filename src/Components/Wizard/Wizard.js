@@ -98,7 +98,13 @@ const Wizard = () => {
 
   const uploadFileInState = (file) => {
 
-    console.log(file);
+    debugger
+    if(file.type.split("/")[0]!=='image'){
+      toast.error("فقط بارگزاری عکس مجاز است.")
+      return;
+
+    }
+    // console.log(file);
     setData(ps => {
       const temp = {...ps}
       temp.logo = file;
