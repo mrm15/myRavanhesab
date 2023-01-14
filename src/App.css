@@ -897,7 +897,7 @@ ul.w_770 li.nav-item button.nav-link.active {
 .result__wizard {
     /*width: 100px;*/
     display: flex;
-
+    flex-flow: column wrap;
     justify-content: center;
     align-items: center;
     height: 300px;
@@ -917,4 +917,27 @@ ul.w_770 li.nav-item button.nav-link.active {
     75% {
         opacity: 0.5;
     }
+}
+
+.float-area{
+    height:100vh;
+    display: flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+}
+.floating-img{
+
+    transform: translateY(-10%);
+    animation: floater 3.5s infinite;
+    transition: ease 0.5s;
+
+}
+
+
+@keyframes floater {
+
+    0%{transform: translateY(-10%);transition: ease 0.5s;}
+    50%{transform: translateY(10%);transition: ease 0.5s;}
+
 }
