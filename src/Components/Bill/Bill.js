@@ -82,19 +82,18 @@ const Bill = (target, source) => {
 
         // navigateTo(r.data.link)
       }else {
-        toast.error(r.data.message);
+        debugger
+        toast.error(r.data.message + "");
         setPayButtonActive(true);
       }
+    })
 
-
-      toast.promise(ax, {
-        pending: 'در حال بررسی سبد خرید...',
-        // success: 'Got the data',
-        // error: 'Error when fetching',
-      }).then(r => {
-        console.log(r)
-      })
-
+    toast.promise(ax, {
+      pending: 'در حال بررسی سبد خرید...',
+      // success: 'Got the data',
+      error: 'Error when fetching',
+    }).then(r => {
+      console.log(r)
     })
   }
 

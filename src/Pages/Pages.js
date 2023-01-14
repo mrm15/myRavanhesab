@@ -74,10 +74,8 @@ const Pages = () => {
     {loading ? <Loader text={"در حال اعتبار سنجی...."} className={"center__Loader"}/>
       :
       <Routes>
-        <Route
-          path="/login" element={isLogin ? <Navigate to={"Dashboard"}/> : <Login setIsLogin={setIsLogin}
-            // setToken={setToken}
-          />}/>
+        <Route path="/login" element={isLogin ? <Navigate to={"/"}/> : <Login setIsLogin={setIsLogin}/>}/>
+        <Route path="/register" element={isLogin ? <Navigate to={"/"}/> : <Login setIsLogin={setIsLogin}/>}/>
         <Route
           exact
           path="/"

@@ -31,6 +31,8 @@ const Wizard = () => {
     province: "",
     city: "",
     subDomain: "",
+    billId: "",
+    productId: 0,
 
   })
   const [fillStatus, setFillStatus] = useState("1");
@@ -39,6 +41,9 @@ const Wizard = () => {
   useEffect(() => {
     if (location) {
       setBackendData(location.state)
+      data.billId = location.state.billId;
+      data.productId = location.state.productId;
+      debugger
     }
   })
 
@@ -48,7 +53,7 @@ const Wizard = () => {
     shopName = shopName.trim()
 
     if (f.hasBadCharacter(shopName)) {
-      toast.error("Erro")
+      toast.error("کاراکتر های غیر مجاز در نام  را حذف کنید.")
       return
     }
     if (shopName.length < 3) {
@@ -88,10 +93,25 @@ const Wizard = () => {
 
   const submitSection3From = () => {
     // debugger
-    const subDomain = data.subDomain;
+    const mydata = f.copyObject(data)
 
     debugger
-    setFillStatus("4")
+
+    const temp = axios.post("insertPanelInfo/", mydata).then(r => {
+      if (r.data.status) {
+        setFillStatus("4")
+        toast.success(r.data.message)
+      } else {
+        // toast.error(r.data.message);
+      }
+    });
+
+    toast.promise(temp, {
+      pending: "در حال ارسال اطلاعات...",
+      success: "اطلاعات ثبت شد.",
+      error: "در خوالست با اشکال مواجه شد",
+    }).then(r => {});
+
 
   }
 
@@ -99,7 +119,7 @@ const Wizard = () => {
   const uploadFileInState = (file) => {
 
     debugger
-    if(file.type.split("/")[0]!=='image'){
+    if (file.type.split("/")[0] !== 'image') {
       toast.error("فقط بارگزاری عکس مجاز است.")
       return;
 
@@ -113,7 +133,7 @@ const Wizard = () => {
 
   }
 
-  function updateDataState(key ,value) {
+  function updateDataState(key, value) {
     const temp = {...data};
     temp[key] = value;
     setData(temp)
@@ -122,44 +142,46 @@ const Wizard = () => {
   function onChangeDomainHandler(e) {
 
 
-    const subDomain = e.target.value.replaceAll(" ","");
+    const subDomain = e.target.value.replaceAll(" ", "");
 
     // میگه شروعش نباید با عدد باشه
-    if (subDomain.length>0){
-      if(f.onlyNumbers(subDomain[0])){
+    if (subDomain.length > 0) {
+      if (f.onlyNumbers(subDomain[0])) {
         toast.error("کاراکتری عددی در ابتدا مجاز نیست.")
+        return;
       }
 
     }
 
     debugger
-    if(!f.onlyLettersAndNumbers(subDomain)){
+    if (!f.onlyLettersAndNumbers(subDomain)) {
       return;
     }
-    if(subDomain.length> +tr.maxDomainLength){
+    if (subDomain.length > +tr.maxDomainLength) {
       return
     }
-    updateDataState('subDomain',subDomain)
+    updateDataState('subDomain', subDomain)
     checkDomainAvailability(subDomain)
   }
+
   function checkDomainAvailability(subDomain) {
 
-    if(subDomain.length===0){
+    if (subDomain.length === 0) {
       setDomainAvailability("off")
       return
     }
     if (subDomain.length >= +tr.minDomainLength) {
       setDomainAvailability("loading");
-      axios.get("/?subDomain=" +subDomain).then(r=>{
-        if(r.data.status){
+      axios.get("/?subDomain=" + subDomain).then(r => {
+        if (r.data.status) {
           setDomainAvailability("ok")
-        }else {
+        } else {
           setDomainAvailability("nok")
           r.data.message && toast.error(r.data.message)
         }
-      }).catch(error=>{
+      }).catch(error => {
         // toast.error(""+ error)
-        toast.error("جوابی از سمت سرور دریافت نشد." )
+        toast.error("جوابی از سمت سرور دریافت نشد.")
       })
 
 
@@ -284,8 +306,8 @@ const Wizard = () => {
         placeholder={"02133229911"}
         value={data.phoneNumber}
         onChange={(e) => {
-          updateDataState('phoneNumber' ,e.target.value)
-        } }
+          updateDataState('phoneNumber', e.target.value)
+        }}
       />
     </div>
 
@@ -295,14 +317,14 @@ const Wizard = () => {
         <label htmlFor={"province"} className={"d-block  text-end  my-1"}>{tr.province}</label>
         <Input className={"w-100 my-2   bg__white"} id={"province"} placeholder={"نام استان را وارد کنید"} type="text"
                value={data.province}
-               onChange={event => updateDataState('province' ,event.target.value)}
+               onChange={event => updateDataState('province', event.target.value)}
         />
       </div>
       <div className={"city"}>
         <label htmlFor={"city"} className={"d-block  text-end  my-1"}>{"شهر"}</label>
         <Input className={"w-100 my-2   bg__white"} id={tr.mobile} placeholder={"نام شهر را وارد کنید"} type="text"
                value={data.city}
-               onChange={event => updateDataState('city' ,event.target.value)}
+               onChange={event => updateDataState('city', event.target.value)}
         />
       </div>
     </div>
@@ -316,7 +338,6 @@ const Wizard = () => {
     {/*  */}
 
   </>
-
 
 
   const step3 = <>
@@ -340,15 +361,16 @@ const Wizard = () => {
         type="text"
         placeholder={"subDomain"}
         value={data.subDomain}
-        onChange={(e) => onChangeDomainHandler(e) }
+        onChange={(e) => onChangeDomainHandler(e)}
       />
       <div>
         {domainAvailability === "minLength" ?
-          <> <span className={"text-warning"}>طول دامنه بایدحداقل {numeric.e2p(tr.minDomainLength)+ ""} کاراکتر باشد.</span></> :
+          <> <span
+            className={"text-warning"}>طول دامنه بایدحداقل {numeric.e2p(tr.minDomainLength) + ""} کاراکتر باشد.</span></> :
           domainAvailability === "off" ?
             <><span>لطفا یک زیر دامنه وارد کنید</span></> :
             domainAvailability === "loading" ?
-              <><span className={"text-info"}> <span className={""}/>&#9673;<span className={""}>در حال بررسی...</span></span></>:
+              <><span className={"text-info"}> <span className={""}/>&#9673;<span className={""}>در حال بررسی...</span></span></> :
               domainAvailability === "ok" ?
                 <>
               <span>
@@ -389,20 +411,22 @@ const Wizard = () => {
     </div>
     {/*  */}
     <div>&nbsp;</div>
-    <div className={"mt-4 "}>
+    <div className={"mt-4  "}>
 
       <div className={"result__wizard"}>
 
-      اطلاعات با موفقیت ثبت شد.
-       پس از 9 دقیقه سامانه آماده میشود....
-
+        <div className={"mt-4"}> اطلاعات با موفقیت ثبت شد.
+          پس از 9 دقیقه سامانه آماده میشود....
+        </div>
+        <div className={"mt-4"} style={{zoom: '500%'}}>
+          👨‍💻
+        </div>
       </div>
 
     </div>
 
 
     {/*  */}
-
 
 
   </>

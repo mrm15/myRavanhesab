@@ -12,6 +12,12 @@ function copyObject(objectKeyValuePairs) {
 function onlyLettersAndNumbers(str) {
   return /^[A-Za-z0-9]*$/.test(str);
 }
+function onlyNumbers(str) {
+  return /^[0-9]*$/.test(str);
+}
+
+
+
 
 function hasBadCharacter(srt) {
   const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
@@ -20,6 +26,7 @@ function hasBadCharacter(srt) {
 
 
 const f = {
+  onlyNumbers,
   hasBadCharacter,
   onlyLettersAndNumbers,
   stringContainsNumber,

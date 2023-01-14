@@ -5,7 +5,7 @@ import Button from "../UI/Button";
 import BoxShadow from "../UI/BoxShadow";
 import Input from "../UI/Input";
 import tr from "../translate/translate";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import Loader from "../Loader/Loader";
 import {toast} from "react-toastify";
 import axios from "axios";
@@ -27,19 +27,24 @@ const Login = (props) => {
     firstDigit: '', secondDigit: '', thirdDigit: '', fourthDigit: '', fifthDigit: '',
   });
 
+  const myLocation = useLocation()
 
-  // useEffect(() => {
-  //   const state = location.state;
-  //   debugger
-  //   if (state === "login" || state === null) {
-  //     setIsLoading(false)
-  //     setLoginFrom(true)
-  //   } else if (state === "register") {
-  //     setIsLoading(false)
-  //     setRegisterForm(true)
-  //   }
-  //
-  // }, [reload])
+  useEffect(() => {
+    debugger
+    const state = myLocation.pathname;
+    debugger
+    if (state === "/register") {
+
+      setIsLoading(false)
+      setShowLoginFromSection(false)
+      setShowRegisterFormSection(true)
+
+    } else  {
+      setIsLoading(false)
+      setShowLoginFromSection(true)
+      setShowRegisterFormSection(false)
+    }
+  }, [])
 
   // میخواد ثبت نام کنه
   const submitRegisterForm = () => {
@@ -195,7 +200,7 @@ const Login = (props) => {
 
   }
   const OnKeyUpCode = (event) => {
-    debugger
+    // debugger
     if (event.target.value.length > 1) {
       event.target.value = event.target.value[0]
     }
