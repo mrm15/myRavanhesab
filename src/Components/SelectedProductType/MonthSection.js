@@ -182,18 +182,20 @@ const MonthSection = (props) => {
         {tr.ravanHesab_modules}
       </div>
     </div>
-    <div className={"modules__section"}>
-      {modules.map((v, index) => {
-          // debugger
-          return <Fragment key={index}>
-            <SingleModule
-              selectSingleModule={props.selectSingleModule}
-              module={v}
-            />
-          </Fragment>
-        }
-      )}
+    <div className={"nice__bg my-5"}>
+      <div className={"modules__section "}>
+        {modules.map((v, index) => {
+            // debugger
+            return <Fragment key={index}>
+              <SingleModule
+                selectSingleModule={props.selectSingleModule}
+                module={v}
+              />
+            </Fragment>
+          }
+        )}
 
+      </div>
     </div>
   </>
 };

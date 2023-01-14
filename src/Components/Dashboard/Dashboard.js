@@ -27,6 +27,10 @@ const Dashboard = () => {
       if (localStorage.getItem("userData") !== undefined) {
         setShowHeader(true)
       }
+
+      debugger
+
+
     });
 
   }, [])
@@ -34,12 +38,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div className="float-area">
 
-        <img className="floating-img" alt={""}/>
-
-      </div>
-      
       {showHeader && <Header></Header>}
       {/*<Outlet/>*/}
       {Object.keys(listItem).length > 0 ?

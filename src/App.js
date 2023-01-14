@@ -15,8 +15,8 @@ function App() {
     if (window.location.hostname === "localhost") {
       localStorage.setItem(
         "apiUrl",
-        "http://localhost/Git/myRavanhesab/"
-        // "https://my.ravanhesab.com/myRavanhesab/"
+        // "http://localhost/Git/myRavanhesab/"
+        "https://my.ravanhesab.com/myRavanhesab/"
       );
     } else {
       localStorage.setItem(

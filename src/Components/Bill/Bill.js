@@ -100,7 +100,7 @@ const Bill = (target, source) => {
   return (<div>
     <Header></Header>
     {isEmpty ? <>
-      <div className={" mt-5 px-5 py-5 text-center"}>
+      <div className={" mt-5 px-5 py-5 text-center nice__bg"}>
         <div>شما هیچ صورت حسابی ندارید.</div>
         <div>&nbsp;</div>
         <div className={"my-5 py-5"}>
@@ -108,7 +108,7 @@ const Bill = (target, source) => {
         </div>
       </div>
     </> : <>
-      <div className={"d-flex margin_top_5 w-100 justify-content-center"}>
+      <div className={"d-flex margin_top_5 w-100 justify-content-center nice__bg"}>
         {Object.keys(billData).length > 0 ? <div className={"bill__box font_14_400"}>
           <div className={"d-flex justify-content-between  green_color px-2"}>
             <div><span> شماره سفارش:</span><span>{numeric.e2p(billData.billId + "")}</span>

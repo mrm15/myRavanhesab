@@ -44,7 +44,7 @@ const PaymentResult = () => {
         <Loader/> :
         <div>
           <Header/>
-          <div className={"w-100 d-flex justify-content-center align-items-center flex-column"}
+          <div className={"w-100 d-flex justify-content-center align-items-center flex-column nice__bg"}
                style={{height: '50vh',}}>
             <div className={'d-flex justify-content-center align-items-center'}>
               {data.status ?

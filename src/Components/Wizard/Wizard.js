@@ -93,26 +93,24 @@ const Wizard = () => {
 
   const submitSection3From = () => {
     // debugger
-    const mydata = f.copyObject(data)
+    const myData = f.copyObject(data)
 
     debugger
 
-    const temp = axios.post("insertPanelInfo/", mydata).then(r => {
+    const temp = axios.post("insertPanelInfo/", myData).then(r => {
       if (r.data.status) {
         setFillStatus("4")
         toast.success(r.data.message)
       } else {
-        // toast.error(r.data.message);
+        toast.error(r.data.message);
       }
     });
 
     toast.promise(temp, {
       pending: "در حال ارسال اطلاعات...",
-      success: "اطلاعات ثبت شد.",
-      error: "در خوالست با اشکال مواجه شد",
+      // success: "اطلاعات ثبت شد.",
+      error: "در خواست با اشکال مواجه شد",
     }).then(r => {});
-
-
   }
 
 
@@ -338,8 +336,6 @@ const Wizard = () => {
     {/*  */}
 
   </>
-
-
   const step3 = <>
     <div className={"d-flex justify-content-center "}>
       <div className={"circle font_16_400 bg__green__color__white"}>{numeric.e2p(1 + "")}</div>
@@ -435,7 +431,7 @@ const Wizard = () => {
   return (
     <>
       <Header/>
-      <div className={"my-5 py-5"}>
+      <div className={"my-5 py-5 nice__bg"}>
         <div className={"d-flex justify-content-center align-items-center"}>
           <div className={" "} style={{width: 510}}>
             <div className={"wizard__title mb-5"}> ثبت اطلاعات</div>
@@ -447,7 +443,6 @@ const Wizard = () => {
           </div>
 
         </div>
-
       </div>
     </>
   );

@@ -25,33 +25,33 @@ const Footer = () => {
                     <div className={"d-flex justify-content-around footer__head__before__ul mt-4"}>
                         <ul>
                             <li>
-                                <a href={"https://google.com"} target={"_blank"}> صفحه اصلی</a>
+                                <a href={"https://ravanhesab.com/"} target={"_blank"}> صفحه اصلی</a>
                             </li>
                             <li>
-                                <a href={"https://google.com"} target={"_blank"}>
+                                <a href={"https://ravanhesab.com/product-category/%d9%85%d8%ad%d8%b5%d9%88%d9%84%d8%a7%d8%aa/"} target={"_blank"}>
                                     محصولات
                                 </a>
 
                             </li>
                             <li>
-                                <a href={"https://google.com"} target={"_blank"}>
+                                <a href={"https://ravanhesab.com/"} target={"_blank"}>
                                     پروژه ها
                                 </a>
                             </li>
                         </ul>
                         <ul>
                             <li>
-                                <a href={"https://google.com"} target={"_blank"}>
+                                <a href={"https://ravanhesab.com/"} target={"_blank"}>
                                     خدمات ما
                                 </a>
                             </li>
                             <li>
-                                <a href={"https://google.com"} target={"_blank"}>
+                                <a href={"https://ravanhesab.com/about-us/"} target={"_blank"}>
                                     درباره ما
                                 </a>
                             </li>
                             <li>
-                                <a href={"https://google.com"} target={"_blank"}>
+                                <a href={"https://ravanhesab.com/contast-us/"} target={"_blank"}>
                                     ارتباط با ما
                                 </a>
                             </li>
