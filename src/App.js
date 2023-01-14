@@ -15,8 +15,8 @@ function App() {
     if (window.location.hostname === "localhost") {
       localStorage.setItem(
         "apiUrl",
-        // "http://localhost/Git/myRavanhesab/"
-        "https://my.ravanhesab.com/myRavanhesab/"
+        "http://localhost/Git/myRavanhesab/"
+        // "https://my.ravanhesab.com/myRavanhesab/"
       );
     } else {
       localStorage.setItem(
@@ -78,6 +78,8 @@ axios.interceptors.response.use(
         localStorage.clear()
         NavigateTo("login")
         toast.error("لطفا مجددا وارد سامانه شوید");
+        window.location.reload()
+
         // setTimeout(() => {
         //   window.location.reload()
         // }, 2000);
