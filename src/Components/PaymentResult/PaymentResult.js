@@ -40,13 +40,14 @@ const PaymentResult = () => {
   return (
 
     <div className={""}>
+      <Header/>
       {isLoading ?
-        <Loader/> :
+        <Loader className={"vh__100"}/> :
         <div>
-          <Header/>
-          <div className={"w-100 d-flex justify-content-center align-items-center flex-column nice__bg"}
+
+          <div className={"w-100 d-flex justify-content-center align-items-center flex-column nice__bg my-5"}
                style={{height: '50vh',}}>
-            <div className={'d-flex justify-content-center align-items-center'}>
+            <div className={'d-flex justify-content-center align-items-center my-5'}>
               {data.status ?
                 <>
                   <SuccessIconAfterPay/>

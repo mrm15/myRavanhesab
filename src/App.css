@@ -453,7 +453,9 @@ ul {
 
 .package__section .single__package:hover .single__add__To__basket_button {
     /*visibility: visible;*/
-    background: #E96415;
+    /*background: #E96415;*/
+    background: #009360;
+
 }
 
 .package__section .single__package .single__add__To__basket_button_not_active svg path {
@@ -500,7 +502,7 @@ ul {
 }
 
 .bg__orange {
-    background: #E96415;
+    background: #009360;
 }
 
 .w__50 {
@@ -530,10 +532,10 @@ ul.w_770 li.nav-item button.nav-link {
 }
 
 ul.w_770 li.nav-item button.nav-link.active {
-    color: #e96415;
+    color: #009360;
     background: 0;
     border-radius: 0;
-    border-bottom: 5px solid #e96415;
+    border-bottom: 5px solid #009360;
     transition: all 0.2s;
     font-weight: bold;
 
@@ -547,7 +549,7 @@ ul.w_770 li.nav-item button.nav-link.active {
 .title__bar {
     font-weight: 700;
     font-size: 30px;
-    color: #E96415;
+    color: #009360;
     text-align: center;
 }
 
@@ -692,6 +694,7 @@ ul.w_770 li.nav-item button.nav-link.active {
     justify-content: center;
     cursor: pointer;
     border: 1px solid #fff;
+    margin-right:10px;
 
 }
 
@@ -750,6 +753,8 @@ ul.w_770 li.nav-item button.nav-link.active {
     justify-content: center;
     cursor: pointer;
     border: 1px solid #fff;
+    margin-right:10px;
+
 
 }
 
@@ -945,4 +950,25 @@ ul.w_770 li.nav-item button.nav-link.active {
     background-position: left top, right bottom;
     background-repeat: no-repeat, no-repeat;
     padding: 0;
+}
+.vh__100{
+    height: 100vh;
+    }
+
+.select__option__input{
+    /* border-radius: 10px; */
+    /* border: 1px solid #309383; */
+    /* padding: 8px 15px; */
+    /* background-color: #fff; */
+    /* width: 100px; */
+    /* height: 40px; */
+    /* font-size: 14px; */
+    /* margin: 0 5px; */
+    /* font-weight: 500; */
+     color: #309383;
+    height: 45px;
+    opacity: 0.99;
+    border-radius: 10px;
+    border: 0;
+    padding: 0 10px;
 }

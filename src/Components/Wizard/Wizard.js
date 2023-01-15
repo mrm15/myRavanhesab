@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Header from "../Header/Header";
 import {useLocation, useNavigate} from "react-router-dom";
 import numeric from "../utils/NumericFunction";
@@ -9,6 +9,7 @@ import {toast} from "react-toastify";
 import f from "../../utils/UtilsFunction";
 import {TicketIcon} from "../../Assets/svg";
 import axios from "axios";
+import IranProvince from "../utils/iran_provinces"
 
 const Wizard = () => {
 
@@ -36,14 +37,15 @@ const Wizard = () => {
 
   })
   const [fillStatus, setFillStatus] = useState("1");
-  const [backEndData, setBackendData] = useState({})
+  const [isAnythingToShow, setIsAnythingToShow] = useState(false)
   const location = useLocation();
   useEffect(() => {
-    if (location) {
-      setBackendData(location.state)
+    if (location.state) {
       data.billId = location.state.billId;
       data.productId = location.state.productId;
-      debugger
+      setIsAnythingToShow(true)
+    } else {
+
     }
   })
 
@@ -61,10 +63,11 @@ const Wizard = () => {
       return
     }
 
-    if (data.logo.name === undefined) {
-      toast.error("لوگو فروشگاه بارگزاری نشده است.");
-      return;
-    }
+    // اگه آپلود لوگو اجباری بود باید کد زیر از کامنتی در بیاد
+    // if (data.logo.name === undefined) {
+    //   toast.error("لوگو فروشگاه بارگزاری نشده است.");
+    //   return;
+    // }
     // debugger
     setFillStatus("2")
   };
@@ -110,7 +113,8 @@ const Wizard = () => {
       pending: "در حال ارسال اطلاعات...",
       // success: "اطلاعات ثبت شد.",
       error: "در خواست با اشکال مواجه شد",
-    }).then(r => {});
+    }).then(r => {
+    });
   }
 
 
@@ -285,6 +289,35 @@ const Wizard = () => {
     </div>
     {/*  */}
   </>
+
+
+  const [city, setCity] = useState([])
+  const cityRef = useRef();
+
+  function selectProvinceHandler(event) {
+    const value = event.target.value;
+    const cities = IranProvince.cities[value];
+    debugger
+    //  item.options[item.selectedIndex].value
+
+    // Object.values(cities)
+    const provinceName = IranProvince.province.filter(v => v.value === value)[0].label
+    updateDataState('province', provinceName)
+    setCity(Object.values(cities))
+
+
+    const temp = f.copyObject(data);
+    temp.city = '';
+    setData(temp);
+    cityRef.current.value= "nullSelect";
+  }
+
+  function cityChangeHandler(event) {
+    const value = event.target.value;
+    updateDataState('city', event.target.value)
+
+  }
+
   const step2 = <>
     <div className={"d-flex justify-content-center "}>
       <div className={"circle font_16_400 bg__green__color__white"}>{numeric.e2p(1 + "")}</div>
@@ -311,19 +344,35 @@ const Wizard = () => {
 
 
     <div className={"mt-4 d-flex justify-content-between"}>
-      <div className={"w__50"}>
+      <div className={"w__45"}>
         <label htmlFor={"province"} className={"d-block  text-end  my-1"}>{tr.province}</label>
-        <Input className={"w-100 my-2   bg__white"} id={"province"} placeholder={"نام استان را وارد کنید"} type="text"
-               value={data.province}
-               onChange={event => updateDataState('province', event.target.value)}
-        />
+        <select className={"select__option__input w-100 my-2   bg__white"} onChange={selectProvinceHandler}
+                defaultValue={"nullSelect"} name="cars" id="province">
+          <option value="nullSelect" disabled={true} hidden={true}>انتخاب کنید</option>
+          {IranProvince.province.map(v =>
+            <option value={v.value}>{v.label}</option>
+          )}
+          )
+          }
+        </select>
+        {/* اگه یه روز گفتن بیا برگرد به همون حالت سابق و به جای سلکت آپشن اینپوت باکس بزار کافیه این خط ها رو از کامنتی دربیاری و تمام*/}
+        {/*<Input className={"w-100 my-2   bg__white"} id={"province"} placeholder={"نام استان را وارد کنید"} type="text"*/}
+        {/*       value={data.province}*/}
+        {/*       onChange={event => updateDataState('province', event.target.value)}*/}
+        {/*/>*/}
       </div>
-      <div className={"city"}>
+      <div className={"w__45"}>
         <label htmlFor={"city"} className={"d-block  text-end  my-1"}>{"شهر"}</label>
-        <Input className={"w-100 my-2   bg__white"} id={tr.mobile} placeholder={"نام شهر را وارد کنید"} type="text"
-               value={data.city}
-               onChange={event => updateDataState('city', event.target.value)}
-        />
+        <select ref={cityRef} className={" w-100 my-2   bg__white select__option__input"} onChange={cityChangeHandler}
+                defaultValue={"nullSelect"}>
+          <option value={"nullSelect"} disabled={true}>انتخاب کنید</option>
+          {city.map(v => <option value={v}>{v}</option>)}
+        </select>
+        {/* اگه یه روز گفتن بیا برگرد به همون حالت سابق و به جای سلکت آپشن اینپوت باکس بزار کافیه این خط ها رو از کامنتی دربیاری و تمام*/}
+        {/*<Input className={"w-100 my-2   bg__white"} id={tr.mobile} placeholder={"نام شهر را وارد کنید"} type="text"*/}
+        {/*       value={data.city}*/}
+        {/*       onChange={event => updateDataState('city', event.target.value)}*/}
+        {/*/>*/}
       </div>
     </div>
 
@@ -430,20 +479,31 @@ const Wizard = () => {
 
   return (
     <>
-      <Header/>
-      <div className={"my-5 py-5 nice__bg"}>
-        <div className={"d-flex justify-content-center align-items-center"}>
-          <div className={" "} style={{width: 510}}>
-            <div className={"wizard__title mb-5"}> ثبت اطلاعات</div>
+      {isAnythingToShow ?
+        <>
+          <Header/>
+          <div className={"my-5 py-5 nice__bg"}>
+            <div className={"d-flex justify-content-center align-items-center"}>
+              <div className={" "} style={{width: 510}}>
+                <div className={"wizard__title mb-5"}> ثبت اطلاعات</div>
 
-            {fillStatus === "1" ?
-              step1 : fillStatus === "2" ?
-                step2 : fillStatus === "3" ?
-                  step3 : step4}
+                {fillStatus === "1" ?
+                  step1 : fillStatus === "2" ?
+                    step2 : fillStatus === "3" ?
+                      step3 : step4}
+              </div>
+
+            </div>
           </div>
+        </>
+        :
+        <>
+          <div className={"vh__100"}>
 
-        </div>
-      </div>
+            <>مقادیر ورودی را بررسی کنید</>
+          </div>
+        </>
+      }
     </>
   );
 };

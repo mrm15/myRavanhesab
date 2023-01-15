@@ -64,15 +64,15 @@ const Footer = () => {
                     <div className={"footer__head"}>
                         <div className={""}>ارتباط با ما</div>
                     </div>
-                    <div className={"mt-4"}>
-                        <div className={"d-flex"}>
-                            <div className={"ps-2"}><AddressIcon/></div>
+                    <div className={"mt-4"} >
+                        <div className={"d-flex"} >
+                            <div className={"ps-2 cursor_pointer"} ><a  href="https://goo.gl/maps/9MZG58ztMBiRzKNZ6" target={"_blank"}><AddressIcon/></a></div>
                             <div className={"footer__address"}>{tr.footer_address}</div>
                         </div>
                         <div className={"d-flex justify-content-between   pt-4"}>
-                          <div><IgIcon/></div>
-                          <div><PhoneIcon/></div>
-                          <div><TelegramIcon/></div>
+                          <div className={"cursor_pointer"}><a href="https://www.instagram.com/ravanhesab/" target={"_blank"}><IgIcon/></a></div>
+                          <div className={"cursor_pointer"}><a href="tel:02191018137" target={"_blank"}><PhoneIcon/></a></div>
+                          <div className={"cursor_pointer"}><TelegramIcon/></div>
                         </div>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ const Footer = () => {
         <hr style={{height: 3, backgroundColor: "white", border: 'none'}}/>
             <div className={"footer__copy__right text-center pb-3"}>
                 تمامی حقوق این وب سایت متعلق به
-                <a href={"http://varkan.ir/"} > {tr.varkan} </a>
+                <a href={"http://varkan.ir/"}  target={"_blank"} > {tr.varkan} </a>
                 می باشد
 
             </div>

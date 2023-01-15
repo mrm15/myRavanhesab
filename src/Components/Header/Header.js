@@ -2,7 +2,7 @@ import React from 'react';
 import ravanhesabLogo from "../../Assets/img/ravanhesabLogo.png";
 import {BasketRounded, BasketRoundedFill, LogOutIcon, TicketIcon} from "../../Assets/svg";
 import Swal from 'sweetalert2';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 
 const Header = (props) => {
@@ -28,7 +28,7 @@ const Header = (props) => {
         debugger
         localStorage.clear();
         // navigateTo("/Login");
-        navigateTo("/register");
+        navigateTo("/login");
         window.location.reload()
 
 
@@ -56,7 +56,7 @@ const Header = (props) => {
 
       <ul>
         <li><span className={"px-4"}>
-            <img className={""} src={ravanhesabLogo} alt={"روانحساب"}/>
+            <Link to={"/"}><img className={""} src={ravanhesabLogo} alt={"روانحساب"}/></Link>
           </span>
         </li>
       </ul>

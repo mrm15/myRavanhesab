@@ -184,7 +184,7 @@ const Bill = (target, source) => {
               <Button onClick={payButtonHandler} disabled={!payButtonActive}>پرداخت</Button>
             </div>
           </div>
-        </div> : <Loader/>
+        </div> : <Loader className={"vh__100"}/>
 
         }
       </div>
