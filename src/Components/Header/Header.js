@@ -62,11 +62,14 @@ const Header = (props) => {
       </ul>
 
       <div className={"d-flex align-items-center justify-content-between"}>
-        <div>
+        <div
+          className={"px-2"}
+        >
           {userData.name} {userData.familyName}
         </div>
         <div
           // style={{width: 90, overflow: "hidden"}}
+          className={"px-2"}
         >{props.children}</div>
         <div><span onClick={logOutHandler} className={"mx-3 cursor_pointer"} alt={"خروج"}><LogOutIcon/></span></div>
 
