@@ -113,8 +113,8 @@ const Bill = (target, source) => {
           <div className={"d-flex justify-content-between  green_color px-2"}>
             <div><span> شماره سفارش:</span><span>{numeric.e2p(billData.billId + "")}</span>
             </div>
-            <div className={"cursor_pointer"} onClick={() => navigateTo("/")}>
-              <span> بازگشت به صفحه اصلی</span>
+            <div className={"cursor_pointer"} onClick={() => navigateTo(-1)}>
+              <span> بازگشت </span>
               <span><LeftArrow/></span>
             </div>
           </div>
