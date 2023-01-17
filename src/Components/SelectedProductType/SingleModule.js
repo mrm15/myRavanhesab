@@ -5,7 +5,7 @@ import tr from "../translate/translate";
 
 const SingleModule = (props) => {
   const {moduleId, moduleName, modulePrice, pictureUrl, fixed} = props.module;
-  const [mode, setMode] = useState(false);
+  const [mode, setMode] = useState(props.mode!==undefined ? props.mode : false);
   //mode 0== unSelect
   //mode 1== selected
 
@@ -24,7 +24,7 @@ const SingleModule = (props) => {
         <div className={"d-flex  justify-content-between"}>
           <div>{modulePrice!==undefined && numeric.e2p(modulePrice.toLocaleString())} {tr.currency_unit}</div>
           <div onClick={() => selectModule(moduleId, moduleName, modulePrice)}
-               className={"little__basket__icon"}>
+               className={"little__basket__icon cursor_pointer"}>
 
             {mode ? <BasketLittleSelected/> : <BasketLittle/>}
 

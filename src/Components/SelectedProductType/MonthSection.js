@@ -121,6 +121,7 @@ const MonthSection = (props) => {
   // </div>
   return <>
     <div className={"package__section"}>
+
       {holder.map((v, index) => <React.Fragment key={index + ""}>
         <>
           <div className={"single__package"}>
@@ -159,7 +160,10 @@ const MonthSection = (props) => {
               {v.active ?
                 <div
                   onClick={(event) => addToCardHandler(event, v.planId, v.totalPrice, v.planTitle)}
-                  className={"single__add__To__basket_button "}>
+                  // className={"single__add__To__basket_button " + ( props.isSelected!==undefined  && (props.isSelected!==undefined ? " bg__orange " : " " )) }
+                  className={index === (props.currentPlanId - 1) ? "single__add__To__basket_button bg__orange" : "single__add__To__basket_button "}
+
+                >
                   {/*{tr.add_to_card}*/}
                   <Basket/>
                 </div>
@@ -185,10 +189,23 @@ const MonthSection = (props) => {
     <div className={"nice__bg my-5"}>
       <div className={"modules__section "}>
         {modules.map((v, index) => {
+
+          let mode= false;
+            // اکه این ماژول توی سبد خرید بود که خب یعنی باید مود صحیح باشه و اگز نبود فالز باشه
+            props.cart.modules.forEach((moduleInCart, index) => {
+
+              debugger
+              if (moduleInCart.moduleId === v.moduleId) {
+                mode=true;
+                // break
+              }
+            })
+
             // debugger
             return <Fragment key={index}>
               <SingleModule
                 selectSingleModule={props.selectSingleModule}
+                mode={mode}
                 module={v}
               />
             </Fragment>

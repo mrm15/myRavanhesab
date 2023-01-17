@@ -74,6 +74,17 @@ const SelectedProductType = (props) => {
         setDataShow(backData.plans["month"].slice())
         setModules(backData.modules["month"].slice())
 
+        //  باید به مهندس طاهری بگم آقا اگه از قبل سبد خرید خالی نبود. سبد رو دوباره بفرست و منم یه کلید براش در نظر گرفتم و اگه اون کلید نال و تعریف نشده نبود سبد رو پرش کن
+        if (r.data.activeCart !== undefined) {
+          if (r.data.activeCart !== null) {
+            setCart(r.data.activeCart);
+            setCounter(countBasket(r.data.activeCart))
+          }
+
+        }
+
+
+
       });
     }
   }, [])
@@ -359,7 +370,7 @@ const SelectedProductType = (props) => {
                     <div className={"number__basket_number"}> {numeric.e2p(counter + "")}</div>
                   </div>
                 </div>
-                : <div className={"position-relative cursor_pointer"}><BasketRounded/></div>}
+                : <div title={"سبد خرید خالی..."} className={"position-relative cursor_pointer"}><BasketRounded/></div>}
               {/**/}
             </div>
             <div className={"d-none"}>
@@ -380,25 +391,32 @@ const SelectedProductType = (props) => {
                 role="tablist">
               <li className="nav-item" role="presentation">
 
-                <button onClick={() => selectMonthHandler("month")} className="nav-link " id="pills-tab_month_1"
+                <button onClick={() => selectMonthHandler("month")}
+                        className={"nav-link " + (cart.planTime==='' || cart.planTime==='month' ? " active " : " ")  }
+                        id="pills-tab_month_1"
                         data-bs-toggle="pill" data-bs-target="#month_1"
                         type="button" role="tab" aria-controls="pills-home" aria-selected="true">یک ماهه
                 </button>
               </li>
               <li className="nav-item" role="presentation">
-                <button onClick={() => selectMonthHandler("month_3")} className="nav-link" id="pills-tab_month_3"
+                <button onClick={() => selectMonthHandler("month_3")}
+                        className={"nav-link " + (cart.planTime==='month_3' ? " active " : " ") }
+                        id="pills-tab_month_3"
                         data-bs-toggle="pill" data-bs-target="#month_3"
                         type="button" role="tab" aria-controls="pills-profile" aria-selected="false">سه ماهه
                 </button>
               </li>
               <li className="nav-item" role="presentation">
-                <button onClick={() => selectMonthHandler("month_6")} className="nav-link" id="pills-tab_month_6"
+                <button onClick={() => selectMonthHandler("month_6")}
+                        className={"nav-link " + (cart.planTime==='month_6' ? " active " : " ") }
+                        id="pills-tab_month_6"
                         data-bs-toggle="pill" data-bs-target="#month_6"
                         type="button" role="tab" aria-controls="pills-contact" aria-selected="false">شش ماهه
                 </button>
               </li>
               <li className="nav-item" role="presentation">
-                <button onClick={() => selectMonthHandler("month_12")} className="nav-link active"
+                <button onClick={() => selectMonthHandler("month_12")}
+                        className={"nav-link " + (cart.planTime==='month_12' ? " active " : " ") }
                         id="pills-tab_month_12"
                         data-bs-toggle="pill"
                         data-bs-target="#month_12"
@@ -417,6 +435,8 @@ const SelectedProductType = (props) => {
                   dataHolder={dataShow}
                   modules={modules}
                   selectSingleModule={selectSingleModule}
+                  currentPlanId={cart.planId}
+                  cart={cart}
                 />}
               </div>
               {/*<div className="tab-pane " id="month_3" role="tabpanel" aria-labelledby="pills-tab_month_3">*/}
