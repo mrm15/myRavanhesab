@@ -257,7 +257,7 @@ ul {
 }
 
 .cursor_pointer {
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .green__color {
@@ -563,12 +563,13 @@ ul.w_770 li.nav-item button.nav-link.active {
 }
 
 .modules__section {
-    width: 1080px;
+    max-width: 1080px;
+    width: 100%;
     /*background: yellowgreen;*/
     /* word-break: break-word; */
     display: flex;
     flex-flow: wrap row;
-    justify-content: space-between;
+    justify-content: space-around;
     margin: 0 auto;
 }
 
