@@ -22,17 +22,25 @@ const PaymentResult = () => {
 
 
   useEffect(() => {
+
+    debugger
     const urlParams = location.search.slice(1).split('&').reduce((acc, s) => {
       const [k, v] = s.split('=')
       return Object.assign(acc, {[k]: v})
     }, {});
 
-    axios.post(prefixUrl + "verifyPayment/", urlParams).then(r => {
-      setIsLoading(false)
-      setData(r.data)
-    }).catch(err => {
-      console.log(err)
+    debugger
+    setData({
+      status: +urlParams.status,
+      message: decodeURIComponent(urlParams.message)
     })
+    setIsLoading(false);
+    // axios.post(prefixUrl + "verifyPayment/", urlParams).then(r => {
+    //
+    //   setData(r.data)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
 
   }, [])
 
@@ -64,15 +72,15 @@ const PaymentResult = () => {
             <div>
               {data.status ?
                 <>
-                  <Button onClick={()=>navigateTo("/")} className={"btn__empty"} > صفحه اصلی</Button>
+                  <Button onClick={() => navigateTo("/")} className={"btn__empty"}> صفحه اصلی</Button>
                   <Button
-                  onClick={
-                    ()=> navigateTo("/wizard", {state: data})
-                  }
+                    onClick={
+                      () => navigateTo("/wizard", {state: data})
+                    }
                   > تکمیل اطلاعات </Button>
                 </> :
                 <>
-                  <Button onClick={()=>navigateTo("/")} > صفحه اصلی</Button>
+                  <Button onClick={() => navigateTo("/")}> صفحه اصلی</Button>
                 </>
               }
             </div>
