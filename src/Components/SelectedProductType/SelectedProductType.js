@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {useLocation, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import Loader from "../Loader/Loader";
 import Input from "../UI/Input";
 import {BasketLittle, BasketRounded, BasketRoundedFill, BasketTopHand, BgPlans, BgSvg} from "../../Assets/svg";
@@ -16,6 +16,7 @@ import ravanhesabLogo from "../../Assets/img/ravanhesabLogo.png"
 import Header from "../Header/Header";
 
 const SelectedProductType = (props) => {
+
   const reactLocation = useLocation()
 
   const navigateTo = useNavigate()
@@ -33,14 +34,8 @@ const SelectedProductType = (props) => {
   // const [totalPriceState, setTotalPriceState] = useState([])
 
   const [cart, setCart] = useState({
-    planTime: "",
-    planId: 0,
-    planTitle: "",
-    modules: [// {moduleId: 0, moduleName: "", modulePrice: 0}
-    ],
-    planPrice: 0,
-    totalPrice: 0,
-    productId: 0,
+    planTime: "", planId: 0, planTitle: "", modules: [],// {moduleId: 0, moduleName: "", modulePrice: 0}
+    planPrice: 0, totalPrice: 0, productId: 0,
 
   })
   const selectTimeRef = useRef();
@@ -53,18 +48,21 @@ const SelectedProductType = (props) => {
     sum += +temp.planPrice;
     // حالا بیا ماژول ها رو هم حساب کنیم.
     temp.modules.forEach(v => {
-      // debugger
+      //  
       sum += +v.modulePrice;
     })
     // محل محاسبه جمع قیمت ماژول
     return sum;
   }
   useEffect(() => {
+
     if (reactLocation.state) {
       const id = reactLocation.state.id;
+
       setCart(prevState => {
         const temp = prevState;
         temp.productId = id;
+
         return temp
       })
 
@@ -75,8 +73,10 @@ const SelectedProductType = (props) => {
         setModules(backData.modules["month"].slice())
 
         //  باید به مهندس طاهری بگم آقا اگه از قبل سبد خرید خالی نبود. سبد رو دوباره بفرست و منم یه کلید براش در نظر گرفتم و اگه اون کلید نال و تعریف نشده نبود سبد رو پرش کن
-        if (r.data.activeCart !== undefined) {
+
+        if (r.data.activeCart !== undefined && Object.keys(r.data.activeCart).length > 0) {
           if (r.data.activeCart !== null) {
+
             setCart(r.data.activeCart);
             setCounter(countBasket(r.data.activeCart))
           }
@@ -84,8 +84,9 @@ const SelectedProductType = (props) => {
         }
 
 
-
       });
+    } else {
+      navigateTo("/")
     }
   }, [])
 
@@ -124,7 +125,7 @@ const SelectedProductType = (props) => {
   // };
 
   const removeBoxShadowFromSingleItem = () => {
-    // debugger
+    //  
     const singlePlanSelected = planItemsRef.current.querySelector(".set_box_shadow_to_singleItem")
     singlePlanSelected !== null && singlePlanSelected.classList.remove("set_box_shadow_to_singleItem")
     singlePlanSelected !== null && singlePlanSelected.querySelector(".bg__orange").classList.remove("bg__orange")
@@ -132,7 +133,7 @@ const SelectedProductType = (props) => {
 
 
   const addBoxShadowToSingleItem = (event) => {
-    // debugger
+    //  
     // event.target.parentElement.parentElement.parentElement.classList.add("set_box_shadow_to_singleItem");
     event.target.closest(".single__package").classList.add("set_box_shadow_to_singleItem");
     event.target.closest(".single__add__To__basket_button").classList.add("bg__orange");
@@ -141,8 +142,7 @@ const SelectedProductType = (props) => {
 
   function countBasket(temp) {
     let counter = 0;
-    if (temp.planId !== 0)
-      counter++;
+    if (temp.planId !== 0) counter++;
 
     let moduleCounter = 0;
     temp.modules.forEach(v => moduleCounter++)
@@ -157,11 +157,9 @@ const SelectedProductType = (props) => {
     const tempDataHolder = {...dataHolder}
     const planTime = temp.planTime;
     const planId = temp.planId;
-    // debugger
-    if (temp.planTitle !== "")
-      temp.planTitle = tempDataHolder['plans'][planTime].filter(v => v.planId === planId)[0].planTitle;
-    if (temp.planPrice !== 0)
-      temp.planPrice = tempDataHolder['plans'][planTime].filter(v => v.planId === planId)[0].totalPrice;
+    //  
+    if (temp.planTitle !== "") temp.planTitle = tempDataHolder['plans'][planTime].filter(v => v.planId === planId)[0].planTitle;
+    if (temp.planPrice !== 0) temp.planPrice = tempDataHolder['plans'][planTime].filter(v => v.planId === planId)[0].totalPrice;
     console.table(temp)
     if (temp.modules.length > 0) {
       const newModules = [];
@@ -189,6 +187,7 @@ const SelectedProductType = (props) => {
       temp.planPrice = 0
       temp.planTitle = ''
       toast.info(tr.plan + " " + planTitle + " " + tr.removed_from_basket)
+
       setCart(temp)
       setCounter(countBasket(temp))
       return
@@ -226,18 +225,19 @@ const SelectedProductType = (props) => {
 
     temp.planTime = inputPlanTime;
 
-    // debugger
+    //  
     if (cart.planId !== 0 || cart.modules.length > 0) {
       temp = replacePrices(temp)
     }
 
-    // debugger
+    //  
     temp.totalPrice = calculateTotalPrice(temp);
+
     setCart(temp)
 
     setDataShow([...dataHolder.plans[inputPlanTime].slice()])
     setModules([...dataHolder.modules[inputPlanTime].slice()])
-    // debugger
+    //  
   }
 
   const selectSingleModule = (moduleId, moduleName, modulePrice) => {
@@ -277,7 +277,7 @@ const SelectedProductType = (props) => {
 
     toast.info("در حال بررسی سبد خرید...");
 
-    const promise_ = axios.post( "addBill/", cart).then(r => {
+    const promise_ = axios.post("addBill/", cart).then(r => {
       console.log(r.data);
       if (r.data.status) {
         navigateTo("/bill")
@@ -285,7 +285,7 @@ const SelectedProductType = (props) => {
         toast.error(r.data.message)
       }
     }).catch(error => {
-      debugger
+
       console.log(error)
     })
 
@@ -352,25 +352,30 @@ const SelectedProductType = (props) => {
         <Header>
           <div>
             <div>
-              {/*<>*/}
-              {/*  <>آیدی پلن انتخابی: {cart.planId}</>*/}
-              {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
-              {/*  <>زمان پلن انتخابی: {cart.planTime}</>*/}
-              {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
-              {/*  <>تیک های پلن انتخابی: {cart.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>*/}
-              {/*  &nbsp;&nbsp;|&nbsp;&nbsp;*/}
-              {/**/}
-              {/*</>*/}
+              <>
+                {/*<>آیدی پلن انتخابی: {cart.planId}</>*/}
+                {/*&nbsp;&nbsp;|&nbsp;&nbsp;*/}
+                {/*<>زمان پلن انتخابی: {cart.planTime}</>*/}
+                {/*&nbsp;&nbsp;|&nbsp;&nbsp;*/}
+                {/*<>تیک های پلن انتخابی: {cart.modules.map(v => <>{v.moduleName} _ {v.modulePrice}</>)}</>*/}
+                {/*&nbsp;&nbsp;|&nbsp;&nbsp;*/}
+
+              </>
             </div>
-            <div>
+            <div className={"d-flex  align-items-center"}>
+              {dataHolder.hasTrial && <div className={"px-4"}>
+                <Link to={"/requestDemo"}  state={{ data: dataHolder.hasTrial }} >
+                  <span className={"btn btn-primary"}>درخواست دمو</span>
+                </Link>
+              </div>}
               {(cart.modules.length > 0 || cart.planId !== 0) ?
                 <div onClick={cardClickHandler} className={"position-relative cursor_pointer"}>
                   <BasketRoundedFill/>
                   <div className={"number__basket"}>
                     <div className={"number__basket_number"}> {numeric.e2p(counter + "")}</div>
                   </div>
-                </div>
-                : <div title={"سبد خرید خالی..."} className={"position-relative cursor_pointer"}><BasketRounded/></div>}
+                </div> :
+                <div title={"سبد خرید خالی..."} className={"position-relative cursor_pointer"}><BasketRounded/></div>}
               {/**/}
             </div>
             <div className={"d-none"}>
@@ -392,7 +397,7 @@ const SelectedProductType = (props) => {
               <li className="nav-item" role="presentation">
 
                 <button onClick={() => selectMonthHandler("month")}
-                        className={"nav-link " + (cart.planTime==='' || cart.planTime==='month' ? " active " : " ")  }
+                        className={"nav-link " + (cart.planTime === '' || cart.planTime === 'month' ? " active " : " ")}
                         id="pills-tab_month_1"
                         data-bs-toggle="pill" data-bs-target="#month_1"
                         type="button" role="tab" aria-controls="pills-home" aria-selected="true">یک ماهه
@@ -400,7 +405,7 @@ const SelectedProductType = (props) => {
               </li>
               <li className="nav-item" role="presentation">
                 <button onClick={() => selectMonthHandler("month_3")}
-                        className={"nav-link " + (cart.planTime==='month_3' ? " active " : " ") }
+                        className={"nav-link " + (cart.planTime === 'month_3' ? " active " : " ")}
                         id="pills-tab_month_3"
                         data-bs-toggle="pill" data-bs-target="#month_3"
                         type="button" role="tab" aria-controls="pills-profile" aria-selected="false">سه ماهه
@@ -408,7 +413,7 @@ const SelectedProductType = (props) => {
               </li>
               <li className="nav-item" role="presentation">
                 <button onClick={() => selectMonthHandler("month_6")}
-                        className={"nav-link " + (cart.planTime==='month_6' ? " active " : " ") }
+                        className={"nav-link " + (cart.planTime === 'month_6' ? " active " : " ")}
                         id="pills-tab_month_6"
                         data-bs-toggle="pill" data-bs-target="#month_6"
                         type="button" role="tab" aria-controls="pills-contact" aria-selected="false">شش ماهه
@@ -416,7 +421,7 @@ const SelectedProductType = (props) => {
               </li>
               <li className="nav-item" role="presentation">
                 <button onClick={() => selectMonthHandler("month_12")}
-                        className={"nav-link " + (cart.planTime==='month_12' ? " active " : " ") }
+                        className={"nav-link " + (cart.planTime === 'month_12' ? " active " : " ")}
                         id="pills-tab_month_12"
                         data-bs-toggle="pill"
                         data-bs-target="#month_12"

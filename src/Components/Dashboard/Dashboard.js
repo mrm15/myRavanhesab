@@ -20,17 +20,11 @@ const Dashboard = () => {
     // اینجا درخواست میزنم بک اند تا لیست روان حساب ها رو بده
     // و اینو توی همین صفحه نشون میدم
     axios.get("getRavanhesabProducts/").then(r => {
-
       setListItem(r.data.productsData);
-
       localStorage.setItem("userData", JSON.stringify(r.data.userData))
       if (localStorage.getItem("userData") !== undefined) {
         setShowHeader(true)
       }
-
-      debugger
-
-
     });
 
   }, [])

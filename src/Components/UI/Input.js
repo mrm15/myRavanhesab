@@ -6,6 +6,7 @@ const Input = (props) => {
   return (
     <input
       style={props.style}
+      autoComplete={props.autoComplete!==undefined ? props.autoComplete : undefined}
       defaultValue={props.defaultValue!==undefined ? props.defaultValue : undefined}
       value={props.value!==undefined ? props.value : undefined}
       id={props.id !== undefined ? props.id : undefined}

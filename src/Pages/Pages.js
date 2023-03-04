@@ -18,6 +18,7 @@ import SelectedProductType from "../Components/SelectedProductType/SelectedProdu
 import Bill from "../Components/Bill/Bill";
 import PaymentResult from "../Components/PaymentResult/PaymentResult";
 import Wizard from "../Components/Wizard/Wizard";
+import RequestDemo from "../Components/RequestDemo/RequestDemo";
 
 
 const Pages = () => {
@@ -89,6 +90,7 @@ const Pages = () => {
           <Route path="bill" element={<Bill /> }/>
           <Route path="paymentResult" element={<PaymentResult /> }/>
           <Route path="wizard" element={<Wizard /> }/>
+          <Route path="requestDemo" element={<RequestDemo /> }/>
 
 
           {/*<Route*/}

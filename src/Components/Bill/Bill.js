@@ -16,14 +16,14 @@ const Bill = (target, source) => {
   const [payButtonActive, setPayButtonActive] = useState(true)
 
 
-
   const navigateTo = useNavigate()
   const [billData, setBillData] = useState({})
   const [isEmpty, setIsEmpty] = useState(false) // at first,we consider card is not Empty
   const [discountValue, setDiscountValue] = useState(0)
-
   useEffect(() => {
-    axios.get(prefixUrl + "getUnpaidBillData/").then(r => {
+    debugger
+    const urlToSend = prefixUrl + "getUnpaidBillData/"
+    axios.get(urlToSend).then(r => {
       if (r.data.status) {
         setBillData(r.data.billData)
         if (r.data.discountId !== null) {
@@ -75,13 +75,13 @@ const Bill = (target, source) => {
       // debugger
       console.log(r.data)
       // debugger
-      if(r.data.status){
-        const url =  r.data.link;
+      if (r.data.status) {
+        const url = r.data.link;
         toast.info(r.data.message)
         window.location.assign(url)
 
         // navigateTo(r.data.link)
-      }else {
+      } else {
         debugger
         toast.error(r.data.message + "");
         setPayButtonActive(true);
@@ -104,7 +104,9 @@ const Bill = (target, source) => {
         <div>شما هیچ صورت حسابی ندارید.</div>
         <div>&nbsp;</div>
         <div className={"my-5 py-5"}>
-          <Input type={"button"} value={" صفحه اصلی"} onClick={() => navigateTo("/")}/>
+          <Button class={""} type={"button"} value={" صفحه اصلی"} onClick={() => navigateTo("/")}>
+            صفحه اصلی
+          </Button>
         </div>
       </div>
     </> : <>

@@ -124,7 +124,10 @@ const MonthSection = (props) => {
 
       {holder.map((v, index) => <React.Fragment key={index + ""}>
         <>
-          <div className={"single__package"}>
+          <div
+            // className={!v.active ? "single__package" : "single__package set_box_shadow_to_singleItem"}
+            className={"single__package"}
+          >
             {/**/}
             <div className={"package__width__header"} style={{
               // 'background': `url(${v.pictureUrl})`,
@@ -142,7 +145,6 @@ const MonthSection = (props) => {
             </div>
             {/* آیتم ها */}
             <div className={"package__width__body"}>
-              {/*{console.log(v.data)}*/}
               {v.data.map((item, indexNumber) => <React.Fragment key={indexNumber + ""}>
                 <div className={"d-flex"}>
                   <div className={"check__box__before"}/>
@@ -158,22 +160,29 @@ const MonthSection = (props) => {
             </div>
             <div className={"add__To__card__section"}>
               {v.active ?
-                <div
-                  onClick={(event) => addToCardHandler(event, v.planId, v.totalPrice, v.planTitle)}
-                  // className={"single__add__To__basket_button " + ( props.isSelected!==undefined  && (props.isSelected!==undefined ? " bg__orange " : " " )) }
-                  className={index === (props.currentPlanId - 1) ? "single__add__To__basket_button bg__orange" : "single__add__To__basket_button "}
-
-                >
-                  {/*{tr.add_to_card}*/}
-                  <Basket/>
-                </div>
+                <>
+                  <div
+                    onClick={(event) => addToCardHandler(event, v.planId, v.totalPrice, v.planTitle)}
+                    // className={index === (props.currentPlanId - 1) ?"single__add__To__basket_button bg__orange":"single__add__To__basket_button "}
+                    // className={"single__add__To__basket_button  bg__orange"}
+                    // className={""}
+                    // className={index === (props.currentPlanId - 1) ? "single__add__To__basket_button bg__orange" : "single__add__To__basket_button "}
+                    className={props.cart.planId === v.planId ? "single__add__To__basket_button bg__orange" :"single__add__To__basket_button"}
+                  >
+                    {/*{tr.add_to_card}*/}
+                    {/*<Basket/>*/}
+                    <Basket/>
+                  </div>
+                </>
                 :
-                <div
-                  onClick={(event) => toast.info(tr.not_available)}
-                  className={"single__add__To__basket_button_not_active "}>
-                  {/*{tr.add_to_card}*/}
-                  <Basket/>
-                </div>
+                <>
+                  <div
+                    onClick={(event) => toast.info(tr.not_available)}
+                    className={"single__add__To__basket_button_not_active "}>
+                    {/*{tr.add_to_card}*/}
+                    <Basket/>
+                  </div>
+                </>
               }
             </div>
           </div>
@@ -190,13 +199,12 @@ const MonthSection = (props) => {
       <div className={"modules__section "}>
         {modules.map((v, index) => {
 
-          let mode= false;
+            let mode = false;
             // اکه این ماژول توی سبد خرید بود که خب یعنی باید مود صحیح باشه و اگز نبود فالز باشه
             props.cart.modules.forEach((moduleInCart, index) => {
 
-              debugger
               if (moduleInCart.moduleId === v.moduleId) {
-                mode=true;
+                mode = true;
                 // break
               }
             })

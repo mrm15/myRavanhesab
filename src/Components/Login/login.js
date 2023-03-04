@@ -30,9 +30,7 @@ const Login = (props) => {
   const myLocation = useLocation()
 
   useEffect(() => {
-    debugger
     const state = myLocation.pathname;
-    debugger
     if (state === "/register") {
 
       setIsLoading(false)
@@ -96,11 +94,13 @@ const Login = (props) => {
           setShowRegisterFormSection(false);
           setShowEnterCodeSection(true);
           setStatus("registerForm");
+          if(r.data.code){
+            alert(r.data.code)
+          }
         } else {
           toast.warning(r.data.message);
         }
       }).catch((error) => {
-      debugger;
       console.log(error)
     })
 
@@ -126,7 +126,7 @@ const Login = (props) => {
         setShowEnterCodeSection(true)
         toast.success(r.data.message)
         // temp code 
-        //😅 اگه آقای مهندس طاعری نبود این خط کد داره کد رو توی ریسپانس به من بر میگردونه 😅
+        //😅 اگه آقای مهندس طاهری نبود این خط کد داره کد رو توی ریسپانس به من بر میگردونه 😅
         if (r.data.code) {
           alert(r.data.code)
         }

@@ -68,12 +68,12 @@ const Wizard = () => {
     //   toast.error("لوگو فروشگاه بارگزاری نشده است.");
     //   return;
     // }
-    // debugger
     setFillStatus("2")
   };
   const submitSection2From = () => {
     // debugger
     const phoneNumber = data.phoneNumber;
+    debugger
     const province = data.province.trim();
     const city = data.city.trim();
 
@@ -136,6 +136,8 @@ const Wizard = () => {
   }
 
   function updateDataState(key, value) {
+
+    debugger
     const temp = {...data};
     temp[key] = value;
     setData(temp)
@@ -155,7 +157,7 @@ const Wizard = () => {
 
     }
 
-    debugger
+    // debugger
     if (!f.onlyLettersAndNumbers(subDomain)) {
       return;
     }
@@ -297,22 +299,20 @@ const Wizard = () => {
   function selectProvinceHandler(event) {
     const value = event.target.value;
     const cities = IranProvince.cities[value];
-    debugger
     //  item.options[item.selectedIndex].value
 
     // Object.values(cities)
     const provinceName = IranProvince.province.filter(v => v.value === value)[0].label
-    updateDataState('province', provinceName)
     setCity(Object.values(cities))
-
-
     const temp = f.copyObject(data);
+    temp.province =  event.target.selectedOptions[0].label;
     temp.city = '';
     setData(temp);
-    cityRef.current.value= "nullSelect";
+    cityRef.current.value = "nullSelect";
   }
 
   function cityChangeHandler(event) {
+    console.log(data)
     const value = event.target.value;
     updateDataState('city', event.target.value)
 

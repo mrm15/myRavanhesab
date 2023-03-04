@@ -65,7 +65,7 @@ const Header = (props) => {
         <div
           className={"px-2"}
         >
-          {userData.name} {userData.familyName}
+          {userData && userData.name !== null && userData.name} {userData && userData.familyName !== null && userData.familyName}
         </div>
         <div
           // style={{width: 90, overflow: "hidden"}}
