@@ -21,6 +21,7 @@ const SelectedProductType = (props) => {
 
   const navigateTo = useNavigate()
   const [dataHolder, setDataHolder] = useState({})
+  const [otherData, setOtherData] = useState({}) // added after CEO change His mind
   const [counter, setCounter] = useState(0)
 
   const [dataShow, setDataShow] = useState([])
@@ -68,6 +69,7 @@ const SelectedProductType = (props) => {
 
       axios.get("ravanhesabPlans/?id=" + id).then(r => {
         const backData = r.data.data;
+        setOtherData(r.data)
         setDataHolder(backData) // نگه دارنده دیتا برای زمانی که زمان رو عوض کرد دیتا  و جمع کل دوباره ریست بشه
         setDataShow(backData.plans["month"].slice())
         setModules(backData.modules["month"].slice())
@@ -349,7 +351,11 @@ const SelectedProductType = (props) => {
         {/*    </li>*/}
         {/*  </ul>*/}
         {/*</div>*/}
-        <Header>
+        <Header dataBeforeName={dataHolder.hasTrial && <div className={"px-4"}>
+          <Link to={"/requestDemo"} state={{data: dataHolder.hasTrial, productId: otherData.productId}}>
+            <span className={"request__demo__button"}>درخواست دمو</span>
+          </Link>
+        </div>}>
           <div>
             <div>
               <>
@@ -363,11 +369,7 @@ const SelectedProductType = (props) => {
               </>
             </div>
             <div className={"d-flex  align-items-center"}>
-              {dataHolder.hasTrial && <div className={"px-4"}>
-                <Link to={"/requestDemo"}  state={{ data: dataHolder.hasTrial }} >
-                  <span className={"btn btn-primary"}>درخواست دمو</span>
-                </Link>
-              </div>}
+
               {(cart.modules.length > 0 || cart.planId !== 0) ?
                 <div onClick={cardClickHandler} className={"position-relative cursor_pointer"}>
                   <BasketRoundedFill/>

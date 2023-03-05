@@ -25,7 +25,6 @@ const Header = (props) => {
       cancelButtonText: 'خیر'
     }).then((result) => {
       if (result.isConfirmed) {
-        debugger
         localStorage.clear();
         // navigateTo("/Login");
         navigateTo("/login");
@@ -62,9 +61,11 @@ const Header = (props) => {
       </ul>
 
       <div className={"d-flex align-items-center justify-content-between"}>
+        {props.dataBeforeName}
         <div
           className={"px-2"}
         >
+
           {userData && userData.name !== null && userData.name} {userData && userData.familyName !== null && userData.familyName}
         </div>
         <div
