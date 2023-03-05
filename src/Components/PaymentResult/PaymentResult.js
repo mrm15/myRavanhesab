@@ -28,10 +28,22 @@ const PaymentResult = () => {
       return Object.assign(acc, {[k]: v})
     }, {});
 
+    debugger
+    if (urlParams.wizard === undefined
+      || urlParams.message === undefined
+      || urlParams.status === undefined
+      || urlParams.billId === undefined) {
+      alert("مقادیر ورودی از بک اند در آدرس صحیح نیست لطفا مجددا تلاش کنید.");
+
+      return;
+    }
     setData({
       status: +urlParams.status,
-      message: decodeURIComponent(urlParams.message)
+      message: decodeURIComponent(urlParams.message),
+      wizard: urlParams.wizard,
+      billId: urlParams.billId
     })
+
     setIsLoading(false);
     // axios.post(prefixUrl + "verifyPayment/", urlParams).then(r => {
     //
@@ -62,7 +74,21 @@ const PaymentResult = () => {
                 :
                 <>
                   <ErrorIconAfterPay/>
-                  <h5>{numeric.e2p(data.message)}</h5>
+                  <div>
+                    <h5>{numeric.e2p(data.message)}</h5>
+
+
+                    <div style={{width:"auto"}}>
+                      پرداخت صورتحساب:
+                        &nbsp;
+                      {numeric.e2p(data.billId)}
+                      &nbsp;
+                      ناموفق بود.
+                    </div>
+                  </div>
+
+
+
                 </>
               }
             </div>
@@ -71,11 +97,15 @@ const PaymentResult = () => {
               {data.status ?
                 <>
                   <Button onClick={() => navigateTo("/")} className={"btn__empty"}> صفحه اصلی</Button>
-                  <Button
-                    onClick={
-                      () => navigateTo("/wizard", {state: data})
-                    }
-                  > تکمیل اطلاعات </Button>
+
+                  {data.wizard !== undefined && data.wizard === '1' &&
+
+                    <Button
+                      onClick={
+                        () => navigateTo("/wizard", {state: data})
+                      }
+                    > تکمیل اطلاعات </Button>
+                  }
                 </> :
                 <>
                   <Button onClick={() => navigateTo("/")}> صفحه اصلی</Button>

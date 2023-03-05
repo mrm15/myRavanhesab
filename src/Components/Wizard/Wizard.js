@@ -40,6 +40,7 @@ const Wizard = () => {
   const [isAnythingToShow, setIsAnythingToShow] = useState(false)
   const location = useLocation();
   useEffect(() => {
+    debugger
     if (location.state) {
       data.billId = location.state.billId;
       data.productId = location.state.productId;
@@ -89,7 +90,6 @@ const Wizard = () => {
       return
     }
     setFillStatus("3")
-
   }
 
   const submitSection3From = () => {
@@ -97,6 +97,8 @@ const Wizard = () => {
     const myData = f.copyObject(data)
 
 
+    debugger
+    debugger
     const temp = axios.post("insertPanelInfo/", myData).then(r => {
       if (r.data.status) {
         setFillStatus("4")

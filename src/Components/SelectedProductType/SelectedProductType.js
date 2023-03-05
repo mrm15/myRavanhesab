@@ -57,35 +57,39 @@ const SelectedProductType = (props) => {
   }
   useEffect(() => {
 
+
     if (reactLocation.state) {
       const id = reactLocation.state.id;
 
       setCart(prevState => {
         const temp = prevState;
         temp.productId = id;
-
         return temp
       })
 
       axios.get("ravanhesabPlans/?id=" + id).then(r => {
-        const backData = r.data.data;
-        setOtherData(r.data)
-        setDataHolder(backData) // نگه دارنده دیتا برای زمانی که زمان رو عوض کرد دیتا  و جمع کل دوباره ریست بشه
-        setDataShow(backData.plans["month"].slice())
-        setModules(backData.modules["month"].slice())
+        r.data.settingPage = true
 
-        //  باید به مهندس طاهری بگم آقا اگه از قبل سبد خرید خالی نبود. سبد رو دوباره بفرست و منم یه کلید براش در نظر گرفتم و اگه اون کلید نال و تعریف نشده نبود سبد رو پرش کن
+        if (r.data.settingPage !== undefined && r.data.settingPage === true) {
 
-        if (r.data.activeCart !== undefined && Object.keys(r.data.activeCart).length > 0) {
-          if (r.data.activeCart !== null) {
-
-            setCart(r.data.activeCart);
-            setCounter(countBasket(r.data.activeCart))
+          navigateTo("/wizard", {state: r.data})
+        } else {
+          // یه موردی هست اگه  مقدار
+          //settingPage
+          // برابر با درست بود باید ببرمش جایی که اطلاعاتش رو پر کنه بفرسته.
+          const backData = r.data.data;
+          setOtherData(r.data)
+          setDataHolder(backData) // نگه دارنده دیتا برای زمانی که زمان رو عوض کرد دیتا  و جمع کل دوباره ریست بشه
+          setDataShow(backData.plans["month"].slice())
+          setModules(backData.modules["month"].slice())
+          //  باید به مهندس طاهری بگم آقا اگه از قبل سبد خرید خالی نبود. سبد رو دوباره بفرست و منم یه کلید براش در نظر گرفتم و اگه اون کلید نال و تعریف نشده نبود سبد رو پرش کن
+          if (r.data.activeCart !== undefined && Object.keys(r.data.activeCart).length > 0) {
+            if (r.data.activeCart !== null) {
+              setCart(r.data.activeCart);
+              setCounter(countBasket(r.data.activeCart))
+            }
           }
-
         }
-
-
       });
     } else {
       navigateTo("/")
