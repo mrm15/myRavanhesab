@@ -123,7 +123,7 @@
     box-sizing: border-box;
     scrollbar-width: thin !important;
     scrollbar-color: #89c8c8 #f6f5ff;
-    font-family: 'IRANSans', serif;
+    font-family: 'IRANSans', serif !important;
     /*user-select: none;*/
 
     transition: all 0.2s;
@@ -695,7 +695,7 @@ ul.w_770 li.nav-item button.nav-link.active {
     justify-content: center;
     cursor: pointer;
     border: 1px solid #fff;
-    margin-right:10px;
+    margin-right: 10px;
 
 }
 
@@ -754,7 +754,7 @@ ul.w_770 li.nav-item button.nav-link.active {
     justify-content: center;
     cursor: pointer;
     border: 1px solid #fff;
-    margin-right:10px;
+    margin-right: 10px;
 
 
 }
@@ -924,14 +924,15 @@ ul.w_770 li.nav-item button.nav-link.active {
     }
 }
 
-.float-area{
-    height:100vh;
+.float-area {
+    height: 100vh;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-.floating-img{
+
+.floating-img {
 
     transform: translateY(-10%);
     animation: floater 3.5s infinite;
@@ -942,21 +943,29 @@ ul.w_770 li.nav-item button.nav-link.active {
 
 @keyframes floater {
 
-    0%{transform: translateY(-10%);transition: ease 0.5s;}
-    50%{transform: translateY(10%);transition: ease 0.5s;}
+    0% {
+        transform: translateY(-10%);
+        transition: ease 0.5s;
+    }
+    50% {
+        transform: translateY(10%);
+        transition: ease 0.5s;
+    }
 
 }
-.nice__bg{
-    background: url("./Assets/svg/bg_left1.png"),url("./Assets/svg/bg_right1.png");
+
+.nice__bg {
+    background: url("./Assets/svg/bg_left1.png"), url("./Assets/svg/bg_right1.png");
     background-position: left top, right bottom;
     background-repeat: no-repeat, no-repeat;
     padding: 0;
 }
-.vh__100{
-    height: 100vh;
-    }
 
-.select__option__input{
+.vh__100 {
+    height: 100vh;
+}
+
+.select__option__input {
     /* border-radius: 10px; */
     /* border: 1px solid #309383; */
     /* padding: 8px 15px; */
@@ -966,10 +975,74 @@ ul.w_770 li.nav-item button.nav-link.active {
     /* font-size: 14px; */
     /* margin: 0 5px; */
     /* font-weight: 500; */
-     color: #309383;
+    color: #309383;
     height: 45px;
     opacity: 0.99;
     border-radius: 10px;
     border: 0;
     padding: 0 10px;
 }
+
+
+.request__demo__button {
+    animation: blink 1s infinite;
+    color: rgb(233, 100, 21);
+
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/*   404 */
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: sans-serif;
+    text-align: center;
+}
+
+.not-found-container h1 {
+    font-size: 10rem;
+    margin: 0;
+    color: #f44336;
+}
+
+.not-found-container h2 {
+    font-size: 4rem;
+    margin: 0;
+    margin-top: 1rem;
+}
+
+.not-found-container p {
+    font-size: 2rem;
+    margin: 0;
+    margin-top: 1rem;
+}
+
+.not-found-container a {
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    color: #2196f3;
+    text-decoration: none;
+    border-bottom: 2px solid #2196f3;
+    padding-bottom: 0.2rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.not-found-container a:hover {
+    color: #f44336;
+    border-bottom-color: #f44336;
+}
+
