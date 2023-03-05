@@ -1,15 +1,28 @@
 import React from 'react';
+import {Link} from "react-router-dom";
+import Header from "../Components/Header/Header";
+import Footer from "../Components/Footer/footer";
 
 const Page_404 = () => {
   return (
-    <div style={{ } }>
-      اینجا 404 هست. ینی شما توی روان حساب من دنبال چیزی میگردید که وجود نداره. یا روی لینک اشتباهی کلیک کردید و اینجا اومدید.
-      <br/>
+<div>
+  <Header/>
+  <div className="not-found-container">
+    <h1>404</h1>
+    <h2>صفحه یافت نشد!</h2>
+    <p>
       بهترین کار حالا چیه؟
       <br/>
-      تماس با پشتیبانی سایت
+      تماس با پشتیبانی سایت و یا رفتن به صفحه اصلی
       😉
-    </div>
+    </p>
+    <Link to={"/"}>صفحه اصلی </Link>
+  </div>
+
+
+  <Footer/>
+
+</div>
   );
 };
 
