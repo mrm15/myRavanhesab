@@ -73,7 +73,6 @@ const Wizard = () => {
   const submitSection2From = () => {
     // debugger
     const phoneNumber = data.phoneNumber;
-    debugger
     const province = data.province.trim();
     const city = data.city.trim();
 
@@ -89,7 +88,6 @@ const Wizard = () => {
       toast.error("نام شهر را وارد کنید.")
       return
     }
-    debugger
     setFillStatus("3")
 
   }
@@ -98,7 +96,6 @@ const Wizard = () => {
     // debugger
     const myData = f.copyObject(data)
 
-    debugger
 
     const temp = axios.post("insertPanelInfo/", myData).then(r => {
       if (r.data.status) {
@@ -120,7 +117,6 @@ const Wizard = () => {
 
   const uploadFileInState = (file) => {
 
-    debugger
     if (file.type.split("/")[0] !== 'image') {
       toast.error("فقط بارگزاری عکس مجاز است.")
       return;
@@ -137,7 +133,6 @@ const Wizard = () => {
 
   function updateDataState(key, value) {
 
-    debugger
     const temp = {...data};
     temp[key] = value;
     setData(temp)

@@ -21,7 +21,6 @@ const Bill = (target, source) => {
   const [isEmpty, setIsEmpty] = useState(false) // at first,we consider card is not Empty
   const [discountValue, setDiscountValue] = useState(0)
   useEffect(() => {
-    debugger
     const urlToSend = prefixUrl + "getUnpaidBillData/"
     axios.get(urlToSend).then(r => {
       if (r.data.status) {
@@ -82,7 +81,6 @@ const Bill = (target, source) => {
 
         // navigateTo(r.data.link)
       } else {
-        debugger
         toast.error(r.data.message + "");
         setPayButtonActive(true);
       }
