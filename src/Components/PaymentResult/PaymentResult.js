@@ -23,13 +23,11 @@ const PaymentResult = () => {
 
   useEffect(() => {
 
-    debugger
     const urlParams = location.search.slice(1).split('&').reduce((acc, s) => {
       const [k, v] = s.split('=')
       return Object.assign(acc, {[k]: v})
     }, {});
 
-    debugger
     setData({
       status: +urlParams.status,
       message: decodeURIComponent(urlParams.message)
