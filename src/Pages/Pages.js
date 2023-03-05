@@ -72,47 +72,50 @@ const Pages = () => {
       draggable
       pauseOnHover
     />
-    {loading ? <Loader text={"در حال اعتبار سنجی...."} className={"center__Loader"}/>
-      :
-      <Routes>
-        <Route path="/login" element={isLogin ? <Navigate to={"/"}/> : <Login setIsLogin={setIsLogin}/>}/>
-        <Route path="/register" element={isLogin ? <Navigate to={"/"}/> : <Login setIsLogin={setIsLogin}/>}/>
-        <Route
-          exact
-          path="/"
-          element={isLogin ? <MainPage/> : <Login setIsLogin={setIsLogin}
-            // setToken={setToken}
-          />}
-        >
-          <Route path="/" element={<Dashboard/>}/>
-          <Route path="Dashboard" element={<Dashboard/>}/>
-          <Route path="selectedProductType" element={<SelectedProductType/>}/>
-          <Route path="bill" element={<Bill /> }/>
-          <Route path="paymentResult" element={<PaymentResult /> }/>
-          <Route path="wizard" element={<Wizard /> }/>
-          <Route path="requestDemo" element={<RequestDemo /> }/>
+    <Routes>
 
 
-          {/*<Route*/}
-          {/*  exact*/}
-          {/*  path="/"*/}
-          {/*  element={*/}
-          {/*    isAuth ? (*/}
-          {/*      <MainPage setIsAuth={setIsAuth} sidebarMode={"normal"} />*/}
-          {/*    ) : (*/}
-          {/*      <Navigate to={"/Login"} />*/}
-          {/*    )*/}
-          {/*  }*/}
-          {/*>*/}
-          {/*<Route path="Report" element={<Report />}>*/}
-          {/*  <Route path=":id" element={<Chart />} />*/}
-          {/*</Route>*/}
-          {/*</Route>*/}
+      <Route path="/loader" element={<Loader/>}/>
+      <Route path="/login" element={isLogin ? <Navigate to={"/"}/> : <Login setIsLogin={setIsLogin}/>}/>
+      <Route path="/register" element={isLogin ? <Navigate to={"/"}/> : <Login setIsLogin={setIsLogin}/>}/>
+      <Route
+        exact
+        path="/"
+        element={isLogin ? <MainPage/> :
+          // loading ?
+          //   <Navigate to={"/loader"}/>
+          //   :
+          <Login setIsLogin={setIsLogin}/>
+        }
+      >
+        <Route path="/" element={<Dashboard/>}/>
+        <Route path="Dashboard" element={<Dashboard/>}/>
+        <Route path="selectedProductType" element={<SelectedProductType/>}/>
+        <Route path="bill" element={<Bill/>}/>
+        <Route path="paymentResult" element={<PaymentResult/>}/>
+        <Route path="wizard" element={<Wizard/>}/>
+        <Route path="requestDemo" element={<RequestDemo/>}/>
 
-        </Route>
-        <Route path="*" element={<Page_404/>}/>
-      </Routes>
-    }
+
+        {/*<Route*/}
+        {/*  exact*/}
+        {/*  path="/"*/}
+        {/*  element={*/}
+        {/*    isAuth ? (*/}
+        {/*      <MainPage setIsAuth={setIsAuth} sidebarMode={"normal"} />*/}
+        {/*    ) : (*/}
+        {/*      <Navigate to={"/Login"} />*/}
+        {/*    )*/}
+        {/*  }*/}
+        {/*>*/}
+        {/*<Route path="Report" element={<Report />}>*/}
+        {/*  <Route path=":id" element={<Chart />} />*/}
+        {/*</Route>*/}
+        {/*</Route>*/}
+
+      </Route>
+      <Route path="*" element={<Page_404/>}/>
+    </Routes>
   </BrowserRouter>
 
 };
