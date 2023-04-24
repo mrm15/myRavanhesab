@@ -8,6 +8,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
 import {useEffect, useState} from "react";
 import tr from "./Components/translate/translate";
+// import {AuthProvider} from "./Components/Auth/auth"
 
 
 function App() {
@@ -74,15 +75,16 @@ axios.interceptors.response.use(
         // && (window.location.pathname !== '/Login' || window.location.pathname)
       ) {
 
+        debugger
         sessionStorage.clear()
         localStorage.clear()
-        NavigateTo("login")
+        // NavigateTo("login")
         toast.error("لطفا مجددا وارد سامانه شوید");
-        window.location.reload()
+        // window.location.reload()
 
-        // setTimeout(() => {
-        //   window.location.reload()
-        // }, 2000);
+        setTimeout(() => {
+          window.location.reload()
+        }, 2000);
       }
       // if (error.response.status === 401 && window.location.pathname === '/Login') {
       //   return error;
