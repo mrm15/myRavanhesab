@@ -19,6 +19,9 @@ import Bill from "../Components/Bill/Bill";
 import PaymentResult from "../Components/PaymentResult/PaymentResult";
 import Wizard from "../Components/Wizard/Wizard";
 import RequestDemo from "../Components/RequestDemo/RequestDemo";
+import {AuthProvider} from "../Components/Auth/auth";
+import Profile from "../Components/Profile";
+import RequireAuth from "../Components/Auth/RequireAuth";
 
 
 const Pages = () => {
@@ -26,40 +29,32 @@ const Pages = () => {
   const [loading, setLoading] = useState(true);
   // const [token, setToken] = useState("")
   const [isLogin, setIsLogin] = useState(false)
-  useEffect(() => {
-    // debugger
-    const token = localStorage.getItem("token");
-    // اینجا ریکوئست میزنم بک ببینم کاربرم لاگین هست یا نه تا چک کنم آیا توکن اعتبار داره یا خیر
-    if (token === null) {
-      setLoading(false)
-      setIsLogin(false)
-    } else {
-      axios.get("tokenValidate/").then((r) => {
-        if (r.data.status) {
-          toast.success(r.data.message)
-          setLoading(false)
-          setIsLogin(true)
-        } else {
-          setLoading(false)
-          setIsLogin(false)
-        }
-      }).catch(error => {
-        // toast.error(r.data.message)
-        setLoading(false)
-        setIsLogin(false)
-      })
+  // useEffect(() => {
+  //   // debugger
+  //   // const token = localStorage.getItem("token");
+  //   // اینجا ریکوئست میزنم بک ببینم کاربرم لاگین هست یا نه تا چک کنم آیا توکن اعتبار داره یا خیر
+  //   if (token === null) {
+  //     setLoading(false)
+  //     setIsLogin(false)
+  //   } else {
+  //     axios.get("tokenValidate/").then((r) => {
+  //       if (r.data.status) {
+  //         toast.success(r.data.message)
+  //         setLoading(false)
+  //         setIsLogin(true)
+  //       } else {
+  //         setLoading(false)
+  //         setIsLogin(false)
+  //       }
+  //     }).catch(error => {
+  //       // toast.error(r.data.message)
+  //       setLoading(false)
+  //       setIsLogin(false)
+  //     })
+  //   }
+  // }, [])
 
-      // toast("در حال اعتبار سنجی...")
-      // request to back End  to check if  token is valid
-      // if yes  setIsLogin(true)
-      // setTimeout(() => {
-      //   setLoading(false)
-      //   setIsLogin(true)
-      // }, 3000)
-    }
-  }, [])
-
-  return <BrowserRouter>
+  return (<BrowserRouter>
     <ToastContainer
       position="bottom-left"
       autoClose={2500}
@@ -72,51 +67,57 @@ const Pages = () => {
       draggable
       pauseOnHover
     />
-    <Routes>
+
+    <AuthProvider>
+      <Routes>
 
 
-      <Route path="/loader" element={<Loader/>}/>
-      <Route path="/login" element={isLogin ? <Navigate to={"/"}/> : <Login setIsLogin={setIsLogin}/>}/>
-      <Route path="/register" element={isLogin ? <Navigate to={"/"}/> : <Login setIsLogin={setIsLogin}/>}/>
-      <Route
-        exact
-        path="/"
-        element={isLogin ? <MainPage/> :
-          // loading ?
-          //   <Navigate to={"/loader"}/>
-          //   :
-          <Login setIsLogin={setIsLogin}/>
-        }
-      >
-        <Route path="/" element={<Dashboard/>}/>
-        <Route path="Dashboard" element={<Dashboard/>}/>
-        <Route path="selectedProductType" element={<SelectedProductType/>}/>
-        <Route path="bill" element={<Bill/>}/>
-        <Route path="paymentResult" element={<PaymentResult/>}/>
-        <Route path="wizard" element={<Wizard/>}/>
-        <Route path="requestDemo" element={<RequestDemo/>}/>
+        {/*<Route path="/login" element={isLogin ? <Navigate to={"/"}/> : <Login setIsLogin={setIsLogin}/>}/>*/}
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/register" element={<Login/>}/>
+        <Route path={"/profile"} element={<RequireAuth><Profile/></RequireAuth>}/>
+        <Route
+          exact
+          path="/"
+          // element={isLogin ? <MainPage/> :
+          //   // loading ?
+          //   //   <Navigate to={"/loader"}/>
+          //   //   :
+          //   <Login setIsLogin={setIsLogin}/>
+          // }
+          element={<RequireAuth><MainPage/></RequireAuth>}
+        >
+          <Route path="/" element={<RequireAuth><Dashboard/></RequireAuth>}/>
+          <Route path="Dashboard" element={<Dashboard/>}/>
+          <Route path="selectedProductType" element={<RequireAuth><SelectedProductType/></RequireAuth>}/>
+          <Route path="bill" element={<Bill/>}/>
+          <Route path="paymentResult" element={<RequireAuth><PaymentResult/></RequireAuth>}/>
+          <Route path="wizard" element={<RequireAuth><Wizard/></RequireAuth>}/>
+          <Route path="requestDemo" element={<RequireAuth><RequestDemo/></RequireAuth>}/>
 
 
-        {/*<Route*/}
-        {/*  exact*/}
-        {/*  path="/"*/}
-        {/*  element={*/}
-        {/*    isAuth ? (*/}
-        {/*      <MainPage setIsAuth={setIsAuth} sidebarMode={"normal"} />*/}
-        {/*    ) : (*/}
-        {/*      <Navigate to={"/Login"} />*/}
-        {/*    )*/}
-        {/*  }*/}
-        {/*>*/}
-        {/*<Route path="Report" element={<Report />}>*/}
-        {/*  <Route path=":id" element={<Chart />} />*/}
-        {/*</Route>*/}
-        {/*</Route>*/}
+          {/*<Route*/}
+          {/*  exact*/}
+          {/*  path="/"*/}
+          {/*  element={*/}
+          {/*    isAuth ? (*/}
+          {/*      <MainPage setIsAuth={setIsAuth} sidebarMode={"normal"} />*/}
+          {/*    ) : (*/}
+          {/*      <Navigate to={"/Login"} />*/}
+          {/*    )*/}
+          {/*  }*/}
+          {/*>*/}
+          {/*<Route path="Report" element={<Report />}>*/}
+          {/*  <Route path=":id" element={<Chart />} />*/}
+          {/*</Route>*/}
+          {/*</Route>*/}
 
-      </Route>
-      <Route path="*" element={<Page_404/>}/>
-    </Routes>
-  </BrowserRouter>
+        </Route>
+        <Route path="*" element={<Page_404/>}/>
+      </Routes>
+
+    </AuthProvider>
+  </BrowserRouter>)
 
 };
 
