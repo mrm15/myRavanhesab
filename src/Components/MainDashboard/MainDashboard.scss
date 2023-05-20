@@ -1,0 +1,215 @@
+@import "../../Assets/scss/varibales";
+
+.dashboard_wrapper {
+  width: 100%;
+  padding-bottom: 10%;
+  background: #ffffff;
+
+  .sub_header_ {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3%;
+
+    h1 {
+      font-family: "IranSans";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 31px;
+      text-align: right;
+      color: $darKgray;
+    }
+
+    span {
+      font-family: "IranSans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 19px;
+      text-align: justify;
+      color: $darKgray;
+    }
+  }
+
+  .cardsContainer_ {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 18px;
+    row-gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .cards_contents_parent {
+    display: flex;
+    width: 80%;
+    margin: auto;
+    margin-top: 40px;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .cards_contents_right {
+      width: 65%;
+      display: flex;
+      row-gap: 5px;
+      flex-direction: column;
+    }
+
+    .cards_contents_left {
+      width: 33%;
+      display: flex;
+      row-gap: 5px;
+      flex-direction: column;
+    }
+
+    .header_section {
+      width: 100%;
+      background: $lightChamani;
+      border-radius: 10px;
+      padding: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        font-family: "IranSans";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 31px;
+        text-align: right;
+        color: $white;
+      }
+    }
+
+    .cards_contents_left_top,
+    .cards_contents_left_bottom {
+      width: 100%;
+      display: flex;
+      row-gap: 5px;
+      flex-direction: column;
+    }
+
+    .form_cards_content {
+      width: 100%;
+      background: $white;
+      border: 1px solid $lightGray;
+      border-radius: 10px;
+      padding: 27px 2%;
+      display: flex;
+      row-gap: 25px;
+      flex-direction: column;
+    }
+
+    .selectBox_parent {
+      position: relative;
+      width: 100%;
+
+      select {
+        width: 100%;
+        background: $white;
+        border: 1px solid $soLightGray;
+        border-radius: 10px;
+        padding: 10px;
+        font-family: "IranSans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 19px;
+        text-align: right;
+        color: $lightGray;
+
+        option {
+          font-family: "IranSans";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 19px;
+          text-align: right;
+          color: $lightGray;
+        }
+      }
+
+      label {
+        position: absolute;
+        z-index: 1;
+        top: -10px;
+        right: 7%;
+        background: #ffffff;
+        font-family: "IranSans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+        text-align: right;
+        padding: 0 5px;
+      }
+    }
+
+    .price_parent {
+      display: flex;
+      flex-direction: column;
+      row-gap: 5px;
+      align-items: flex-start;
+
+      span {
+        font-family: "IranSans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 19px;
+        text-align: right;
+        color: #b9b9b9;
+        padding-right: 5px;
+      }
+    }
+
+    .form_cards_content_bottom {
+      width: 100%;
+      background: $white;
+      border: 1px solid $lightGray;
+      border-radius: 10px;
+      padding: 19px 2%;
+      display: flex;
+      row-gap: 8px;
+      flex-direction: column;
+    }
+
+    .totall_price {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      span {
+        font-family: "IranSans";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 22px;
+        text-align: right;
+        color: $gray64;
+      }
+    }
+
+    .discount_ {
+      color: #fa4659 !important;
+    }
+
+    .totall {
+      font-weight: 500 !important;
+      color: #484848 !important;
+    }
+  }
+}
+
+
+.lightGray_{
+    background: #F9F9F9 !important;
+}
+
+.darkGray_{
+    background: #F4F4F4 !important;
+}

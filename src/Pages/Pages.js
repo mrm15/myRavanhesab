@@ -22,6 +22,7 @@ import RequestDemo from "../Components/RequestDemo/RequestDemo";
 import {AuthProvider} from "../Components/Auth/auth";
 import Profile from "../Components/Profile";
 import RequireAuth from "../Components/Auth/RequireAuth";
+import MainDashboard from '../Components/MainDashboard/MainDashboard';
 
 
 const Pages = () => {
@@ -87,6 +88,9 @@ const Pages = () => {
           // }
           element={<RequireAuth><MainPage/></RequireAuth>}
         >
+
+          <Route path="/" element={<MainDashboard/>}/>
+         <Route path="Dashboard" element={<MainDashboard/>}/>
           <Route path="/" element={<RequireAuth><Dashboard/></RequireAuth>}/>
           <Route path="Dashboard" element={<Dashboard/>}/>
           <Route path="selectedProductType" element={<RequireAuth><SelectedProductType/></RequireAuth>}/>
@@ -113,7 +117,7 @@ const Pages = () => {
           {/*</Route>*/}
 
         </Route>
-        <Route path="*" element={<Page_404/>}/>
+        {/* <Route path="*" element={<Page_404/>}/> */}
       </Routes>
 
     </AuthProvider>

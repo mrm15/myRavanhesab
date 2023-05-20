@@ -1,0 +1,62 @@
+.Price_wrapper_ {
+  display: flex;
+  flex-direction: column;
+  padding: 9px;
+  background: #f4f4f4;
+  border-radius: 10px;
+  height: 40px;
+
+  svg{
+    cursor: pointer;
+  }
+
+  .Price_wrapper_top{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .item_checkbox {
+    display: flex;
+    justify-content: flex-start;
+    column-gap: 18px;
+    align-items: center;
+
+    span {
+      font-family: "IranSans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      text-align: right;
+      color: #484848;
+    }
+  }
+
+  .item_price_ {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 12px;
+
+    span {
+      font-family: "IranSans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+      text-align: right;
+      color: #484848;
+    }
+  }
+}
+
+.Price_wrapper_active{
+    transition: all 0.3s ease-in-out;
+    height: 500px;
+
+    svg{
+        transition: all 0.3s ease-in-out;
+        transform: rotate(-180deg);
+    }
+}

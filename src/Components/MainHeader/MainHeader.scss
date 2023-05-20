@@ -1,0 +1,33 @@
+.header_wrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: auto;
+  padding-top: 23px;
+  width: 80%;
+  column-gap: 60px;
+
+  .tabs__parent {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 60px;
+    margin-bottom: 0 !important;
+
+    .tabs_li {
+      font-family: "IranSans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 19px;
+      text-align: justify;
+      color: #484848;
+      cursor: pointer;
+    }
+  }
+}
+
+.tabs_active {
+  color: #009360 !important;
+  font-weight: 700;
+}
