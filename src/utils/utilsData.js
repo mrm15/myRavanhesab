@@ -11,8 +11,8 @@ export const addApiUrlToLocalStorage = () => {
     );
   } else {
     localStorage.setItem("apiUrl",
-      // "http://localhost/Git/myRavanhesab"
-      "https://my.ravanhesab.com/myRavanhesab/"
+      "http://localhost/myRavanhesabBackend"
+      // "https://my.ravanhesab.com/myRavanhesab/"
 
     );
   }
