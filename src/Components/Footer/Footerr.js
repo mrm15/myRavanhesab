@@ -296,7 +296,7 @@ const Footerr = () => {
               <img className="responsi" src={responsi} />
               <img className="respons" src={respons} />
               <div className="image-mobile">
-                <img src="./image/2374 copy 1.png" />
+                <img src={imagemobile} />
               </div>
               <div className="span-circle">
                 <span>برنامه روان حساب روی همه کامپیوترهای ویندوزی، مک و همه گوشی‌ها و تبلت‌های اندروید یا iOS قابل نصب است.</span>
