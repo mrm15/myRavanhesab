@@ -7,7 +7,7 @@ const RequireAuth = ({children}) => {
   const location = useLocation()
   const navigateTo = useNavigate()
   const auth = useAuth();
-  debugger
+  
   if (!auth.user) {
     return <Navigate to={"/login"} state={{path: location.pathname}}/>
   }

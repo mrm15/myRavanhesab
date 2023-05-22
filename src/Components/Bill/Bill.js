@@ -69,14 +69,14 @@ const Bill = (target, source) => {
   }
 
   function payButtonHandler() {
-    debugger
+    
     setPayButtonActive(false);
     const ax = axios.get(prefixUrl + "getPaymentGatewayLink/?billId=" + billData.billId).then(r => {
-      // debugger
+      // 
       console.log(r.data)
-      // debugger
+      // 
       if (r.data.status) {
-        debugger
+        
         const url = r.data.link;
         toast.info(r.data.message)
         window.location.assign(url)

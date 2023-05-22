@@ -15,7 +15,7 @@
     "react-toastify": "^9.1.1",
     "sahel-font": "^3.4.0",
     "sass": "^1.62.1",
-    "sweetalert2": "^11.7.0",
+    "sweetalert2": "^11.7.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

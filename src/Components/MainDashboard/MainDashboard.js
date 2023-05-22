@@ -6,36 +6,35 @@ import TitleBox from "../TitleBox/TitleBox";
 import PriceSection from "../PriceSection/PriceSection";
 import axios from "axios";
 import Footerr from "../Footer/Footerr";
+import Swal from 'sweetalert2';
+
 
 const MainDashboard = () => {
+  const [prices, setPrices] = useState({
+    priceUnderNumberOfUser: 0,
+    priceUnderNumberOfAPK: 0,
+  });
   const [state, setState] = useState("windows");
   const [data, setData] = useState([]);
   const cardSelector = useRef();
   const [cardData, setCardData] = useState("1");
   const [listItem, setListItem] = useState([]);
   const [idSelector, setIdSelector] = useState(0);
-  const [time, timeSetter] = useState("1");
+  const [time, timeSetter] = useState("price_1");
+  const [totalPrice, setTotalPrice] = useState(0);
   const [apkSelector, setApkSelector] = useState("1");
   //   const [sale, setSale] = useState(0);
   //   const [tax, setTax] = useState(0);
-  const [updateSelector, setUpdateSelector] = useState([]);
-  const updatePrices = useRef();
-  const [userApk, setUserApk] = useState([]);
-  const [numberOfUsers, setNumberOfUsers] = useState();
-  const [sendData, setSendData] = useState({
-    numberOfUsers: "",
-    planTime: "oneMonth",
-    numberOfApk: "",
-  });
-  const [saveData, setSaveData] = useState([]);
 
-  //   useEffect(() => {
-  //     setSendData({
-  //       numberOfUsers: userApk,
-  //       planTime: time,
-  //       numberOfApk: apkSelector,
-  //     });
-  //   }, [sendData, time, apkSelector, userApk]);
+  const [userOption, setUserOption] = useState([]);
+  const [numberOfUsers, setNumberOfUsers] = useState(1);
+  // const [sendData, setSendData] = useState({
+  //   numberOfUsers: "",
+  //   planTime: "oneMonth",
+  //   numberOfApk: "",
+  // });
+  const [servicePrice, setServicePrice] = useState(0);
+  const [saveData, setSaveData] = useState([]);
 
   const clickHandler = (e) => {
     setCardData(e.currentTarget.id);
@@ -45,7 +44,16 @@ const MainDashboard = () => {
     }
     e.currentTarget.classList.add("softBoxActive_");
   };
+  const addCheckedItemsToSaveDataState = (data) => {
+    const temp = [];
+    data.forEach((singleItemObject) => {
+      if (singleItemObject.checked) {
+        temp.push(singleItemObject);
+      }
+    });
 
+    setSaveData(temp);
+  };
   useEffect(() => {
     axios
       .get(
@@ -53,11 +61,14 @@ const MainDashboard = () => {
       )
       .then((response) => {
         setListItem([...response.data.productData.items]);
-        setUserApk([...response.data.productData.userOptions]);
+        setUserOption([...response.data.productData.userOptions]);
+        addCheckedItemsToSaveDataState(response.data.productData.items);
+        setServicePrice(response.data.productData.serverPrice);
+        setNumberOfUsers(response.data.productData.userOptions[0].percent);
       });
   }, [cardData]);
 
-  console.log(userApk);
+  console.log(userOption);
 
   useEffect(() => {
     axios
@@ -70,19 +81,62 @@ const MainDashboard = () => {
   }, [state]);
 
   const timeSelector = (e) => {
-    timeSetter(e.target.value);
-    setIdSelector(0);
-    let prices = updatePrices.current.querySelectorAll(".item__");
-    console.log(prices);
-    if (prices) {
-      setIdSelector(0);
-      prices.forEach((item) => {
-        if (item.checked) {
-          debugger;
-          console.log(item.defaultValue);
-        }
-      });
+    const selectedTime = e.target.value;
+    timeSetter(selectedTime);
+  };
+  const updatePrices = () => {
+    let totalPrice = calculateTotalItemPrice(time);
+    let poshtibani = 1; // WILL FIX IT
+    let totalUserPrice =
+      (totalPrice + servicePrice + poshtibani) * (numberOfUsers / 100) * 2;
+    // اینجا باید یه چیزی که از بک میاد رو بگیرم و ست کنم و اینجا ضرب کنم
+    let totalAPKPrice = servicePrice * apkSelector;
+
+    const temp = { ...prices };
+    temp.priceUnderNumberOfAPK = totalAPKPrice;
+
+    temp.priceUnderNumberOfUser = totalUserPrice;
+
+    setPrices(temp);
+  };
+
+  const calculateTotalItemPrice = (selectedTime) => {
+    let totalItemPrice = 0;
+
+    saveData.forEach((item) => {
+      totalItemPrice += item[selectedTime];
+    });
+
+    return totalItemPrice;
+  };
+  const calculateSum = () => {
+    let totalPrice = 0;
+    const selectedTime = time;
+
+    let numberOfUsersPercentage = 1;
+    if (userOption !== undefined && userOption.length > 0) {
+      numberOfUsersPercentage = numberOfUsers;
     }
+
+    // i want to calculate sumOfCheked in items
+    let totalItemPrice = calculateTotalItemPrice(selectedTime);
+
+    let myNumberToCalulateData =
+      time === "price_1"
+        ? 12
+        : time === "price_2"
+        ? 4
+        : time === "price_3"
+        ? 2
+        : time === "price_4"
+        ? 1
+        : 1;
+    const serverPrice = 15 / myNumberToCalulateData;
+    const maintainsPrice = 15 / myNumberToCalulateData;
+    numberOfUsersPercentage = parseFloat(numberOfUsersPercentage);
+    totalPrice =
+      totalItemPrice + serverPrice + maintainsPrice + numberOfUsersPercentage;
+    setTotalPrice(totalPrice);
   };
 
   const numberOfUsersHandler = (e) => {
@@ -93,6 +147,55 @@ const MainDashboard = () => {
     setApkSelector(e.target.value);
   };
 
+  const myAwsomeChangeHandler = (e, myAwesomeObject) => {
+    
+    // console.log(myAwesomeObject);
+
+    if (e.target.checked) {
+
+      if (myAwesomeObject.prerequisite.length > 0) {
+      let dependeny = false;
+
+      let text = "";
+      myAwesomeObject.prerequisite.forEach((itemId) => {
+        const temp = [...saveData].filter((item) => item.itemId === itemId)[0];
+
+        if (temp === undefined) {
+          listItem.forEach((item) => {
+            if (item.itemId === itemId) {
+              text += `${item.itemTitle} `;
+              dependeny = true;
+            }
+          });
+        }
+        debugger;
+      });
+
+      if (dependeny) {
+        
+        Swal.fire(`${text}`)
+
+
+
+        e.target.checked=false
+        return;
+      }
+    }
+
+      setSaveData([...saveData, myAwesomeObject]);
+    } else {
+      const temp = [...saveData];
+      const result = temp.filter(
+        (item) => item.itemId !== myAwesomeObject.itemId
+      );
+      setSaveData(result);
+    }
+  };
+
+  useEffect(() => {
+    calculateSum();
+    updatePrices();
+  }, [numberOfUsers, time, userOption, apkSelector, saveData]);
   return (
     <div className="dashboard_wrapper">
       <MainHeader state={state} setState={setState} />
@@ -115,7 +218,7 @@ const MainDashboard = () => {
         ))}
       </div>
       <div className="cards_contents_parent">
-        <div className="cards_contents_right" ref={updatePrices}>
+        <div className="cards_contents_right">
           <div className="header_section">
             <span>سیستم‌ ها</span>
           </div>
@@ -125,65 +228,20 @@ const MainDashboard = () => {
               id={v.itemId}
               key={index}
               price={
-                time === "oneMonth"
+                time === "price_1"
                   ? v.price_1
-                  : time === "threeMonth"
+                  : time === "price_2"
                   ? v.price_2
-                  : time === "sixMonth"
+                  : time === "price_3"
                   ? v.price_3
-                  : time === "oneYear"
+                  : time === "price_4"
                   ? v.price_4
                   : v.price_5
               }
               title={v.itemTitle}
               disabled={v.active === false ? true : false}
-              checked={v.checkedb ? true : false}
-              changeHandler={(e) => {
-                // if(v.prerequistie !== []){
-                //     v.prerequistie.foreach((i) =>
-                //     listItem.filter(i === v.itemId)[0].itemId
-                //     )
-                // }
-                // let data = setUpdateSelector([
-                //   updateSelector,
-                //   { id: e.target.id },
-                // ]);
-
-                debugger;
-                let dataSave = [...saveData];
-                if (dataSave.length > 0) {
-                  dataSave.forEach((item) => {
-                    if (item.id === e.target.id) {
-                      setSaveData(
-                        dataSave.filter((item) => item.id !== e.target.id)
-                      );
-                    } else {
-                      setSaveData((prevState) => [
-                        ...prevState,
-                        {
-                          id: e.target.id,
-                          value: e.target.value,
-                          checked: e.target.checked,
-                        },
-                      ]);
-                    }
-                  });
-                } else if (dataSave.length === 0) {
-                  setSaveData((prevState) => [
-                    ...prevState,
-                    { 
-                      id: e.target.id,
-                      value: e.target.value,
-                      checked: e.target.checked,
-                    },
-                  ]);
-                  if (e.target.checked) {
-                    setIdSelector(idSelector + Number(e.target.value));
-                  } else {
-                    setIdSelector(idSelector - Number(e.target.value));
-                  }
-                }
-              }}
+              checked={v.checked ? true : false}
+              changeHandler={(e) => myAwsomeChangeHandler(e, v)}
             />
           ))}
         </div>
@@ -194,48 +252,52 @@ const MainDashboard = () => {
             </div>
             <div className="form_cards_content">
               <div className="price_parent">
-                <div className="selectBox_parent">
-                  <label htmlFor="userNumber">تعداد کاربر</label>
-                  <select id="userNumber" defaultValue={"nullSelect"}>
-                    <option
-                      value={"nullSelect"}
-                      disabled={true}
-                      onChange={numberOfUsersHandler}
-                    >
-                      اطلاعات خود را وارد کنید
-                    </option>
-                    {userApk.length > 0 &&
-                      userApk.map((item, index) => (
-                        <option value={item.percent} key={index}>
-                          {item.numberOfUsers}
+                {userOption !== undefined && userOption.length > 0 && (
+                  <>
+                    <div className="selectBox_parent">
+                      <label htmlFor="userNumber">تعداد کاربر</label>
+                      <select
+                        id="userNumber"
+                        value={numberOfUsers}
+                        onChange={numberOfUsersHandler}
+                      >
+                        <option value={"nullSelect"} disabled={true}>
+                          اطلاعات خود را وارد کنید
                         </option>
-                      ))}
-                  </select>
-                </div>
-                <span>قیمت : {idSelector} تومان</span>
+                        {userOption.length > 0 &&
+                          userOption.map((item, index) => (
+                            <option value={item.percent} key={index}>
+                              {item.numberOfUsers}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    <span>قیمت : {prices.priceUnderNumberOfUser} تومان</span>
+                  </>
+                )}
               </div>
               <div className="price_parent">
                 <div className="selectBox_parent">
                   <label htmlFor="chosenTime">انتخاب زمان </label>
                   <select
                     id="chosenTime"
-                    defaultValue={"1"}
+                    defaultValue={"price_1"}
                     onChange={timeSelector}
                   >
-                    <option value={"oneMonth"}> یک ماهه</option>
-                    <option value={"threeMonth"}>سه ماهه</option>
-                    <option value={"sixMonth "}> شش ماهه</option>
-                    <option value={"oneYear"}>یک ساله</option>
-                    <option value={"always"}>دائمی</option>
+                    <option value={"price_1"}> یک ماهه</option>
+                    <option value={"price_2"}>سه ماهه</option>
+                    <option value={"price_3"}> شش ماهه</option>
+                    <option value={"price_4"}>یک ساله</option>
+                    <option value={"price_5"}>دائمی</option>
                   </select>
                 </div>
-                {/* <span>قیمت : 0 تومان</span> */}
               </div>
 
               <div className="price_parent">
                 <div className="selectBox_parent">
                   <label htmlFor="chosenTime">تعداد apk</label>
                   <select
+                    value={apkSelector}
                     id="chosenNumber"
                     defaultValue={"1"}
                     onChange={changeHandlerApk}
@@ -252,7 +314,7 @@ const MainDashboard = () => {
                     <option value={"10"}>10</option>
                   </select>
                 </div>
-                <span>قیمت : {Number(apkSelector) * idSelector} تومان</span>
+                <span>قیمت : {prices.priceUnderNumberOfAPK} تومان</span>
               </div>
             </div>
           </div>
@@ -276,7 +338,7 @@ const MainDashboard = () => {
                 </div>
                 <div className="totall_price">
                   <span> جمع کل :</span>
-                  <span className="totall">600,000 تومان</span>
+                  <span className="totall">{totalPrice}</span>
                 </div>
               </div>
             </div>

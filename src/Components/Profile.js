@@ -7,7 +7,7 @@ const Profile = () => {
 
   const navigateTo = useNavigate()
   const auth = useAuth()
-  debugger
+  
 
   function handleLogout() {
     auth.logOut()

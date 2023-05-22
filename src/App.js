@@ -68,14 +68,14 @@ axios.interceptors.response.use(
   },
   (error) => {
 
-    // debugger
+    // 
     if (error.response) {
-      // debugger
+      // 
       if (error.response.status === 401
         // && (window.location.pathname !== '/Login' || window.location.pathname)
       ) {
 
-        debugger
+         
         sessionStorage.clear()
         localStorage.clear()
         // NavigateTo("login")

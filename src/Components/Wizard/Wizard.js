@@ -40,7 +40,7 @@ const Wizard = () => {
   const [isAnythingToShow, setIsAnythingToShow] = useState(false)
   const location = useLocation();
   useEffect(() => {
-    debugger
+    
     if (location.state) {
       data.billId = location.state.billId;
       data.productId = location.state.productId;

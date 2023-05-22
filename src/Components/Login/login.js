@@ -60,12 +60,12 @@ const Login = (props) => {
         // if yes  so set userLogin True in session storage
 
 
-        debugger
+        
         const token = localStorage.getItem("token");
         const tempToken = sessionStorage.getItem("isUserLoggedIn");
 
         if (tempToken === "yes") {
-          debugger
+          
           auth.login(true)
           navigateTo(redirectPath, {replace: true})
 
@@ -128,7 +128,7 @@ const Login = (props) => {
         toast.error(tr.enter_mobile)
         return
       }
-      // debugger
+      // 
       if (registerFormData.phone_number.length !== 11 || registerFormData.phone_number[0] !== "0") {
         toast.error(tr.enter_a_valid_phone_number)
         return
@@ -218,7 +218,7 @@ const Login = (props) => {
         // console.log(r.data)
         if (r.data.status) {
           toast.success(r.data.message)
-          // debugger
+          // 
           localStorage.setItem("token", r.data.token);
           sessionStorage.setItem("", "yes");
           const redirectPath = myLocation.state?.path || '/profile'
@@ -240,7 +240,7 @@ const Login = (props) => {
       // setShowLoginFromSection(false)
       // setShowLoginCodeSection(true)
       // setCurrentStatus("loginForm")
-      // debugger
+      // 
 
     };
 
@@ -260,7 +260,7 @@ const Login = (props) => {
 
     }
     const OnKeyUpCode = (event) => {
-      // debugger
+      // 
       if (event.target.value.length > 1) {
         event.target.value = event.target.value[0]
       }
