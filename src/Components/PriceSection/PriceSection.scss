@@ -6,11 +6,11 @@
   border-radius: 10px;
   height: 40px;
 
-  svg{
+  svg {
     cursor: pointer;
   }
 
-  .Price_wrapper_top{
+  .Price_wrapper_top {
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -51,12 +51,12 @@
   }
 }
 
-.Price_wrapper_active{
-    transition: all 0.3s ease-in-out;
-    height: 500px;
+.Price_wrapper_active {
+  transition: all 0.3s ease-in-out;
+  height: 500px;
 
-    svg{
-        transition: all 0.3s ease-in-out;
-        transform: rotate(-180deg);
-    }
+  svg {
+    transition: all 0.3s ease-in-out;
+    transform: rotate(-180deg);
+  }
 }

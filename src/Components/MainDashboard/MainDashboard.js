@@ -5,6 +5,7 @@ import { carwash } from "../../Assets/js/images";
 import TitleBox from "../TitleBox/TitleBox";
 import PriceSection from "../PriceSection/PriceSection";
 import axios from "axios";
+import numeric from "../utils/NumericFunction";
 
 const MainDashboard = () => {
   const [state, setState] = useState("windows");
@@ -121,9 +122,10 @@ const MainDashboard = () => {
                 // if(v.prerequistie !== []){
                 //     v.prerequistie.foreach((i) =>
                 //     listItem.filter(i === v.itemId)[0].itemId
-                //     )
+                //     )    
                 // }
-                setUpdateSelector({id:e.target.id})
+                let data = setUpdateSelector([updateSelector,{id:e.target.id}])
+                console.log(data);
                 if (e.target.checked){
                   setIdSelector(idSelector + Number(e.target.value));
                 } else {
@@ -203,7 +205,7 @@ const MainDashboard = () => {
                   <span>قیمت کل :</span>
                   <span>{idSelector} تومان</span>
                 </div>
-                <div className="totall_price">
+                {/* <div className="totall_price">
                   <span> تخـفـیـف : </span>
                   <span className="discount_">600,000 تومان</span>
                 </div>
@@ -214,7 +216,7 @@ const MainDashboard = () => {
                 <div className="totall_price">
                   <span> جمع کل :</span>
                   <span className="totall">600,000 تومان</span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
