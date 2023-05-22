@@ -5,7 +5,7 @@ import { carwash } from "../../Assets/js/images";
 import TitleBox from "../TitleBox/TitleBox";
 import PriceSection from "../PriceSection/PriceSection";
 import axios from "axios";
-import numeric from "../utils/NumericFunction";
+import Footerr from '../Footer/Footerr';
 
 const MainDashboard = () => {
   const [state, setState] = useState("windows");
@@ -222,6 +222,7 @@ const MainDashboard = () => {
           </div>
         </div>
       </div>
+      <Footerr />
     </div>
   );
 };
