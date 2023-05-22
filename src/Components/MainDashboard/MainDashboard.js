@@ -5,7 +5,7 @@ import { carwash } from "../../Assets/js/images";
 import TitleBox from "../TitleBox/TitleBox";
 import PriceSection from "../PriceSection/PriceSection";
 import axios from "axios";
-import Footerr from '../Footer/Footerr';
+import Footerr from "../Footer/Footerr";
 
 const MainDashboard = () => {
   const [state, setState] = useState("windows");
@@ -27,14 +27,15 @@ const MainDashboard = () => {
     planTime: "oneMonth",
     numberOfApk: "",
   });
+  const [saveData, setSaveData] = useState([]);
 
-//   useEffect(() => {
-//     setSendData({
-//       numberOfUsers: userApk,
-//       planTime: time,
-//       numberOfApk: apkSelector,
-//     });
-//   }, [sendData, time, apkSelector, userApk]);
+  //   useEffect(() => {
+  //     setSendData({
+  //       numberOfUsers: userApk,
+  //       planTime: time,
+  //       numberOfApk: apkSelector,
+  //     });
+  //   }, [sendData, time, apkSelector, userApk]);
 
   const clickHandler = (e) => {
     setCardData(e.currentTarget.id);
@@ -143,15 +144,44 @@ const MainDashboard = () => {
                 //     listItem.filter(i === v.itemId)[0].itemId
                 //     )
                 // }
-                let data = setUpdateSelector([
-                  updateSelector,
-                  { id: e.target.id },
-                ]);
-                console.log(data);
-                if (e.target.checked) {
-                  setIdSelector(idSelector + Number(e.target.value));
-                } else {
-                  setIdSelector(idSelector - Number(e.target.value));
+                // let data = setUpdateSelector([
+                //   updateSelector,
+                //   { id: e.target.id },
+                // ]);
+
+                debugger;
+                let dataSave = [...saveData];
+                if (dataSave.length > 0) {
+                  dataSave.forEach((item) => {
+                    if (item.id === e.target.id) {
+                      setSaveData(
+                        dataSave.filter((item) => item.id !== e.target.id)
+                      );
+                    } else {
+                      setSaveData((prevState) => [
+                        ...prevState,
+                        {
+                          id: e.target.id,
+                          value: e.target.value,
+                          checked: e.target.checked,
+                        },
+                      ]);
+                    }
+                  });
+                } else if (dataSave.length === 0) {
+                  setSaveData((prevState) => [
+                    ...prevState,
+                    { 
+                      id: e.target.id,
+                      value: e.target.value,
+                      checked: e.target.checked,
+                    },
+                  ]);
+                  if (e.target.checked) {
+                    setIdSelector(idSelector + Number(e.target.value));
+                  } else {
+                    setIdSelector(idSelector - Number(e.target.value));
+                  }
                 }
               }}
             />
@@ -160,7 +190,7 @@ const MainDashboard = () => {
         <div className="cards_contents_left">
           <div className="cards_contents_left_top">
             <div className="header_section">
-              <span>امکانات جانبی</span>
+              <span onClick={console.log(saveData)}>امکانات جانبی</span>
             </div>
             <div className="form_cards_content">
               <div className="price_parent">
@@ -174,11 +204,12 @@ const MainDashboard = () => {
                     >
                       اطلاعات خود را وارد کنید
                     </option>
-                    {userApk.map((item, index) => (
-                      <option value={item.percent} key={index}>
-                        {item.numberOfUsers}
-                      </option>
-                    ))}
+                    {userApk.length > 0 &&
+                      userApk.map((item, index) => (
+                        <option value={item.percent} key={index}>
+                          {item.numberOfUsers}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 <span>قیمت : {idSelector} تومان</span>
