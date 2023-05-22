@@ -1,22 +1,36 @@
 import { useState } from "react";
 import "./PriceSection.scss";
 
-const PriceSection = (props) => { 
-    const [open, setOpen] = useState(false);
+const PriceSection = (props) => {
+  const [open, setOpen] = useState(false);
 
-    const clickHandler = () => {
-        setOpen(!open);
-    }
+  const clickHandler = () => {
+    setOpen(!open);
+  };
 
   return (
-    <div className={ open ? "Price_wrapper_ Price_wrapper_active" :`Price_wrapper_ ${props.className}` } id={props.id}>
+    <div
+      className={
+        open
+          ? "Price_wrapper_ Price_wrapper_active"
+          : `Price_wrapper_ ${props.className}`
+      }
+    >
       <div className="Price_wrapper_top">
         <div className="item_checkbox">
-          <input type="checkbox" />
-          <span>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</span>
+          <input
+            className="item__"
+            type="checkbox"
+            value={props.price}
+            id={props.id}
+            onChange={props.changeHandler}
+            defaultChecked={props.checked}
+            disabled={props.disabled}
+          />
+          <label htmlFor={props.id}>{props.title}</label>
         </div>
         <div className="item_price_">
-          <span>6,500,000 تومان</span>
+          <span>{props.price} تومان</span>
           <svg
             onClick={clickHandler}
             width="16"

@@ -1,24 +1,19 @@
 // import { useState } from 'react';
 import './MainHeader.scss';
-import axios from 'axios';
+import { useRef } from 'react';
 
-const MainHeader = () => {
-    // const [active, setActive] = useState(false);
+const MainHeader = (props) => {
 
-    const clickHandler = (e) => {
-    //    setActive(!active);
-       localStorage.setItem('NavId', e.target.id);
-       let localData = localStorage.getItem("NavId")
-  
-         axios
-           .get(
-             `http://localhost/myRavanhesabBackend/getRavanhesabProducts/platform=${localData}?`
-           )
-           .then((response) => {
-             console.log(response);
-           });
-     
+  const navSelector = useRef();
+
+  const clickHandler = (e) => {
+    props.setState(e.currentTarget.id);
+    let activeChild = navSelector.current.querySelector(".tabs_active");
+    if (activeChild) {
+      activeChild.classList.remove("tabs_active");
     }
+    e.currentTarget.classList.add("tabs_active");
+  }
 
   return (
     <div className="header_wrapper">
@@ -67,7 +62,7 @@ const MainHeader = () => {
         />
       </svg>
 
-      <ul className="tabs__parent">
+      <ul className="tabs__parent" ref={navSelector}>
         <li  className={'tabs_li'}  onClick={clickHandler} id='windows'>نرم افزارهای ویندوزی</li>
         <li  className={'tabs_li'}  onClick={clickHandler} id='web'>نرم افزارهای تحت وب</li>
       </ul>

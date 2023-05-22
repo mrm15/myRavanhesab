@@ -349,8 +349,8 @@ const Wizard = () => {
           {IranProvince.province.map(v =>
             <option value={v.value}>{v.label}</option>
           )}
-          )
-          }
+          {/* )
+          } */}
         </select>
         {/* اگه یه روز گفتن بیا برگرد به همون حالت سابق و به جای سلکت آپشن اینپوت باکس بزار کافیه این خط ها رو از کامنتی دربیاری و تمام*/}
         {/*<Input className={"w-100 my-2   bg__white"} id={"province"} placeholder={"نام استان را وارد کنید"} type="text"*/}

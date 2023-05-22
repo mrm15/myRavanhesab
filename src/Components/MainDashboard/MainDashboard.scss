@@ -5,6 +5,8 @@
   padding-bottom: 10%;
   background: #ffffff;
 
+
+
   .sub_header_ {
     display: flex;
     flex-direction: column;
@@ -27,8 +29,16 @@
       font-weight: 400;
       font-size: 12px;
       line-height: 19px;
-      text-align: justify;
+      text-align: center;
       color: $darKgray;
+
+      @media (max-width:738px) {
+        font-size: 10px;
+      }
+
+      @media (max-width:600px) {
+        width: 90%;
+      }
     }
   }
 
@@ -41,6 +51,12 @@
     column-gap: 18px;
     row-gap: 20px;
     flex-wrap: wrap;
+
+    @media (max-width:800px) {
+      width: 90%;
+    }
+
+
   }
 
   .cards_contents_parent {
@@ -51,11 +67,24 @@
     justify-content: space-between;
     align-items: flex-start;
 
+    @media (max-width:800px) {
+      width: 90%;
+    }
+
+    @media (max-width:738px) {
+      flex-direction: column;
+      row-gap: 20px;
+    }
+
     .cards_contents_right {
       width: 65%;
       display: flex;
       row-gap: 5px;
       flex-direction: column;
+
+      @media (max-width:738px) {
+        width: 100%;
+      }
     }
 
     .cards_contents_left {
@@ -63,6 +92,13 @@
       display: flex;
       row-gap: 5px;
       flex-direction: column;
+
+      @media (max-width:738px) {
+        width: 100%;
+        flex-direction: row;
+        row-gap: 10px;
+        column-gap: 10px;
+      }
     }
 
     .header_section {
@@ -201,6 +237,50 @@
     .totall {
       font-weight: 500 !important;
       color: #484848 !important;
+    }
+  }
+
+  .price_parent_choose{
+    span{
+      font-family: "IranSans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 19px;
+      text-align: right;
+      color: #b9b9b9;
+      padding-right: 5px;
+    }
+  }
+
+  .choose_apps{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ._chosen_box{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      column-gap: 10px;
+
+ 
+
+      input{
+        &:checked{
+          background-color: orangered;
+        }
+      }
+
+      label{
+        font-family: 'IranSans';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 19px;        
+        text-align: right;
+        color: #646464;
+      }
     }
   }
 }

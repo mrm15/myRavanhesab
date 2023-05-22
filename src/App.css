@@ -473,13 +473,13 @@ ul {
 
 .form__control__check__box {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
 }
 
 .form__control__check__box input[type='checkbox'] {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: center;
     margin-left: 5px;
     height: 30px;
@@ -766,7 +766,7 @@ ul.w_770 li.nav-item button.nav-link.active {
 
 .footer__head__before__ul {
     flex-flow: row wrap;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 .footer__head__before__ul ul li a {

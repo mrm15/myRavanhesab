@@ -7,6 +7,14 @@
   width: 80%;
   column-gap: 60px;
 
+  @media (max-width:600px) {
+    width: 90%;
+  }
+
+  ul{
+    padding-left: 0 !important;
+  }
+
   .tabs__parent {
     display: flex;
     justify-content: flex-start;
