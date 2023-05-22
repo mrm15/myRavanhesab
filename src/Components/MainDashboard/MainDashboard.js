@@ -15,13 +15,26 @@ const MainDashboard = () => {
   const [listItem, setListItem] = useState([]);
   const [idSelector, setIdSelector] = useState(0);
   const [time, timeSetter] = useState("1");
-  const [apkSelector, setApkSelector] = useState('1');
-//   const [sale, setSale] = useState(0);
-//   const [tax, setTax] = useState(0);
+  const [apkSelector, setApkSelector] = useState("1");
+  //   const [sale, setSale] = useState(0);
+  //   const [tax, setTax] = useState(0);
   const [updateSelector, setUpdateSelector] = useState([]);
   const updatePrices = useRef();
-//   console.log(updatePrices.current);
+  const [userApk, setUserApk] = useState([]);
+  const [numberOfUsers, setNumberOfUsers] = useState();
+  const [sendData, setSendData] = useState({
+    numberOfUsers: "",
+    planTime: "oneMonth",
+    numberOfApk: "",
+  });
 
+//   useEffect(() => {
+//     setSendData({
+//       numberOfUsers: userApk,
+//       planTime: time,
+//       numberOfApk: apkSelector,
+//     });
+//   }, [sendData, time, apkSelector, userApk]);
 
   const clickHandler = (e) => {
     setCardData(e.currentTarget.id);
@@ -39,8 +52,11 @@ const MainDashboard = () => {
       )
       .then((response) => {
         setListItem([...response.data.productData.items]);
+        setUserApk([...response.data.productData.userOptions]);
       });
   }, [cardData]);
+
+  console.log(userApk);
 
   useEffect(() => {
     axios
@@ -54,24 +70,27 @@ const MainDashboard = () => {
 
   const timeSelector = (e) => {
     timeSetter(e.target.value);
-    setIdSelector(0)
-    let prices = updatePrices.current.querySelectorAll('.item__')
+    setIdSelector(0);
+    let prices = updatePrices.current.querySelectorAll(".item__");
     console.log(prices);
-    if(prices){
-        setIdSelector(0)
-        prices.forEach((item) => {
-            if(item.checked){
-                debugger
-                console.log(item.defaultValue);
-            }
+    if (prices) {
+      setIdSelector(0);
+      prices.forEach((item) => {
+        if (item.checked) {
+          debugger;
+          console.log(item.defaultValue);
         }
-        );
+      });
     }
   };
 
+  const numberOfUsersHandler = (e) => {
+    setNumberOfUsers(e.target.value);
+  };
+
   const changeHandlerApk = (e) => {
-      setApkSelector(e.target.value);
-  }
+    setApkSelector(e.target.value);
+  };
 
   return (
     <div className="dashboard_wrapper">
@@ -105,13 +124,13 @@ const MainDashboard = () => {
               id={v.itemId}
               key={index}
               price={
-                time === "1"
+                time === "oneMonth"
                   ? v.price_1
-                  : time === "2"
+                  : time === "threeMonth"
                   ? v.price_2
-                  : time === "3"
+                  : time === "sixMonth"
                   ? v.price_3
-                  : time === "4"
+                  : time === "oneYear"
                   ? v.price_4
                   : v.price_5
               }
@@ -122,16 +141,19 @@ const MainDashboard = () => {
                 // if(v.prerequistie !== []){
                 //     v.prerequistie.foreach((i) =>
                 //     listItem.filter(i === v.itemId)[0].itemId
-                //     )    
+                //     )
                 // }
-                let data = setUpdateSelector([updateSelector,{id:e.target.id}])
+                let data = setUpdateSelector([
+                  updateSelector,
+                  { id: e.target.id },
+                ]);
                 console.log(data);
-                if (e.target.checked){
+                if (e.target.checked) {
                   setIdSelector(idSelector + Number(e.target.value));
                 } else {
                   setIdSelector(idSelector - Number(e.target.value));
                 }
-              }} 
+              }}
             />
           ))}
         </div>
@@ -145,12 +167,21 @@ const MainDashboard = () => {
                 <div className="selectBox_parent">
                   <label htmlFor="userNumber">تعداد کاربر</label>
                   <select id="userNumber" defaultValue={"nullSelect"}>
-                    <option value={"nullSelect"} disabled={true}>
+                    <option
+                      value={"nullSelect"}
+                      disabled={true}
+                      onChange={numberOfUsersHandler}
+                    >
                       اطلاعات خود را وارد کنید
                     </option>
+                    {userApk.map((item, index) => (
+                      <option value={item.percent} key={index}>
+                        {item.numberOfUsers}
+                      </option>
+                    ))}
                   </select>
                 </div>
-                <span>قیمت : 0 تومان</span>
+                <span>قیمت : {idSelector} تومان</span>
               </div>
               <div className="price_parent">
                 <div className="selectBox_parent">
@@ -160,14 +191,14 @@ const MainDashboard = () => {
                     defaultValue={"1"}
                     onChange={timeSelector}
                   >
-                    <option value={"1"}> یک ماهه</option>
-                    <option value={"2"}>سه ماهه</option>
-                    <option value={"3"}> شش ماهه</option>
-                    <option value={"4"}>یک ساله</option>
-                    <option value={"5"}>دائمی</option>
+                    <option value={"oneMonth"}> یک ماهه</option>
+                    <option value={"threeMonth"}>سه ماهه</option>
+                    <option value={"sixMonth "}> شش ماهه</option>
+                    <option value={"oneYear"}>یک ساله</option>
+                    <option value={"always"}>دائمی</option>
                   </select>
                 </div>
-                <span>قیمت : 0 تومان</span>
+                {/* <span>قیمت : 0 تومان</span> */}
               </div>
 
               <div className="price_parent">
@@ -190,9 +221,8 @@ const MainDashboard = () => {
                     <option value={"10"}>10</option>
                   </select>
                 </div>
-                <span>قیمت : {(Number(apkSelector)*idSelector)}  تومان</span>
+                <span>قیمت : {Number(apkSelector) * idSelector} تومان</span>
               </div>
-
             </div>
           </div>
           <div className="cards_contents_left_bottom">
@@ -205,7 +235,7 @@ const MainDashboard = () => {
                   <span>قیمت کل :</span>
                   <span>{idSelector} تومان</span>
                 </div>
-                {/* <div className="totall_price">
+                <div className="totall_price">
                   <span> تخـفـیـف : </span>
                   <span className="discount_">600,000 تومان</span>
                 </div>
@@ -216,7 +246,7 @@ const MainDashboard = () => {
                 <div className="totall_price">
                   <span> جمع کل :</span>
                   <span className="totall">600,000 تومان</span>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
