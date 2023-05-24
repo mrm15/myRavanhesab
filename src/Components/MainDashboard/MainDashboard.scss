@@ -4,8 +4,6 @@
   width: 100%;
   background: #ffffff;
 
-
-
   .sub_header_ {
     display: flex;
     flex-direction: column;
@@ -31,11 +29,11 @@
       text-align: center;
       color: $darKgray;
 
-      @media (max-width:738px) {
+      @media (max-width: 738px) {
         font-size: 10px;
       }
 
-      @media (max-width:600px) {
+      @media (max-width: 600px) {
         width: 90%;
       }
     }
@@ -51,11 +49,9 @@
     row-gap: 20px;
     flex-wrap: wrap;
 
-    @media (max-width:800px) {
+    @media (max-width: 800px) {
       width: 90%;
     }
-
-
   }
 
   .cards_contents_parent {
@@ -66,11 +62,11 @@
     justify-content: space-between;
     align-items: flex-start;
 
-    @media (max-width:800px) {
+    @media (max-width: 800px) {
       width: 90%;
     }
 
-    @media (max-width:738px) {
+    @media (max-width: 738px) {
       flex-direction: column;
       row-gap: 20px;
     }
@@ -81,7 +77,7 @@
       row-gap: 5px;
       flex-direction: column;
 
-      @media (max-width:738px) {
+      @media (max-width: 738px) {
         width: 100%;
       }
     }
@@ -92,7 +88,7 @@
       row-gap: 5px;
       flex-direction: column;
 
-      @media (max-width:738px) {
+      @media (max-width: 738px) {
         width: 100%;
         flex-direction: row;
         row-gap: 10px;
@@ -156,8 +152,6 @@
         line-height: 19px;
         text-align: right;
         color: $darKgray;
-
-        
 
         option {
           font-family: "IranSans";
@@ -241,8 +235,8 @@
     }
   }
 
-  .price_parent_choose{
-    span{
+  .price_parent_choose {
+    span {
       font-family: "IranSans";
       font-style: normal;
       font-weight: 400;
@@ -254,63 +248,71 @@
     }
   }
 
-  .choose_apps{
+  .choose_apps {
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    ._chosen_box{
+    ._chosen_box {
       display: flex;
       justify-content: flex-start;
       align-items: center;
       column-gap: 10px;
 
- 
-
-      input{
-        &:checked{
+      input {
+        &:checked {
           background-color: orangered;
         }
       }
 
-      label{
-        font-family: 'IranSans';
+      label {
+        font-family: "IranSans";
         font-style: normal;
         font-weight: 400;
         font-size: 12px;
-        line-height: 19px;        
+        line-height: 19px;
         text-align: right;
         color: #646464;
       }
     }
-
   }
 
-  .extra_costs{
+  .extra_costs {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     padding: 5px;
 
-    label{
-      font-family: 'IranSans';
+    label {
+      font-family: "IranSans";
       font-style: normal;
       font-weight: 400;
       font-size: 12px;
-      line-height: 19px;        
+      line-height: 19px;
       text-align: right;
       color: #646464;
     }
-
   }
+
+}
+
+.lightGray_ {
+  background: #f9f9f9 !important;
+}
+
+.darkGray_ {
+  background: #f4f4f4 !important;
 }
 
 
-.lightGray_{
-    background: #F9F9F9 !important;
+.swal2-title {
+  padding: 3.8em 1em 0 !important;
+  font-size: 14px !important;
+
 }
 
-.darkGray_{
-    background: #F4F4F4 !important;
+.swal2-styled.swal2-confirm {
+  font-size: 12px !important;
 }
+

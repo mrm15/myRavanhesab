@@ -7,6 +7,7 @@ import PriceSection from "../PriceSection/PriceSection";
 import axios from "axios";
 import Footerr from "../Footer/Footerr";
 import Swal from "sweetalert2";
+import {   formatToPersianAddComma, parseToEnRemoveComma} from "../../Assets/utils/CommaSeprator";
 
 
 const MainDashboard = () => {
@@ -66,18 +67,12 @@ const MainDashboard = () => {
         setServicePrice(response.data.productData.serverPrice); //هزینه سرور
         setSupport(response.data.productData.supportPrice); //هزینه پشتیبانی
         if(response.data.productData.apkOptions === false){
-          debugger
-
           setApkOption(0);
         }else{
           setApkOption(response.data.productData.apkOptions); //هزینه apk
         }
-        debugger
         if (response.data.productData.userOptions.length === 0) {
           setNumberOfUsers(0);
-          // let temp = { ...prices };
-          // temp.priceUnderNumberOfUser = 0;
-          // setPrices(temp); 
         } else {
           setNumberOfUsers(response.data.productData.userOptions[0].percent); //درصد هزینه هر کاربر
         }
@@ -99,7 +94,7 @@ const MainDashboard = () => {
     timeSetter(selectedTime);
   };
   const updatePrices = () => {
-    let totalPrice = calculateTotalItemPrice(time);
+    let totalPrices = calculateTotalItemPrice(time);
     let myNumberToCalulateData =
       time === "price_1"
         ? 12
@@ -113,10 +108,9 @@ const MainDashboard = () => {
     const serverPrice = servicePrice / myNumberToCalulateData; //هزینه سرور
     const supportPrice = support / myNumberToCalulateData; //هزینه پشتبانی
     let totalUserPrice =
-      (totalPrice + serverPrice + supportPrice) * (numberOfUsers / 100); //درصد هزینه کاربر
+      ((totalPrices) + (serverPrice) + (supportPrice)) * (numberOfUsers / 100); //درصد هزینه کاربر
 
-    let totalAPKPrice = apkOption * apkSelector; //هزینه apk
-    // let sumPriceTotal = (totalPrice + serverPrice + supportPrice + totalUserPrice + totalAPKPrice);
+    let totalAPKPrice =(apkOption * apkSelector); //هزینه apk
     const temp = { ...prices };
     temp.priceUnderNumberOfAPK = totalAPKPrice; //هزینه apk
 
@@ -126,7 +120,6 @@ const MainDashboard = () => {
   };
 
   const calculateTotalItemPrice = (selectedTime) => {
-    // debugger
     let totalItemPrice = 0;
 
     saveData.forEach((item) => {
@@ -141,7 +134,6 @@ const MainDashboard = () => {
 
     let numberOfUsersPercentage = 0;
     if (userOption !== undefined && userOption.length > 0) {
-      // debugger
       numberOfUsersPercentage = numberOfUsers; //درصد هزینه کاربر
     }
 
@@ -165,9 +157,13 @@ const MainDashboard = () => {
       totalItemPrice +
       serverPrice +
       supportPrice +
-      (numberOfUsersPercentage / 100 )+
+      (Math.abs(prices.priceUnderNumberOfUser))+
       (apkOption * apkSelector);
-    setTotalPrice(totalPrice);
+    setTotalPrice((totalPrice));
+
+    //جمع کل
+    let someCumputedwithDiscount = ((totalPrice - discount) + ((totalPrice + discount)*(9/100)));
+     setTotalSum((someCumputedwithDiscount))
   };
 
   const numberOfUsersHandler = (e) => {
@@ -199,6 +195,20 @@ const MainDashboard = () => {
           }
         });
 
+        // start
+
+
+
+
+
+
+
+
+
+
+
+        
+        // end
         if (dependeny) {
           Swal.fire(`ابتدا باید آیتم  ${text}را انتخاب کنید `);
           e.target.checked = false;
@@ -219,7 +229,12 @@ const MainDashboard = () => {
   useEffect(() => {
     calculateSum();
     updatePrices();
+
   }, [numberOfUsers, time, userOption, apkSelector, saveData, apkOption]);
+  useEffect(() => {
+    calculateSum();
+  }, [prices]);
+
   return (
     <div className="dashboard_wrapper">
       <MainHeader state={state} setState={setState} />
@@ -253,14 +268,14 @@ const MainDashboard = () => {
               key={index}
               price={
                 time === "price_1"
-                  ? v.price_1
+                  ?formatToPersianAddComma(v.price_1)
                   : time === "price_2"
-                  ? v.price_2
+                  ? formatToPersianAddComma(v.price_2)
                   : time === "price_3"
-                  ? v.price_3
+                  ? formatToPersianAddComma(v.price_3)
                   : time === "price_4"
-                  ? v.price_4
-                  : v.price_5
+                  ? formatToPersianAddComma(v.price_4)
+                  : formatToPersianAddComma(v.price_5)
               }
               title={v.itemTitle}
               discription={v.itemDescription}
@@ -279,8 +294,8 @@ const MainDashboard = () => {
             </div>
             <div className="form_cards_content">
               <div className="extra_costs">
-                <label>هزینه سرور:{servicePrice} تومان</label>
-                <label>هزینه پشتیبانی: {support} تومان</label>
+                <label>هزینه سرور:{formatToPersianAddComma(servicePrice)} تومان</label>
+                <label>هزینه پشتیبانی: {formatToPersianAddComma(support)} تومان</label>
               </div>
               {userOption !== undefined && userOption.length > 0 && (
                 <div className="price_parent">
@@ -299,7 +314,7 @@ const MainDashboard = () => {
                         ))}
                     </select>
                   </div>
-                  <span>قیمت : {prices.priceUnderNumberOfUser} تومان</span>
+                  <span>قیمت : {formatToPersianAddComma(Math.abs(prices.priceUnderNumberOfUser))} تومان</span>
                 </div>
               )}
 
@@ -342,7 +357,7 @@ const MainDashboard = () => {
                       <option value={"10"}>10</option>
                     </select>
                   </div>
-                  <span>قیمت : {prices.priceUnderNumberOfAPK} تومان</span>
+                  <span>قیمت : {formatToPersianAddComma(prices.priceUnderNumberOfAPK)} تومان</span>
                 </div>
               )}
             </div>
@@ -355,19 +370,19 @@ const MainDashboard = () => {
               <div className="totallBox_">
                 <div className="totall_price">
                   <span>قیمت کل :</span>
-                  <span>{totalPrice} تومان</span>
+                  <span>{formatToPersianAddComma(totalPrice)} تومان</span>
                 </div>
-                <div className="totall_price">
+                {/* <div className="totall_price">
                   <span> تخـفـیـف : </span>
                   <span className="discount_">{discount}%</span>
-                </div>
+                </div> */}
                 <div className="totall_price">
                   <span> مالیات و عوارض :</span>
-                  <span>9%</span>
+                  <span>{formatToPersianAddComma(9)}%</span>
                 </div>
                 <div className="totall_price">
                   <span> جمع کل :</span>
-                  <span className="totall">{totalSum} تومان</span>
+                  <span className="totall">{formatToPersianAddComma(totalSum)} تومان</span>
                 </div>
               </div>
             </div>
