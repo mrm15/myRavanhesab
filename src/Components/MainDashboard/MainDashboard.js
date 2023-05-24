@@ -6,7 +6,7 @@ import TitleBox from "../TitleBox/TitleBox";
 import PriceSection from "../PriceSection/PriceSection";
 import axios from "axios";
 import Footerr from "../Footer/Footerr";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 
 const MainDashboard = () => {
@@ -17,17 +17,17 @@ const MainDashboard = () => {
   const [state, setState] = useState("windows");
   const [data, setData] = useState([]);
   const cardSelector = useRef();
-  const [cardData, setCardData] = useState("1");
+  const [cardData, setCardData] = useState();
   const [listItem, setListItem] = useState([]);
-  const [idSelector, setIdSelector] = useState(0);
   const [time, timeSetter] = useState("price_1");
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);//قیمت کل
+  const [totalSum, setTotalSum] = useState(0);//جمع کل
   const [apkSelector, setApkSelector] = useState("1");
-  //   const [sale, setSale] = useState(0);
-  //   const [tax, setTax] = useState(0);
-
+  const [support, setSupport] = useState(0);
+  const [apkOption, setApkOption] = useState(0);
   const [userOption, setUserOption] = useState([]);
-  const [numberOfUsers, setNumberOfUsers] = useState(1);
+  const [discount,setDiscount] = useState(0);//درصد تخفیف که بعدا قرار داده میشه
+  const [numberOfUsers, setNumberOfUsers] = useState(0);
   // const [sendData, setSendData] = useState({
   //   numberOfUsers: "",
   //   planTime: "oneMonth",
@@ -35,7 +35,7 @@ const MainDashboard = () => {
   // });
   const [servicePrice, setServicePrice] = useState(0);
   const [saveData, setSaveData] = useState([]);
-
+  
   const clickHandler = (e) => {
     setCardData(e.currentTarget.id);
     let activeChild = cardSelector.current.querySelector(".softBoxActive_");
@@ -60,15 +60,29 @@ const MainDashboard = () => {
         `http://localhost/myRavanhesabBackend/ravanhesabProductData/?productId=${cardData}`
       )
       .then((response) => {
-        setListItem([...response.data.productData.items]);
-        setUserOption([...response.data.productData.userOptions]);
-        addCheckedItemsToSaveDataState(response.data.productData.items);
-        setServicePrice(response.data.productData.serverPrice);
-        setNumberOfUsers(response.data.productData.userOptions[0].percent);
+        setListItem([...response.data.productData.items]); //لیست تمامی آیتم های هر محصول
+        setUserOption([...response.data.productData.userOptions]); //تعداد کاربران
+        addCheckedItemsToSaveDataState(response.data.productData.items); //لیست آیتم های تیک خورده
+        setServicePrice(response.data.productData.serverPrice); //هزینه سرور
+        setSupport(response.data.productData.supportPrice); //هزینه پشتیبانی
+        if(response.data.productData.apkOptions === false){
+          debugger
+
+          setApkOption(0);
+        }else{
+          setApkOption(response.data.productData.apkOptions); //هزینه apk
+        }
+        debugger
+        if (response.data.productData.userOptions.length === 0) {
+          setNumberOfUsers(0);
+          // let temp = { ...prices };
+          // temp.priceUnderNumberOfUser = 0;
+          // setPrices(temp); 
+        } else {
+          setNumberOfUsers(response.data.productData.userOptions[0].percent); //درصد هزینه هر کاربر
+        }
       });
   }, [cardData]);
-
-  console.log(userOption);
 
   useEffect(() => {
     axios
@@ -86,21 +100,33 @@ const MainDashboard = () => {
   };
   const updatePrices = () => {
     let totalPrice = calculateTotalItemPrice(time);
-    let poshtibani = 1; // WILL FIX IT
+    let myNumberToCalulateData =
+      time === "price_1"
+        ? 12
+        : time === "price_2"
+        ? 4
+        : time === "price_3"
+        ? 2
+        : time === "price_4"
+        ? 1
+        : 1;
+    const serverPrice = servicePrice / myNumberToCalulateData; //هزینه سرور
+    const supportPrice = support / myNumberToCalulateData; //هزینه پشتبانی
     let totalUserPrice =
-      (totalPrice + servicePrice + poshtibani) * (numberOfUsers / 100) * 2;
-    // اینجا باید یه چیزی که از بک میاد رو بگیرم و ست کنم و اینجا ضرب کنم
-    let totalAPKPrice = servicePrice * apkSelector;
+      (totalPrice + serverPrice + supportPrice) * (numberOfUsers / 100); //درصد هزینه کاربر
 
+    let totalAPKPrice = apkOption * apkSelector; //هزینه apk
+    // let sumPriceTotal = (totalPrice + serverPrice + supportPrice + totalUserPrice + totalAPKPrice);
     const temp = { ...prices };
-    temp.priceUnderNumberOfAPK = totalAPKPrice;
+    temp.priceUnderNumberOfAPK = totalAPKPrice; //هزینه apk
 
-    temp.priceUnderNumberOfUser = totalUserPrice;
+    temp.priceUnderNumberOfUser = totalUserPrice; //هزینه کاربر
 
     setPrices(temp);
   };
 
   const calculateTotalItemPrice = (selectedTime) => {
+    // debugger
     let totalItemPrice = 0;
 
     saveData.forEach((item) => {
@@ -111,15 +137,16 @@ const MainDashboard = () => {
   };
   const calculateSum = () => {
     let totalPrice = 0;
-    const selectedTime = time;
+    const selectedTime = time; //برای چند مدت انتخاب شده
 
-    let numberOfUsersPercentage = 1;
+    let numberOfUsersPercentage = 0;
     if (userOption !== undefined && userOption.length > 0) {
-      numberOfUsersPercentage = numberOfUsers;
+      // debugger
+      numberOfUsersPercentage = numberOfUsers; //درصد هزینه کاربر
     }
 
     // i want to calculate sumOfCheked in items
-    let totalItemPrice = calculateTotalItemPrice(selectedTime);
+    let totalItemPrice = calculateTotalItemPrice(selectedTime); //جمع تمامی آیتم های تیک خورده
 
     let myNumberToCalulateData =
       time === "price_1"
@@ -131,11 +158,15 @@ const MainDashboard = () => {
         : time === "price_4"
         ? 1
         : 1;
-    const serverPrice = 15 / myNumberToCalulateData;
-    const maintainsPrice = 15 / myNumberToCalulateData;
-    numberOfUsersPercentage = parseFloat(numberOfUsersPercentage);
+    const serverPrice = servicePrice / myNumberToCalulateData; //هزینه سرور
+    const supportPrice = support / myNumberToCalulateData; //هزینه پشتبانی
+    numberOfUsersPercentage = parseFloat(numberOfUsersPercentage); //درصد کاربر
     totalPrice =
-      totalItemPrice + serverPrice + maintainsPrice + numberOfUsersPercentage;
+      totalItemPrice +
+      serverPrice +
+      supportPrice +
+      (numberOfUsersPercentage / 100 )+
+      (apkOption * apkSelector);
     setTotalPrice(totalPrice);
   };
 
@@ -148,39 +179,32 @@ const MainDashboard = () => {
   };
 
   const myAwsomeChangeHandler = (e, myAwesomeObject) => {
-    
-    // console.log(myAwesomeObject);
-
     if (e.target.checked) {
-
       if (myAwesomeObject.prerequisite.length > 0) {
-      let dependeny = false;
+        let dependeny = false;
 
-      let text = "";
-      myAwesomeObject.prerequisite.forEach((itemId) => {
-        const temp = [...saveData].filter((item) => item.itemId === itemId)[0];
+        let text = "";
+        myAwesomeObject.prerequisite.forEach((itemId) => {
+          const temp = [...saveData].filter(
+            (item) => item.itemId === itemId
+          )[0];
 
-        if (temp === undefined) {
-          listItem.forEach((item) => {
-            if (item.itemId === itemId) {
-              text += `${item.itemTitle} `;
-              dependeny = true;
-            }
-          });
+          if (temp === undefined) {
+            listItem.forEach((item) => {
+              if (item.itemId === itemId) {
+                text += `${item.itemTitle}, `;
+                dependeny = true;
+              }
+            });
+          }
+        });
+
+        if (dependeny) {
+          Swal.fire(`ابتدا باید آیتم  ${text}را انتخاب کنید `);
+          e.target.checked = false;
+          return;
         }
-        debugger;
-      });
-
-      if (dependeny) {
-        
-        Swal.fire(`${text}`)
-
-
-
-        e.target.checked=false
-        return;
       }
-    }
 
       setSaveData([...saveData, myAwesomeObject]);
     } else {
@@ -195,7 +219,7 @@ const MainDashboard = () => {
   useEffect(() => {
     calculateSum();
     updatePrices();
-  }, [numberOfUsers, time, userOption, apkSelector, saveData]);
+  }, [numberOfUsers, time, userOption, apkSelector, saveData, apkOption]);
   return (
     <div className="dashboard_wrapper">
       <MainHeader state={state} setState={setState} />
@@ -239,6 +263,9 @@ const MainDashboard = () => {
                   : v.price_5
               }
               title={v.itemTitle}
+              discription={v.itemDescription}
+              picSrc={v.itemPicture}
+              videoSrc={v.itemFilm}
               disabled={v.active === false ? true : false}
               checked={v.checked ? true : false}
               changeHandler={(e) => myAwsomeChangeHandler(e, v)}
@@ -248,34 +275,34 @@ const MainDashboard = () => {
         <div className="cards_contents_left">
           <div className="cards_contents_left_top">
             <div className="header_section">
-              <span onClick={console.log(saveData)}>امکانات جانبی</span>
+              <span>امکانات جانبی</span>
             </div>
             <div className="form_cards_content">
-              <div className="price_parent">
-                {userOption !== undefined && userOption.length > 0 && (
-                  <>
-                    <div className="selectBox_parent">
-                      <label htmlFor="userNumber">تعداد کاربر</label>
-                      <select
-                        id="userNumber"
-                        value={numberOfUsers}
-                        onChange={numberOfUsersHandler}
-                      >
-                        <option value={"nullSelect"} disabled={true}>
-                          اطلاعات خود را وارد کنید
-                        </option>
-                        {userOption.length > 0 &&
-                          userOption.map((item, index) => (
-                            <option value={item.percent} key={index}>
-                              {item.numberOfUsers}
-                            </option>
-                          ))}
-                      </select>
-                    </div>
-                    <span>قیمت : {prices.priceUnderNumberOfUser} تومان</span>
-                  </>
-                )}
+              <div className="extra_costs">
+                <label>هزینه سرور:{servicePrice} تومان</label>
+                <label>هزینه پشتیبانی: {support} تومان</label>
               </div>
+              {userOption !== undefined && userOption.length > 0 && (
+                <div className="price_parent">
+                  <div className="selectBox_parent">
+                    <label htmlFor="userNumber">تعداد کاربر</label>
+                    <select
+                      id="userNumber"
+                      value={numberOfUsers}
+                      onChange={numberOfUsersHandler}
+                    >
+                      {userOption.length > 0 &&
+                        userOption.map((item, index) => (
+                          <option value={item.percent} key={index}>
+                            {item.numberOfUsers}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                  <span>قیمت : {prices.priceUnderNumberOfUser} تومان</span>
+                </div>
+              )}
+
               <div className="price_parent">
                 <div className="selectBox_parent">
                   <label htmlFor="chosenTime">انتخاب زمان </label>
@@ -293,29 +320,31 @@ const MainDashboard = () => {
                 </div>
               </div>
 
-              <div className="price_parent">
-                <div className="selectBox_parent">
-                  <label htmlFor="chosenTime">تعداد apk</label>
-                  <select
-                    value={apkSelector}
-                    id="chosenNumber"
-                    defaultValue={"1"}
-                    onChange={changeHandlerApk}
-                  >
-                    <option value={"1"}>1</option>
-                    <option value={"2"}>2</option>
-                    <option value={"3"}>3</option>
-                    <option value={"4"}>4</option>
-                    <option value={"5"}>5</option>
-                    <option value={"6"}>6</option>
-                    <option value={"7"}>7</option>
-                    <option value={"8"}>8</option>
-                    <option value={"9"}>9</option>
-                    <option value={"10"}>10</option>
-                  </select>
+              {apkOption !== 0 && (
+                <div className="price_parent">
+                  <div className="selectBox_parent">
+                    <label htmlFor="chosenTime">تعداد apk</label>
+                    <select
+                      value={apkSelector}
+                      id="chosenNumber"
+                      defaultValue={"1"}
+                      onChange={changeHandlerApk}
+                    >
+                      <option value={"1"}>1</option>
+                      <option value={"2"}>2</option>
+                      <option value={"3"}>3</option>
+                      <option value={"4"}>4</option>
+                      <option value={"5"}>5</option>
+                      <option value={"6"}>6</option>
+                      <option value={"7"}>7</option>
+                      <option value={"8"}>8</option>
+                      <option value={"9"}>9</option>
+                      <option value={"10"}>10</option>
+                    </select>
+                  </div>
+                  <span>قیمت : {prices.priceUnderNumberOfAPK} تومان</span>
                 </div>
-                <span>قیمت : {prices.priceUnderNumberOfAPK} تومان</span>
-              </div>
+              )}
             </div>
           </div>
           <div className="cards_contents_left_bottom">
@@ -326,19 +355,19 @@ const MainDashboard = () => {
               <div className="totallBox_">
                 <div className="totall_price">
                   <span>قیمت کل :</span>
-                  <span>{idSelector} تومان</span>
+                  <span>{totalPrice} تومان</span>
                 </div>
                 <div className="totall_price">
                   <span> تخـفـیـف : </span>
-                  <span className="discount_">600,000 تومان</span>
+                  <span className="discount_">{discount}%</span>
                 </div>
                 <div className="totall_price">
                   <span> مالیات و عوارض :</span>
-                  <span>600,000 تومان</span>
+                  <span>9%</span>
                 </div>
                 <div className="totall_price">
                   <span> جمع کل :</span>
-                  <span className="totall">{totalPrice}</span>
+                  <span className="totall">{totalSum} تومان</span>
                 </div>
               </div>
             </div>

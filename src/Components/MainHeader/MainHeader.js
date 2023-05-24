@@ -1,19 +1,28 @@
-// import { useState } from 'react';
 import './MainHeader.scss';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 const MainHeader = (props) => {
 
   const navSelector = useRef();
+  const [state,setState] = useState('1');
 
-  const clickHandler = (e) => {
+  
+  const clickHandlerOne = (e) => {
+    setState('1')
     props.setState(e.currentTarget.id);
-    let activeChild = navSelector.current.querySelector(".tabs_active");
-    if (activeChild) {
-      activeChild.classList.remove("tabs_active");
-    }
-    e.currentTarget.classList.add("tabs_active");
   }
+  const clickHandlerTwo = (e) => {
+    setState('2')
+    props.setState(e.currentTarget.id);
+  }
+  // const clickHandler = (e) => {
+  //   props.setState(e.currentTarget.id);
+  //   let activeChild = navSelector.current.querySelector(".tabs_active");
+  //   if (activeChild) {
+  //     activeChild.classList.remove("tabs_active");
+  //   }
+  //   e.currentTarget.classList.add("tabs_active");
+  // }
 
   return (
     <div className="header_wrapper">
@@ -63,8 +72,8 @@ const MainHeader = (props) => {
       </svg>
 
       <ul className="tabs__parent" ref={navSelector}>
-        <li  className={'tabs_li'}  onClick={clickHandler} id='windows'>نرم افزارهای ویندوزی</li>
-        <li  className={'tabs_li'}  onClick={clickHandler} id='web'>نرم افزارهای تحت وب</li>
+        <li  className={`tabs_li ${state === '1'? 'tabs_active': ""} `}  onClick={clickHandlerOne} id='windows'>نرم افزارهای ویندوزی</li>
+        <li  className={`tabs_li ${state === '2'? 'tabs_active': ""} ` }  onClick={clickHandlerTwo} id='web'>نرم افزارهای تحت وب</li>
       </ul>
     </div>
   );

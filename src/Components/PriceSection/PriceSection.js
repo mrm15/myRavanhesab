@@ -29,10 +29,9 @@ const PriceSection = (props) => {
           />
           <label htmlFor={props.id}>{props.title}</label>
         </div>
-        <div className="item_price_"  onClick={clickHandler}> 
+        <div className="item_price_" onClick={clickHandler}>
           <span>{props.price} تومان</span>
           <svg
-         
             width="16"
             height="8"
             viewBox="0 0 16 8"
@@ -45,6 +44,24 @@ const PriceSection = (props) => {
             />
           </svg>
         </div>
+      </div>
+      <div className="Price_wrapper_bottom">
+        {props.discription !== "" && (
+          <span className="text_discription">{props.discription}</span>
+        )}
+        {props.picSrc !== "" && (
+          <div className="picture_of_items">
+            <img src={props.picSrc} alt="" />
+          </div>
+        )}
+        {props.videoSrc !== "" && (
+          <div className="video__">
+            <video className="video__tag" controls>
+              <source src={props.videoSrc} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        )}
       </div>
     </div>
   );

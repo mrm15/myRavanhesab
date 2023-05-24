@@ -1,13 +1,6 @@
-import { useState } from "react";
 import "./TitleBox.scss";
 
 const TitleBox = (props) => {
-  // const [click, setClick] = useState(false);
-
-  // const clickHandler = () => {
-  //   setClick(!click);
-  // };
-
   return (
     <div
       className={"sofware_box "}

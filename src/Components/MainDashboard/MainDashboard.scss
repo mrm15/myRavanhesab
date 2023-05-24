@@ -283,6 +283,26 @@
         color: #646464;
       }
     }
+
+  }
+
+  .extra_costs{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 5px;
+
+    label{
+      font-family: 'IranSans';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 19px;        
+      text-align: right;
+      color: #646464;
+    }
+
   }
 }
 
