@@ -7,8 +7,8 @@ import PriceSection from "../PriceSection/PriceSection";
 import axios from "axios";
 import Footerr from "../Footer/Footerr";
 import Swal from "sweetalert2";
-import {   formatToPersianAddComma, parseToEnRemoveComma} from "../../Assets/utils/CommaSeprator";
-
+import { formatToPersianAddComma } from "../../Assets/utils/CommaSeprator";
+import { json } from "react-router-dom";
 
 const MainDashboard = () => {
   const [prices, setPrices] = useState({
@@ -21,22 +21,21 @@ const MainDashboard = () => {
   const [cardData, setCardData] = useState();
   const [listItem, setListItem] = useState([]);
   const [time, timeSetter] = useState("price_1");
-  const [totalPrice, setTotalPrice] = useState(0);//قیمت کل
-  const [totalSum, setTotalSum] = useState(0);//جمع کل
+  const [totalPrice, setTotalPrice] = useState(0); //قیمت کل
+  const [totalSum, setTotalSum] = useState(0); //جمع کل
   const [apkSelector, setApkSelector] = useState("1");
   const [support, setSupport] = useState(0);
   const [apkOption, setApkOption] = useState(0);
   const [userOption, setUserOption] = useState([]);
-  const [discount,setDiscount] = useState(0);//درصد تخفیف که بعدا قرار داده میشه
+  const [discount, setDiscount] = useState(0); //درصد تخفیف که بعدا قرار داده میشه
   const [numberOfUsers, setNumberOfUsers] = useState(0);
-  // const [sendData, setSendData] = useState({
-  //   numberOfUsers: "",
-  //   planTime: "oneMonth",
-  //   numberOfApk: "",
-  // });
+  const [serverPrices, setServerPrices] = useState(0); //هزینه سرور
+  const [supportive, setSupportive] = useState(0); //هزینه پشتیبانی
   const [servicePrice, setServicePrice] = useState(0);
+  const [userNumbers, setUserNumbers] = useState(0); //تعداد کاربران
   const [saveData, setSaveData] = useState([]);
-  
+
+  //اکتیو کردن محصولی که روش کلیک شده
   const clickHandler = (e) => {
     setCardData(e.currentTarget.id);
     let activeChild = cardSelector.current.querySelector(".softBoxActive_");
@@ -45,6 +44,8 @@ const MainDashboard = () => {
     }
     e.currentTarget.classList.add("softBoxActive_");
   };
+
+  //اضافه شدن آیتم های  که تیک زده شدن به saveData
   const addCheckedItemsToSaveDataState = (data) => {
     const temp = [];
     data.forEach((singleItemObject) => {
@@ -52,9 +53,10 @@ const MainDashboard = () => {
         temp.push(singleItemObject);
       }
     });
-
     setSaveData(temp);
   };
+
+  //درخواست تمام آیتم های هر محصول
   useEffect(() => {
     axios
       .get(
@@ -66,18 +68,69 @@ const MainDashboard = () => {
         addCheckedItemsToSaveDataState(response.data.productData.items); //لیست آیتم های تیک خورده
         setServicePrice(response.data.productData.serverPrice); //هزینه سرور
         setSupport(response.data.productData.supportPrice); //هزینه پشتیبانی
-        if(response.data.productData.apkOptions === false){
+        if (response.data.productData.apkOptions === false) {
           setApkOption(0);
-        }else{
+        } else {
           setApkOption(response.data.productData.apkOptions); //هزینه apk
         }
         if (response.data.productData.userOptions.length === 0) {
           setNumberOfUsers(0);
+          setUserNumbers(0);
         } else {
           setNumberOfUsers(response.data.productData.userOptions[0].percent); //درصد هزینه هر کاربر
+          setUserNumbers(
+            response.data.productData.userOptions[0].numberOfUsers
+          ); //تعداد کاربر
         }
       });
   }, [cardData]);
+
+  //درخواست تمام آیتم های هر محصول
+
+  const submitHandler = () => {
+    let newData = [];
+    saveData.forEach((v) => {
+      newData.push({
+        itemId: v.itemId,
+        itemDescription: v.itemDescription,
+        itemTitle: v.itemTitle,
+        itemPrice:
+          time === "price_1"
+            ? v.price_1
+            : time === "price_2"
+            ? v.price_2
+            : time === "price_3"
+            ? v.price_3
+            : time === "price_4"
+            ? v.price_4
+            : v.price_5,
+      });
+    });
+
+    let data = [
+      { name: "productId ", value: cardData },
+      { name: "duration", value: time },
+      { name: "numberOfApk", value: apkSelector },
+      { name: " price", value: prices.priceUnderNumberOfAPK },
+      { name: "supportPrice", value: supportive },
+      { name: "serverPrice", value: serverPrices },
+      { name: "percent", value: numberOfUsers },
+      { name: "items", value: JSON.stringify(newData) },
+      { name: "numberOfUsers", value: userNumbers },
+    ];
+
+    let formData = new FormData();
+    data.forEach((v) => {
+      formData.append(v.name, v.value);
+    });
+
+    axios
+      .post(`http://localhost/myRavanhesabBackend/addBill/`, formData)
+      .then((response) => {
+        debugger;
+        console.log(response.data);
+      });
+  };
 
   useEffect(() => {
     axios
@@ -87,7 +140,7 @@ const MainDashboard = () => {
       .then((response) => {
         setData([...response.data.productsData]);
       });
-  }, [state]);
+  }, []);
 
   const timeSelector = (e) => {
     const selectedTime = e.target.value;
@@ -108,9 +161,9 @@ const MainDashboard = () => {
     const serverPrice = servicePrice / myNumberToCalulateData; //هزینه سرور
     const supportPrice = support / myNumberToCalulateData; //هزینه پشتبانی
     let totalUserPrice =
-      ((totalPrices) + (serverPrice) + (supportPrice)) * (numberOfUsers / 100); //درصد هزینه کاربر
+      (totalPrices + serverPrice + supportPrice) * (numberOfUsers / 100); //درصد هزینه کاربر
 
-    let totalAPKPrice =(apkOption * apkSelector); //هزینه apk
+    let totalAPKPrice = apkOption * apkSelector; //هزینه apk
     const temp = { ...prices };
     temp.priceUnderNumberOfAPK = totalAPKPrice; //هزینه apk
 
@@ -151,30 +204,73 @@ const MainDashboard = () => {
         ? 1
         : 1;
     const serverPrice = servicePrice / myNumberToCalulateData; //هزینه سرور
+    setServerPrices(serverPrice); //هزینه سرور
     const supportPrice = support / myNumberToCalulateData; //هزینه پشتبانی
+    setSupportive(supportPrice); //هزینه پشتبانی
     numberOfUsersPercentage = parseFloat(numberOfUsersPercentage); //درصد کاربر
     totalPrice =
       totalItemPrice +
       serverPrice +
       supportPrice +
-      (Math.abs(prices.priceUnderNumberOfUser))+
-      (apkOption * apkSelector);
-    setTotalPrice((totalPrice));
+      Math.abs(prices.priceUnderNumberOfUser) +
+      apkOption * apkSelector;
+    setTotalPrice(totalPrice);
 
     //جمع کل
-    let someCumputedwithDiscount = ((totalPrice - discount) + ((totalPrice + discount)*(9/100)));
-     setTotalSum((someCumputedwithDiscount))
+    let someCumputedwithDiscount =
+      totalPrice - discount + (totalPrice + discount) * (9 / 100);
+    setTotalSum(someCumputedwithDiscount);
   };
 
   const numberOfUsersHandler = (e) => {
     setNumberOfUsers(e.target.value);
+    let index = e.target.selectedIndex;
+    setUserNumbers(e.target[index].text);
   };
 
   const changeHandlerApk = (e) => {
     setApkSelector(e.target.value);
   };
 
+  const RemoveUncheckedItem = (e, v) => {
+    debugger
+  
+      let id = e.target.id;
+      console.log(listItem);
+      const tempListItem =[...listItem];
+      tempListItem.forEach((item =>{
+       if( item.prerequisite.length >0){
+        item.prerequisite.forEach(reqID=>{
+          if(reqID === id){
+            item.checked = false;//بیا اون آیتمی که پیش نیازش تیکش برداشته شه تیکشو بردار
+            // let temp = [...saveData];
+            // if(temp.length>0){
+            //   let newTemp = temp.filter(tempId => tempId.itemId !== item.itemId)[0];
+            //   setSaveData(newTemp);
+              
+            // }
+
+          }
+        })
+       }
+      }))
+      console.log(tempListItem);
+      setListItem(tempListItem);
+    
+  };
+
   const myAwsomeChangeHandler = (e, myAwesomeObject) => {
+
+    // برو تو لیست آیتم آیدی myawsomeobject 
+   // را پیدا کن و chekced را تغییر بده
+  
+  
+   listItem.forEach(item=>{
+    if(item.itemId === myAwesomeObject.itemId ){
+          item.checked = e.target.checked
+    }
+   })
+
     if (e.target.checked) {
       if (myAwesomeObject.prerequisite.length > 0) {
         let dependeny = false;
@@ -195,7 +291,6 @@ const MainDashboard = () => {
           }
         });
 
-              
         if (dependeny) {
           Swal.fire(`ابتدا باید آیتم  ${text}را انتخاب کنید `);
           e.target.checked = false;
@@ -205,23 +300,27 @@ const MainDashboard = () => {
 
       setSaveData([...saveData, myAwesomeObject]);
     } else {
+
+      RemoveUncheckedItem(e,myAwesomeObject);
       const temp = [...saveData];
       const result = temp.filter(
         (item) => item.itemId !== myAwesomeObject.itemId
       );
       setSaveData(result);
+ return
     }
+   setListItem(listItem);
   };
 
   useEffect(() => {
     calculateSum();
     updatePrices();
-
   }, [numberOfUsers, time, userOption, apkSelector, saveData, apkOption]);
   useEffect(() => {
     calculateSum();
   }, [prices]);
 
+  console.log(listItem);
   return (
     <div className="dashboard_wrapper">
       <MainHeader state={state} setState={setState} />
@@ -255,7 +354,7 @@ const MainDashboard = () => {
               key={index}
               price={
                 time === "price_1"
-                  ?formatToPersianAddComma(v.price_1)
+                  ? formatToPersianAddComma(v.price_1)
                   : time === "price_2"
                   ? formatToPersianAddComma(v.price_2)
                   : time === "price_3"
@@ -281,8 +380,12 @@ const MainDashboard = () => {
             </div>
             <div className="form_cards_content">
               <div className="extra_costs">
-                <label>هزینه سرور:{formatToPersianAddComma(servicePrice)} تومان</label>
-                <label>هزینه پشتیبانی: {formatToPersianAddComma(support)} تومان</label>
+                <label>
+                  هزینه سرور:{formatToPersianAddComma(serverPrices)} تومان
+                </label>
+                <label>
+                  هزینه پشتیبانی: {formatToPersianAddComma(supportive)} تومان
+                </label>
               </div>
               {userOption !== undefined && userOption.length > 0 && (
                 <div className="price_parent">
@@ -301,7 +404,13 @@ const MainDashboard = () => {
                         ))}
                     </select>
                   </div>
-                  <span>قیمت : {formatToPersianAddComma(Math.abs(prices.priceUnderNumberOfUser))} تومان</span>
+                  <span>
+                    قیمت :{" "}
+                    {formatToPersianAddComma(
+                      Math.abs(prices.priceUnderNumberOfUser)
+                    )}{" "}
+                    تومان
+                  </span>
                 </div>
               )}
 
@@ -344,14 +453,18 @@ const MainDashboard = () => {
                       <option value={"10"}>10</option>
                     </select>
                   </div>
-                  <span>قیمت : {formatToPersianAddComma(prices.priceUnderNumberOfAPK)} تومان</span>
+                  <span>
+                    قیمت :{" "}
+                    {formatToPersianAddComma(prices.priceUnderNumberOfAPK)}{" "}
+                    تومان
+                  </span>
                 </div>
               )}
             </div>
           </div>
           <div className="cards_contents_left_bottom">
             <div className="header_section">
-              <span>قیمت نهایی</span>
+              <span onClick={submitHandler}>قیمت نهایی</span>
             </div>
             <div className="form_cards_content_bottom">
               <div className="totallBox_">
@@ -369,7 +482,9 @@ const MainDashboard = () => {
                 </div>
                 <div className="totall_price">
                   <span> جمع کل :</span>
-                  <span className="totall">{formatToPersianAddComma(totalSum)} تومان</span>
+                  <span className="totall">
+                    {formatToPersianAddComma(totalSum)} تومان
+                  </span>
                 </div>
               </div>
             </div>
