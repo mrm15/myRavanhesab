@@ -195,20 +195,7 @@ const MainDashboard = () => {
           }
         });
 
-        // start
-
-
-
-
-
-
-
-
-
-
-
-        
-        // end
+              
         if (dependeny) {
           Swal.fire(`ابتدا باید آیتم  ${text}را انتخاب کنید `);
           e.target.checked = false;
