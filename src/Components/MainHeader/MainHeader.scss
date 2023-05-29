@@ -10,9 +10,15 @@
   @media (max-width:600px) {
     width: 90%;
   }
-
+  
   ul{
     padding-left: 0 !important;
+  }
+
+  svg{
+    @media (max-width:576px) {
+      width: 100px;
+    }
   }
 
   .tabs__parent {
@@ -31,6 +37,10 @@
       text-align: justify;
       color: #484848;
       cursor: pointer;
+
+      @media (max-width:576px) {
+        font-size: 10px;
+      }
     }
   }
 }

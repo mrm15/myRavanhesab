@@ -22,6 +22,12 @@
     column-gap: 18px;
     align-items: center;
 
+    label{
+      @media (max-width:576px) {
+        font-size: 12px;
+      }
+    }
+
     span {
       font-family: "IranSans";
       font-style: normal;

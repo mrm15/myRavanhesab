@@ -9,20 +9,24 @@
   height: 216px;
   display: flex;
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 15px;
   align-items: center;
   padding: 8px 8px 20px 8px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 
-  @media (max-width:600px) {
-    padding: 0px 8px 20px 8px;
-
-  }
-
-  @media (max-width:991px) {
+  @media (max-width: 991px) {
     width: 17%;
     row-gap: 12px;
+  }
+
+  @media (max-width: 628px) {
+    width: 20%;
+    padding: 0px 8px 10px 8px;
+  }
+
+  @media (max-width:576px) {
+    width: 25%;
   }
 
   svg {
@@ -30,12 +34,12 @@
   }
 
   .circle_pic {
-    width: 100px;
-    height: 100px;
+    width: 85px;
+    height: 85px;
     border-radius: 50px;
     overflow: hidden;
 
-    @media (max-width:738px) {
+    @media (max-width: 738px) {
       width: 90px;
       height: 90px;
     }
@@ -56,7 +60,7 @@
     text-align: center;
     color: $darKgray;
 
-    @media (max-width:800px) {
+    @media (max-width: 800px) {
       font-size: 11px;
     }
   }

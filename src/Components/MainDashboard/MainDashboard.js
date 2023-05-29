@@ -9,6 +9,7 @@ import Footerr from "../Footer/Footerr";
 import Swal from "sweetalert2";
 import { formatToPersianAddComma } from "../../Assets/utils/CommaSeprator";
 import { json } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const MainDashboard = () => {
   const [prices, setPrices] = useState({
@@ -34,9 +35,11 @@ const MainDashboard = () => {
   const [servicePrice, setServicePrice] = useState(0);
   const [userNumbers, setUserNumbers] = useState(0); //تعداد کاربران
   const [saveData, setSaveData] = useState([]);
+  const removeParentChecked = useRef();
 
   //اکتیو کردن محصولی که روش کلیک شده
   const clickHandler = (e) => {
+    debugger
     setCardData(e.currentTarget.id);
     let activeChild = cardSelector.current.querySelector(".softBoxActive_");
     if (activeChild) {
@@ -108,7 +111,7 @@ const MainDashboard = () => {
     });
 
     let data = [
-      { name: "productId ", value: cardData },
+      { name: "productId", value: cardData },
       { name: "duration", value: time },
       { name: "numberOfApk", value: apkSelector },
       { name: " price", value: prices.priceUnderNumberOfAPK },
@@ -128,7 +131,15 @@ const MainDashboard = () => {
       .post(`http://localhost/myRavanhesabBackend/addBill/`, formData)
       .then((response) => {
         debugger;
-        console.log(response.data);
+        if (response.data.status) {
+          toast("success", response.data.message);
+          setTimeout(() => {
+            // 👇️ redirects to an external URL
+            window.location.replace(response.data.link);
+          }, 3000);
+        } else {
+          toast("error", response.data.message);
+        }
       });
   };
 
@@ -233,44 +244,37 @@ const MainDashboard = () => {
   };
 
   const RemoveUncheckedItem = (e, v) => {
-    debugger
-  
-      let id = e.target.id;
-      console.log(listItem);
-      const tempListItem =[...listItem];
-      tempListItem.forEach((item =>{
-       if( item.prerequisite.length >0){
-        item.prerequisite.forEach(reqID=>{
-          if(reqID === id){
-            item.checked = false;//بیا اون آیتمی که پیش نیازش تیکش برداشته شه تیکشو بردار
-            // let temp = [...saveData];
-            // if(temp.length>0){
-            //   let newTemp = temp.filter(tempId => tempId.itemId !== item.itemId)[0];
-            //   setSaveData(newTemp);
-              
-            // }
-
+    const tempListItem = [...listItem];
+    tempListItem.forEach((item) => {
+      if (item.prerequisite.length > 0) {
+        item.prerequisite.forEach((prereqId) => {
+          if (prereqId === e.target.id) {
+            let temp = [...saveData];
+            if (temp.length > 0) {
+              let newTemp = temp.filter(
+                (tempId) => tempId.itemId !== item.itemId
+              );
+              let newArray = newTemp.filter(
+                (item) => item.itemId !== e.target.id
+              );
+              setSaveData(newArray);
+              if (
+                removeParentChecked.current.querySelector(`#${item.itemId}`)
+                  .checked
+              ) {
+                removeParentChecked.current.querySelector(
+                  `#${item.itemId}`
+                ).checked = false;
+                return;
+              }
+            }
           }
-        })
-       }
-      }))
-      console.log(tempListItem);
-      setListItem(tempListItem);
-    
+        });
+      }
+    });
   };
 
   const myAwsomeChangeHandler = (e, myAwesomeObject) => {
-
-    // برو تو لیست آیتم آیدی myawsomeobject 
-   // را پیدا کن و chekced را تغییر بده
-  
-  
-   listItem.forEach(item=>{
-    if(item.itemId === myAwesomeObject.itemId ){
-          item.checked = e.target.checked
-    }
-   })
-
     if (e.target.checked) {
       if (myAwesomeObject.prerequisite.length > 0) {
         let dependeny = false;
@@ -300,27 +304,26 @@ const MainDashboard = () => {
 
       setSaveData([...saveData, myAwesomeObject]);
     } else {
-
-      RemoveUncheckedItem(e,myAwesomeObject);
       const temp = [...saveData];
       const result = temp.filter(
         (item) => item.itemId !== myAwesomeObject.itemId
       );
-      setSaveData(result);
- return
+      setSaveData(result); //آیتمی که unchecked شده را از توی savedata بردار
+      RemoveUncheckedItem(e, myAwesomeObject);
+
+      return;
     }
-   setListItem(listItem);
   };
 
   useEffect(() => {
     calculateSum();
     updatePrices();
   }, [numberOfUsers, time, userOption, apkSelector, saveData, apkOption]);
+
   useEffect(() => {
     calculateSum();
   }, [prices]);
 
-  console.log(listItem);
   return (
     <div className="dashboard_wrapper">
       <MainHeader state={state} setState={setState} />
@@ -343,7 +346,7 @@ const MainDashboard = () => {
         ))}
       </div>
       <div className="cards_contents_parent">
-        <div className="cards_contents_right">
+        <div className="cards_contents_right" ref={removeParentChecked}>
           <div className="header_section">
             <span>سیستم‌ ها</span>
           </div>
@@ -463,7 +466,7 @@ const MainDashboard = () => {
             </div>
           </div>
           <div className="cards_contents_left_bottom">
-            <div className="header_section">
+            <div className="header_section submit__btn">
               <span onClick={submitHandler}>قیمت نهایی</span>
             </div>
             <div className="form_cards_content_bottom">

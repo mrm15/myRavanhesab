@@ -24,7 +24,7 @@ const PriceSection = (props) => {
             value={props.price}
             id={props.id}
             onChange={props.changeHandler}
-            checked={props.checked}
+            defualtchecked={props.checked}
             disabled={props.disabled}
           />
           <label htmlFor={props.id}>{props.title}</label>

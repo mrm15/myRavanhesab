@@ -8,6 +8,7 @@ import {ErrorIconAfterPay, SuccessIconAfterPay} from "../../Assets/svg";
 import Header from "../Header/Header";
 
 const PaymentResult = () => {
+  debugger
   const navigateTo = useNavigate()
   const prefixUrl = localStorage.getItem("apiUrl")
 
@@ -15,7 +16,9 @@ const PaymentResult = () => {
   const [data, setData] = useState({});
 
   const location = useLocation();
+  debugger
   const urlParams = location.search.slice(1).split('&').reduce((acc, s) => {
+    debugger
     const [k, v] = s.split('=')
     return Object.assign(acc, {[k]: v})
   }, {})
