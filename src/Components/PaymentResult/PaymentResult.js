@@ -6,6 +6,7 @@ import numeric from "../utils/NumericFunction";
 import Button from "../UI/Button";
 import {ErrorIconAfterPay, SuccessIconAfterPay} from "../../Assets/svg";
 import Header from "../Header/Header";
+import SuccessPayment from "./SuccessPayment";
 
 const PaymentResult = () => {
   debugger
@@ -32,10 +33,13 @@ const PaymentResult = () => {
     }, {});
 
     debugger
-    if (urlParams.wizard === undefined
-      || urlParams.message === undefined
-      || urlParams.status === undefined
-      || urlParams.billId === undefined) {
+    if (
+      // urlParams.wizard === undefined||
+      urlParams.message === undefined ||
+
+      urlParams.status === undefined
+      // || urlParams.billId === undefined)
+    ) {
       alert("مقادیر ورودی از بک اند در آدرس صحیح نیست لطفا مجددا تلاش کنید.");
 
       return;
@@ -44,7 +48,7 @@ const PaymentResult = () => {
       status: +urlParams.status,
       message: decodeURIComponent(urlParams.message),
       wizard: urlParams.wizard,
-      billId: urlParams.billId
+      transactionCode: urlParams.transactionCode
     })
 
     setIsLoading(false);
@@ -71,8 +75,9 @@ const PaymentResult = () => {
             <div className={'d-flex justify-content-center align-items-center my-5'}>
               {data.status ?
                 <>
-                  <SuccessIconAfterPay/>
-                  <h5>{numeric.e2p(data.message)}</h5>
+                  {/*<SuccessIconAfterPay/>*/}
+                  {/*<h5>{numeric.e2p(data.message)}</h5>*/}
+                  <SuccessPayment code={data.transactionCode}/>
                 </>
                 :
                 <>
@@ -81,15 +86,14 @@ const PaymentResult = () => {
                     <h5>{numeric.e2p(data.message)}</h5>
 
 
-                    <div style={{width:"auto"}}>
+                    <div style={{width: "auto"}}>
                       پرداخت صورتحساب:
-                        &nbsp;
-                      {numeric.e2p(data.billId)}
+                      &nbsp;
+                      {data.transactionCode && numeric.e2p(data.transactionCode)}
                       &nbsp;
                       ناموفق بود.
                     </div>
                   </div>
-
 
 
                 </>
@@ -101,15 +105,16 @@ const PaymentResult = () => {
                 <>
                   <Button onClick={() => navigateTo("/")} className={"btn__empty"}> صفحه اصلی</Button>
 
-                  {data.wizard !== undefined && data.wizard === '1' &&
+                  {/*data.wizard !== undefined && data.wizard === '1' &&
 
                     <Button
                       onClick={
                         () => navigateTo("/wizard", {state: data})
                       }
                     > تکمیل اطلاعات </Button>
-                  }
-                </> :
+                  */}
+                </>
+                :
                 <>
                   <Button onClick={() => navigateTo("/")}> صفحه اصلی</Button>
                 </>

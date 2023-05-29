@@ -1,6 +1,6 @@
 import "./SuccessPayment.scss";
 
-const SuccessPayment = () => {
+const SuccessPayment = (props) => {
   return (
     <>
       <div className="success_parent">
@@ -225,7 +225,7 @@ const SuccessPayment = () => {
           همکاران ما طی ساعات آتی برای راه اندازی و نصب بیشتر با شما تماس خواهند
           گرفت
         </span>
-        <span className="success_text peygiri_">کد پیگیری : 123456</span>
+        <span className="success_text peygiri_">کد پیگیری : {props.code}</span>
       </div>
     </>
   );
