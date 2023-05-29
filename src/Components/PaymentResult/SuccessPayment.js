@@ -1,4 +1,3 @@
-import Footerr from "../Footer/Footerr";
 import "./SuccessPayment.scss";
 
 const SuccessPayment = () => {
@@ -228,7 +227,6 @@ const SuccessPayment = () => {
         </span>
         <span className="success_text peygiri_">کد پیگیری : 123456</span>
       </div>
-      <Footerr />
     </>
   );
 };
