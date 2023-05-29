@@ -8,7 +8,7 @@ import axios from "axios";
 import Footerr from "../Footer/Footerr";
 import Swal from "sweetalert2";
 import { formatToPersianAddComma } from "../../Assets/utils/CommaSeprator";
-import { json } from "react-router-dom";
+// import { json } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const MainDashboard = () => {
@@ -39,7 +39,6 @@ const MainDashboard = () => {
 
   //اکتیو کردن محصولی که روش کلیک شده
   const clickHandler = (e) => {
-    debugger
     setCardData(e.currentTarget.id);
     let activeChild = cardSelector.current.querySelector(".softBoxActive_");
     if (activeChild) {
@@ -151,7 +150,7 @@ const MainDashboard = () => {
       .then((response) => {
         setData([...response.data.productsData]);
       });
-  }, []);
+  }, [state]);
 
   const timeSelector = (e) => {
     const selectedTime = e.target.value;

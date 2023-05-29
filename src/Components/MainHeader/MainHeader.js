@@ -4,15 +4,15 @@ import { useRef, useState } from 'react';
 const MainHeader = (props) => {
 
   const navSelector = useRef();
-  const [state,setState] = useState('1');
+  const [click,setClick] = useState('1');
 
   
   const clickHandlerOne = (e) => {
-    setState('1')
+    setClick('1')
     props.setState(e.currentTarget.id);
   }
   const clickHandlerTwo = (e) => {
-    setState('2')
+    setClick('2')
     props.setState(e.currentTarget.id);
   }
   // const clickHandler = (e) => {
@@ -72,8 +72,8 @@ const MainHeader = (props) => {
       </svg>
 
       <ul className="tabs__parent" ref={navSelector}>
-        <li  className={`tabs_li ${state === '1'? 'tabs_active': ""} `}  onClick={clickHandlerOne} id='windows'>نرم افزارهای ویندوزی</li>
-        <li  className={`tabs_li ${state === '2'? 'tabs_active': ""} ` }  onClick={clickHandlerTwo} id='web'>نرم افزارهای تحت وب</li>
+        <li  className={`tabs_li ${click === '1'? 'tabs_active': ""} `}  onClick={clickHandlerOne} id='windows'>نرم افزارهای ویندوزی</li>
+        <li  className={`tabs_li ${click === '2'? 'tabs_active': ""} ` }  onClick={clickHandlerTwo} id='web'>نرم افزارهای تحت وب</li>
       </ul>
     </div>
   );

@@ -26,7 +26,7 @@ const MainPage = () => {
   window.addEventListener("offline", updateOnlineStatus);
 
   return (
-    <div style={{backgroundColor:"#f1f1f1", height:'100vh' , overflowY:"scroll",  }}>
+    <div style={{backgroundColor:"white", height:'100vh' , overflowY:"scroll",  }}>
       {/*<h6>من کانتیر اصلی هستم 👻</h6>*/}
       <Outlet/>
 

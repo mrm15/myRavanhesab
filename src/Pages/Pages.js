@@ -23,6 +23,7 @@ import {AuthProvider} from "../Components/Auth/auth";
 import Profile from "../Components/Profile";
 import RequireAuth from "../Components/Auth/RequireAuth";
 import MainDashboard from '../Components/MainDashboard/MainDashboard';
+import SuccessPayment from '../Components/PaymentResult/SuccessPayment';
 
 
 const Pages = () => {
@@ -96,6 +97,7 @@ const Pages = () => {
           <Route path="selectedProductType" element={<RequireAuth><SelectedProductType/></RequireAuth>}/>
           <Route path="bill" element={<Bill/>}/>
           <Route path="paymentResult" element={<RequireAuth><PaymentResult/></RequireAuth>}/>
+          <Route path="success" element={<SuccessPayment/>}/>
           <Route path="wizard" element={<RequireAuth><Wizard/></RequireAuth>}/>
           <Route path="requestDemo" element={<RequireAuth><RequestDemo/></RequireAuth>}/>
 
