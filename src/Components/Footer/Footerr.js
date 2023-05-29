@@ -64,17 +64,21 @@ const Footerr = () => {
                         <div className="image-circle">
                           <img src={Ellipse} />
                         </div>
+                        <a href="#">
                         <div className="text-footer">
                           <span>صفحه اصلی</span>
                         </div>
+                        </a>
                       </div>
                       <div className="row-foter">
                         <div className="image-circle">
                           <img src={Ellipse} />
                         </div>
+                        <a href="#">
                         <div className="text-footer">
                           <span>درباره ما</span>
                         </div>
+                        </a>
                       </div>
                     </div>
                     <div className="two-column">
@@ -82,17 +86,21 @@ const Footerr = () => {
                         <div className="image-circle">
                           <img src={Ellipse} />
                         </div>
+                        <a href="#">
                         <div className="text-footerr">
                           <span>برنامه سازان ورکان</span>
                         </div>
+                        </a>
                       </div>
                       <div className="row-foter">
                         <div className="image-circle">
                           <img src={Ellipse} />
                         </div>
+                        <a href="#">
                         <div className="text-footer">
                           <span>تماس با ما</span>
                         </div>
+                        </a>
                       </div>
                     </div>
                     <div className="two-column">
@@ -100,17 +108,21 @@ const Footerr = () => {
                         <div className="image-circle">
                           <img src={Ellipse} />
                         </div>
+                        <a href="#">
                         <div className="text-footer">
                           <span>آنیپو</span>
                         </div>
+                        </a>
                       </div>
                       <div className="row-foter">
                         <div className="image-circle">
                           <img src={Ellipse} />
                         </div>
+                        <a href="#">
                         <div className="text-footer">
                           <span>ای آیلند</span>
                         </div>
+                        </a>
                       </div>
                     </div>
                   </div>
