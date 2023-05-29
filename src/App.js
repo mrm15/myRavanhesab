@@ -8,24 +8,12 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
 import {useEffect, useState} from "react";
 import tr from "./Components/translate/translate";
+import {prefixUrl} from "./utils/utilsData";
+
 // import {AuthProvider} from "./Components/Auth/auth"
 
 
 function App() {
-  useEffect(() => {
-    if (window.location.hostname === "localhost") {
-      localStorage.setItem(
-        "apiUrl",
-        // "http://localhost/Git/myRavanhesab/"
-        "https://my.ravanhesab.com/myRavanhesab/"
-      );
-    } else {
-      localStorage.setItem(
-        "apiUrl",
-        "myRavanhesab/"
-      );
-    }
-  }, [])
 
 
   return <>
@@ -47,10 +35,11 @@ function NavigateTo(url) {
 // Add a request interceptor
 axios.interceptors.request.use(
   function (config) {
+    debugger
     // Do something before request is sent
     config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
     // OR config.headers.common['Authorization'] = `Bearer ${your_token}`;
-    config.baseURL = `${localStorage.getItem("apiUrl")}/`;
+    config.baseURL = prefixUrl();
 
     return config;
   },
@@ -75,7 +64,7 @@ axios.interceptors.response.use(
         // && (window.location.pathname !== '/Login' || window.location.pathname)
       ) {
 
-         
+
         sessionStorage.clear()
         localStorage.clear()
         // NavigateTo("login")
