@@ -54,7 +54,7 @@ const Login = (props) => {
 
     useEffect(() => {
 
-        redirectPath = myLocation.state?.path || '/profile'
+        redirectPath = myLocation.state?.path || '/dashboard'
 
         // check is token Valid
         // if yes  so set userLogin True in session storage
@@ -221,7 +221,9 @@ const Login = (props) => {
           // 
           localStorage.setItem("token", r.data.token);
           sessionStorage.setItem("", "yes");
-          const redirectPath = myLocation.state?.path || '/profile'
+          debugger
+          let redirectPath = myLocation.state?.path || '/profile'
+          // if()
 
           auth.login(true)
           navigateTo(redirectPath, {replace: true})
