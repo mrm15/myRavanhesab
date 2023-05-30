@@ -9,6 +9,7 @@
 
   @media (max-width:600px) {
     width: 90%;
+    column-gap: 20px;
   }
   
   ul{
@@ -27,6 +28,10 @@
     align-items: center;
     column-gap: 60px;
     margin-bottom: 0 !important;
+
+    @media (max-width:600px) {
+      column-gap: 20px;
+    }
 
     .tabs_li {
       font-family: "IranSans";
