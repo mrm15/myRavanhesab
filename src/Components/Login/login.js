@@ -220,9 +220,8 @@ const Login = (props) => {
           toast.success(r.data.message)
           // 
           localStorage.setItem("token", r.data.token);
-          sessionStorage.setItem("", "yes");
           debugger
-          let redirectPath = myLocation.state?.path || '/profile'
+          let redirectPath = myLocation.state?.path || '/'
           // if()
 
           auth.login(true)
