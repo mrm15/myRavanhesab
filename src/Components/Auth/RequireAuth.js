@@ -9,7 +9,7 @@ const RequireAuth = ({children}) => {
   const auth = useAuth();
   
   if (!auth.user) {
-    return <Navigate to={"/login"} state={{path: location.href}}/>
+    return <Navigate to={"/login"} state={{path: location.href || location.pathname}}/>
   }
   return children
 };

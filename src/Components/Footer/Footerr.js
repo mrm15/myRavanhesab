@@ -86,7 +86,7 @@ const Footerr = () => {
                         <div className="image-circle">
                           <img src={Ellipse} />
                         </div>
-                        <a href="#">
+                        <a href="http://varkan.ir/">
                         <div className="text-footerr">
                           <span>برنامه سازان ورکان</span>
                         </div>
@@ -108,7 +108,7 @@ const Footerr = () => {
                         <div className="image-circle">
                           <img src={Ellipse} />
                         </div>
-                        <a href="#">
+                        <a href="https://www.anipo.ir/">
                         <div className="text-footer">
                           <span>آنیپو</span>
                         </div>

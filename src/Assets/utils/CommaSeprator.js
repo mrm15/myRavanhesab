@@ -3,7 +3,7 @@ import utilsFunction from "./utilsFunction";
 
 const commaSeparator = (input) => {
   if (typeof input === "string" && input[0] === "(" && input[input.length - 1] === ")") {
-    debugger
+
     input = Array.from(input);
     input.pop();
     input.shift();
