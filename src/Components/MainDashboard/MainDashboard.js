@@ -222,9 +222,9 @@ const MainDashboard = () => {
       totalItemPrice +
       serverPrice +
       supportPrice +
-      Math.abs(prices.priceUnderNumberOfUser) +
+      Math.abs(prices.priceUnderNumberOfUser.toFixed(2))+
       apkOption * apkSelector;
-    setTotalPrice(totalPrice);
+    setTotalPrice(totalPrice.toFixed(2));
 
     //جمع کل
     let someCumputedwithDiscount =
