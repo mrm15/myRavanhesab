@@ -1,20 +1,29 @@
-import './MainHeader.scss';
-import { useRef, useState } from 'react';
+import "./MainHeader.scss";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MainHeader = (props) => {
-
   const navSelector = useRef();
-  const [click,setClick] = useState('1');
+  const [click, setClick] = useState("1");
+  const navigateTo = useNavigate();
 
-  
+  const backToLogin = () => {
+    debugger;
+    localStorage.clear();
+    sessionStorage.clear();
+    navigateTo("/login");
+  };
+
   const clickHandlerOne = (e) => {
-    setClick('1')
+    setClick("1");
     props.setState(e.currentTarget.id);
-  }
+    props.setLoader(true);
+  };
   const clickHandlerTwo = (e) => {
-    setClick('2')
+    setClick("2");
     props.setState(e.currentTarget.id);
-  }
+    props.setLoader(true);
+  };
   // const clickHandler = (e) => {
   //   props.setState(e.currentTarget.id);
   //   let activeChild = navSelector.current.querySelector(".tabs_active");
@@ -72,9 +81,24 @@ const MainHeader = (props) => {
       </svg>
 
       <ul className="tabs__parent" ref={navSelector}>
-        <li  className={`tabs_li ${click === '1'? 'tabs_active': ""} `}  onClick={clickHandlerOne} id='windows'>نرم افزارهای ویندوزی</li>
-        <li  className={`tabs_li ${click === '2'? 'tabs_active': ""} ` }  onClick={clickHandlerTwo} id='web'>نرم افزارهای تحت وب</li>
+        <li
+          className={`tabs_li ${click === "1" ? "tabs_active" : ""} `}
+          onClick={clickHandlerOne}
+          id="windows"
+        >
+          نرم افزارهای ویندوزی
+        </li>
+        <li
+          className={`tabs_li ${click === "2" ? "tabs_active" : ""} `}
+          onClick={clickHandlerTwo}
+          id="web"
+        >
+          نرم افزارهای تحت وب
+        </li>
       </ul>
+      <div className="leftSideHeader">
+        <button onClick={backToLogin}>بازگشت</button>
+      </div>
     </div>
   );
 };

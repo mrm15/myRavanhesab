@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import MainHeader from "../MainHeader/MainHeader";
 import "./MainDashboard.scss";
-import { carwash } from "../../Assets/js/images";
+import defaultPic  from '../../Assets/img/frameee.png';
 import TitleBox from "../TitleBox/TitleBox";
 import PriceSection from "../PriceSection/PriceSection";
 import axios from "axios";
@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { formatToPersianAddComma } from "../../Assets/utils/CommaSeprator";
 // import { json } from "react-router-dom";
 import { toast } from "react-toastify";
+import Loader from "../Loader/Loader";
 
 const MainDashboard = () => {
   const [prices, setPrices] = useState({
@@ -36,6 +37,8 @@ const MainDashboard = () => {
   const [userNumbers, setUserNumbers] = useState(0); //تعداد کاربران
   const [saveData, setSaveData] = useState([]);
   const removeParentChecked = useRef();
+  const [loader, setLoader] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
 
   //اکتیو کردن محصولی که روش کلیک شده
   const clickHandler = (e) => {
@@ -45,6 +48,7 @@ const MainDashboard = () => {
       activeChild.classList.remove("softBoxActive_");
     }
     e.currentTarget.classList.add("softBoxActive_");
+    setIsLoading(true);
   };
 
   //اضافه شدن آیتم های  که تیک زده شدن به saveData
@@ -84,6 +88,8 @@ const MainDashboard = () => {
             response.data.productData.userOptions[0].numberOfUsers
           ); //تعداد کاربر
         }
+        setIsLoading(false);
+        setLoader(false);
       });
   }, [cardData]);
 
@@ -149,6 +155,7 @@ const MainDashboard = () => {
       )
       .then((response) => {
         setData([...response.data.productsData]);
+        setLoader(false);
       });
   }, [state]);
 
@@ -325,7 +332,7 @@ const MainDashboard = () => {
 
   return (
     <div className="dashboard_wrapper">
-      <MainHeader state={state} setState={setState} />
+      <MainHeader state={state} setState={setState} loader={loader} setLoader={setLoader} />
       <div className="sub_header_">
         <h1>نرم‌‌افزار حسابداری و صندوق فروشگاهی روان حساب</h1>
         <span>
@@ -334,22 +341,22 @@ const MainDashboard = () => {
         </span>
       </div>
       <div className="cardsContainer_" ref={cardSelector}>
-        {data.map((item, index) => (
+        {loader === false ? data.map((item, index) => (
           <TitleBox
-            url={item.productPicture !== "" ? item.productPicture : carwash}
+            url={item.productPicture !== "" ? item.productPicture : defaultPic}
             title={`${item.productName}`}
             id={`${item.productId}`}
             key={index}
             onClick={clickHandler}
           />
-        ))}
+        )): <Loader/>}
       </div>
       <div className="cards_contents_parent">
         <div className="cards_contents_right" ref={removeParentChecked}>
           <div className="header_section">
             <span>سیستم‌ ها</span>
           </div>
-          {listItem.map((v, index) => (
+          {isloading === false ? listItem.map((v, index) => (
             <PriceSection
               className={index % 2 === 0 ? "lightGray_" : "darkGray_"}
               id={v.itemId}
@@ -373,7 +380,7 @@ const MainDashboard = () => {
               checked={v.checked ? true : false}
               changeHandler={(e) => myAwsomeChangeHandler(e, v)}
             />
-          ))}
+          )): <Loader text={'در حال بارگزاری...'}/>}
         </div>
         <div className="cards_contents_left">
           <div className="cards_contents_left_top">

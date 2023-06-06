@@ -7,18 +7,43 @@
   width: 80%;
   column-gap: 60px;
 
-  @media (max-width:600px) {
+  @media (max-width: 600px) {
     width: 90%;
     column-gap: 20px;
   }
-  
-  ul{
+
+  ul {
     padding-left: 0 !important;
   }
 
-  svg{
-    @media (max-width:576px) {
+  svg {
+    @media (max-width: 576px) {
       width: 100px;
+    }
+  }
+
+  .leftSideHeader {
+    width: 49%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    button {
+      border: none;
+      background: #33A980;
+      color: white;
+      border-radius: 10px;
+      padding: 5px 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "IranSans";
+      font-size: 12px;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+
+      &:hover{
+        opacity: 0.5;
+      }
     }
   }
 
@@ -29,7 +54,7 @@
     column-gap: 60px;
     margin-bottom: 0 !important;
 
-    @media (max-width:600px) {
+    @media (max-width: 600px) {
       column-gap: 20px;
     }
 
@@ -43,7 +68,7 @@
       color: #484848;
       cursor: pointer;
 
-      @media (max-width:576px) {
+      @media (max-width: 576px) {
         font-size: 10px;
       }
     }
