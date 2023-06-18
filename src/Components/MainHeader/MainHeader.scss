@@ -27,24 +27,33 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    button {
-      border: none;
-      background: #33A980;
-      color: white;
-      border-radius: 10px;
-      padding: 5px 18px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: "IranSans";
-      font-size: 12px;
-      transition: all 0.3s ease-in-out;
-      cursor: pointer;
 
-      &:hover{
+    span {
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
         opacity: 0.5;
       }
     }
+    // button {
+    //   border: none;
+    //   background: #33A980;
+    //   color: white;
+    //   border-radius: 10px;
+    //   padding: 5px 18px;
+    //   display: flex;
+    //   justify-content: center;
+    //   align-items: center;
+    //   font-family: "IranSans";
+    //   font-size: 12px;
+    //   transition: all 0.3s ease-in-out;
+    //   cursor: pointer;
+
+    //   &:hover{
+    //     opacity: 0.5;
+    //   }
+    // }
   }
 
   .tabs__parent {

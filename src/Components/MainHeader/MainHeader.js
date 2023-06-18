@@ -1,6 +1,9 @@
 import "./MainHeader.scss";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
+import {LogOutIcon} from "../../Assets/svg";
+
 
 const MainHeader = (props) => {
   const navSelector = useRef();
@@ -9,9 +12,23 @@ const MainHeader = (props) => {
 
   const backToLogin = () => {
     debugger;
-    localStorage.clear();
-    sessionStorage.clear();
-    navigateTo("/login");
+    Swal.fire({
+      title: "خروج از سامانه",
+      text: `آیا مطمئنید؟`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'بله',
+      cancelButtonText: 'خیر'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        sessionStorage.clear();
+        navigateTo("/login");
+        window.location.reload()
+      }
+    })
   };
 
   const clickHandlerOne = (e) => {
@@ -97,7 +114,7 @@ const MainHeader = (props) => {
         </li>
       </ul>
       <div className="leftSideHeader">
-        <button onClick={backToLogin}>بازگشت</button>
+        <span onClick={backToLogin} alt={'خروج'}><LogOutIcon/></span>
       </div>
     </div>
   );
