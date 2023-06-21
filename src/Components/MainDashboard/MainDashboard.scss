@@ -61,6 +61,17 @@
     }
   }
 
+  .submit__btn {
+    background-color: #33A980;
+    border-radius: 10px;
+    border: none;
+    padding: 8px;
+    width: 40%;
+    margin: auto;
+    color: white;
+    margin-top: 20px;
+  }
+
   .cards_contents_parent {
     display: flex;
     width: 80%;
@@ -108,10 +119,11 @@
       }
     }
 
-    .submit__btn{
+    .submit__btn {
       cursor: pointer;
       transition: all 0.3s ease-in-out;
-      &:hover{
+
+      &:hover {
         opacity: 0.5;
       }
     }

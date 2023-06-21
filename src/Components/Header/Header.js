@@ -55,7 +55,7 @@ const Header = (props) => {
 
       <ul>
         <li><span className={"px-4"}>
-            <Link to={"/"}><img className={""} src={ravanhesabLogo} alt={"روانحساب"}/></Link>
+            <Link to={"/"}><img  src={ravanhesabLogo} alt={"روانحساب"}/></Link>
           </span>
         </li>
       </ul>

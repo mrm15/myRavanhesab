@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import MainHeader from "../MainHeader/MainHeader";
 import "./MainDashboard.scss";
-import defaultPic  from '../../Assets/img/frameee.png';
+import defaultPic from "../../Assets/img/frameee.png";
 import TitleBox from "../TitleBox/TitleBox";
 import PriceSection from "../PriceSection/PriceSection";
 import axios from "axios";
@@ -229,7 +229,7 @@ const MainDashboard = () => {
       totalItemPrice +
       serverPrice +
       supportPrice +
-      Math.abs(prices.priceUnderNumberOfUser.toFixed(2))+
+      Math.abs(prices.priceUnderNumberOfUser.toFixed(2)) +
       apkOption * apkSelector;
     setTotalPrice(totalPrice.toFixed(2));
 
@@ -332,7 +332,12 @@ const MainDashboard = () => {
 
   return (
     <div className="dashboard_wrapper">
-      <MainHeader state={state} setState={setState} loader={loader} setLoader={setLoader} />
+      <MainHeader
+        state={state}
+        setState={setState}
+        loader={loader}
+        setLoader={setLoader}
+      />
       <div className="sub_header_">
         <h1>نرم‌‌افزار حسابداری و صندوق فروشگاهی روان حساب</h1>
         <span>
@@ -341,46 +346,56 @@ const MainDashboard = () => {
         </span>
       </div>
       <div className="cardsContainer_" ref={cardSelector}>
-        {loader === false ? data.map((item, index) => (
-          <TitleBox
-            url={item.productPicture !== "" ? item.productPicture : defaultPic}
-            title={`${item.productName}`}
-            id={`${item.productId}`}
-            key={index}
-            onClick={clickHandler}
-          />
-        )): <Loader/>}
+        {loader === false ? (
+          data.map((item, index) => (
+            <TitleBox
+              url={
+                item.productPicture !== "" ? item.productPicture : defaultPic
+              }
+              title={`${item.productName}`}
+              id={`${item.productId}`}
+              key={index}
+              onClick={clickHandler}
+            />
+          ))
+        ) : (
+          <Loader />
+        )}
       </div>
       <div className="cards_contents_parent">
         <div className="cards_contents_right" ref={removeParentChecked}>
           <div className="header_section">
             <span>سیستم‌ ها</span>
           </div>
-          {isloading === false ? listItem.map((v, index) => (
-            <PriceSection
-              className={index % 2 === 0 ? "lightGray_" : "darkGray_"}
-              id={v.itemId}
-              key={index}
-              price={
-                time === "price_1"
-                  ? formatToPersianAddComma(v.price_1)
-                  : time === "price_2"
-                  ? formatToPersianAddComma(v.price_2)
-                  : time === "price_3"
-                  ? formatToPersianAddComma(v.price_3)
-                  : time === "price_4"
-                  ? formatToPersianAddComma(v.price_4)
-                  : formatToPersianAddComma(v.price_5)
-              }
-              title={v.itemTitle}
-              discription={v.itemDescription}
-              picSrc={v.itemPicture}
-              videoSrc={v.itemFilm}
-              disabled={v.active === false ? true : false}
-              checked={v.checked ? true : false}
-              changeHandler={(e) => myAwsomeChangeHandler(e, v)}
-            />
-          )): <Loader text={'در حال بارگزاری...'}/>}
+          {isloading === false ? (
+            listItem.map((v, index) => (
+              <PriceSection
+                className={index % 2 === 0 ? "lightGray_" : "darkGray_"}
+                id={v.itemId}
+                key={index}
+                price={
+                  time === "price_1"
+                    ? formatToPersianAddComma(v.price_1)
+                    : time === "price_2"
+                    ? formatToPersianAddComma(v.price_2)
+                    : time === "price_3"
+                    ? formatToPersianAddComma(v.price_3)
+                    : time === "price_4"
+                    ? formatToPersianAddComma(v.price_4)
+                    : formatToPersianAddComma(v.price_5)
+                }
+                title={v.itemTitle}
+                discription={v.itemDescription}
+                picSrc={v.itemPicture}
+                videoSrc={v.itemFilm}
+                disabled={v.active === false ? true : false}
+                checked={v.checked ? true : false}
+                changeHandler={(e) => myAwsomeChangeHandler(e, v)}
+              />
+            ))
+          ) : (
+            <Loader text={"در حال بارگزاری..."} />
+          )}
         </div>
         <div className="cards_contents_left">
           <div className="cards_contents_left_top">
@@ -473,7 +488,7 @@ const MainDashboard = () => {
           </div>
           <div className="cards_contents_left_bottom">
             <div className="header_section submit__btn">
-              <span onClick={submitHandler}>قیمت نهایی</span>
+              <span>قیمت نهایی</span>
             </div>
             <div className="form_cards_content_bottom">
               <div className="totallBox_">
@@ -498,6 +513,9 @@ const MainDashboard = () => {
               </div>
             </div>
           </div>
+          <button className="submit__btn" onClick={submitHandler}>
+            ثبت
+          </button>
         </div>
       </div>
       <Footerr />

@@ -7,7 +7,7 @@
   width: 80%;
   column-gap: 60px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     width: 90%;
     column-gap: 20px;
   }
@@ -16,14 +16,13 @@
     padding-left: 0 !important;
   }
 
-  svg {
-    @media (max-width: 576px) {
-      width: 100px;
-    }
-  }
+  // svg {
+  //   @media (max-width: 576px) {
+  //     width: 100px;
+  //   }
+  // }
 
   .leftSideHeader {
-    width: 49%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -36,6 +35,7 @@
         opacity: 0.5;
       }
     }
+
     // button {
     //   border: none;
     //   background: #33A980;
@@ -57,14 +57,22 @@
   }
 
   .tabs__parent {
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
     column-gap: 60px;
     margin-bottom: 0 !important;
+    width: 70%;
 
     @media (max-width: 600px) {
       column-gap: 20px;
+    }
+
+    @media(max-width:460px) {
+      display: none;
+      justify-content: space-between;
+
     }
 
     .tabs_li {
@@ -87,4 +95,44 @@
 .tabs_active {
   color: #009360 !important;
   font-weight: 700;
+}
+
+.responsive-header {
+  display: none;
+  width: 90%;
+  margin: 20px auto;
+
+  @media(max-width:460px) {
+    display: block;
+  }
+
+  .tabs__parent {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: 60px;
+    margin-bottom: 0 !important;
+    width: 100%;
+
+    @media (max-width: 600px) {
+      column-gap: 20px;
+    }
+
+
+
+    .tabs_li {
+      font-family: "IranSans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 19px;
+      text-align: justify;
+      color: #484848;
+      cursor: pointer;
+
+      @media (max-width: 576px) {
+        font-size: 10px;
+      }
+    }
+  }
 }
