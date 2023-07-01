@@ -30,7 +30,7 @@ const PriceSection = (props) => {
           <label htmlFor={props.id}>{props.title}</label>
         </div>
         <div className="item_price_" onClick={clickHandler}>
-          <span>{props.price} تومان</span>
+          {props.pricehidden && <span>{props.price} تومان</span>}
           <svg
             width="16"
             height="8"

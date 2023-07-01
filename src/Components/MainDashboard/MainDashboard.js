@@ -373,6 +373,7 @@ const MainDashboard = () => {
                 className={index % 2 === 0 ? "lightGray_" : "darkGray_"}
                 id={v.itemId}
                 key={index}
+                pricehidden={v.hiddenPrice}
                 price={
                   time === "price_1"
                     ? formatToPersianAddComma(v.price_1)
