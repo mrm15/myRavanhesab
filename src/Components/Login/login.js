@@ -70,7 +70,7 @@ const Login = (props) => {
       const urlToken = window.location.href.split("?")[1];
       if (urlToken) {
         const setToken = urlToken.split("=")[1];
-        axios.get(`varkanLogin/${setToken}`).then((r) => {
+        axios.get(`varkanLogin/?RToken=${setToken}`).then((r) => {
           if (r.data.status) {
             // toast.success(r.data.message)
             auth.login(true);
