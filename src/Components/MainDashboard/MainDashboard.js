@@ -11,6 +11,7 @@ import { formatToPersianAddComma } from "../../Assets/utils/CommaSeprator";
 // import { json } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../Loader/Loader";
+import {prefixUrl} from "../../utils/utilsData";
 
 const MainDashboard = () => {
   const [prices, setPrices] = useState({
@@ -66,7 +67,7 @@ const MainDashboard = () => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost/myRavanhesabBackend/ravanhesabProductData/?productId=${cardData}`
+        prefixUrl() + `/ravanhesabProductData/?productId=${cardData}`
       )
       .then((response) => {
         setListItem([...response.data.productData.items]); //لیست تمامی آیتم های هر محصول
@@ -133,7 +134,7 @@ const MainDashboard = () => {
     });
 
     axios
-      .post(`http://localhost/myRavanhesabBackend/addBill/`, formData)
+      .post(prefixUrl()+`/addBill/`, formData)
       .then((response) => {
         debugger;
         if (response.data.status) {
@@ -151,7 +152,7 @@ const MainDashboard = () => {
   useEffect(() => {
     axios
       .get(
-        `http://localhost/myRavanhesabBackend/getRavanhesabProducts/?platform=${state}`
+        prefixUrl()+`/getRavanhesabProducts/?platform=${state}`
       )
       .then((response) => {
         setData([...response.data.productsData]);
