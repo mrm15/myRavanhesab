@@ -7,7 +7,7 @@ export const addApiUrlToLocalStorage = () => {
   if (window.location.hostname !== "localhost") {
     localStorage.setItem(
       "apiUrl",
-      "https://my.ravanhesab.com/myRavanhesabBackend/"
+      "https://my.ravanhesab.com/myRavanhesabBackend"
     );
   } else {
     localStorage.setItem("apiUrl",

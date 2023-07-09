@@ -21,7 +21,7 @@ const Bill = (target, source) => {
   const [isEmpty, setIsEmpty] = useState(false) // at first,we consider card is not Empty
   const [discountValue, setDiscountValue] = useState(0)
   useEffect(() => {
-    const urlToSend = prefixUrl + "getUnpaidBillData/"
+    const urlToSend = prefixUrl + "/getUnpaidBillData/"
     axios.get(urlToSend).then(r => {
       if (r.data.status) {
         setBillData(r.data.billData)
@@ -40,7 +40,7 @@ const Bill = (target, source) => {
     const objectToSend = {
       billId: billData.billId, discountId: discountValue
     }
-    axios.post(prefixUrl + "addDiscount/", objectToSend).then(r => {
+    axios.post(prefixUrl + "/addDiscount/", objectToSend).then(r => {
       if (r.data.status) {
         setBillData({})
         setReload(ps => !ps)
@@ -56,7 +56,7 @@ const Bill = (target, source) => {
     const objectToSend = {
       billId: billData.billId, discountId: discountValue
     }
-    axios.delete(prefixUrl + "addDiscount/?billId=" + billData.billId).then(r => {
+    axios.delete(prefixUrl + "/addDiscount/?billId=" + billData.billId).then(r => {
       if (r.data.status) {
         toast.success(r.data.message)
         setBillData({})
@@ -71,7 +71,7 @@ const Bill = (target, source) => {
   function payButtonHandler() {
     
     setPayButtonActive(false);
-    const ax = axios.get(prefixUrl + "getPaymentGatewayLink/?billId=" + billData.billId).then(r => {
+    const ax = axios.get(prefixUrl + "/getPaymentGatewayLink/?billId=" + billData.billId).then(r => {
       // 
       console.log(r.data)
       // 
