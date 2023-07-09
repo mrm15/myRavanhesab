@@ -27,8 +27,7 @@ const Header = (props) => {
       if (result.isConfirmed) {
         localStorage.clear();
         // navigateTo("/Login");
-        navigateTo("/login");
-        window.location.reload()
+        window.location.href = "https://userpanel.varkan.ir/login";
 
 
       }

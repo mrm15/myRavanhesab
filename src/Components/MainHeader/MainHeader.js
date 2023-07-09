@@ -24,8 +24,7 @@ const MainHeader = (props) => {
       if (result.isConfirmed) {
         localStorage.clear();
         sessionStorage.clear();
-        navigateTo("/login");
-        window.location.reload();
+        window.location.href = "https://userpanel.varkan.ir/login";
       }
     });
   };

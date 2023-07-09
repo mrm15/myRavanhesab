@@ -1,39 +1,39 @@
-import React from 'react';
-import {useAuth} from "./Auth/auth";
-import {useNavigate} from "react-router-dom";
+import React from "react";
+import { useAuth } from "./Auth/auth";
+import { useNavigate } from "react-router-dom";
 import Button from "./UI/Button";
 
 const Profile = () => {
-
-  const navigateTo = useNavigate()
-  const auth = useAuth()
-  
+  const navigateTo = useNavigate();
+  const auth = useAuth();
 
   function handleLogout() {
-    auth.logOut()
-    navigateTo("/")
+    auth.logOut();
+    window.location.href = "https://userpanel.varkan.ir/login";
   }
-
 
   return (
     <div>
       {auth.user && "تو یه کاربر عادی نیستی. "}
-      <br/>
-      <br/>
+      <br />
+      <br />
       این جا صفحه پروفایله خوش اومدی محمد
-      <br/>
-      <br/>
-      <br/>
-      <br/>
+      <br />
+      <br />
+      <br />
+      <br />
       <h2>
-
         <button onClick={handleLogout}> خروج از سایت</button>
-        <Button onClick={() => navigateTo("/login")} className={"my-4 greenBtn"}>{"صفحه لاگین"}</Button>
-
+        <Button
+          onClick={() =>
+            (window.location.href = "https://userpanel.varkan.ir/login")
+          }
+          className={"my-4 greenBtn"}
+        >
+          {"صفحه لاگین"}
+        </Button>
       </h2>
     </div>
-
-
   );
 };
 
