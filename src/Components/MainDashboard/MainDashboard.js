@@ -11,7 +11,7 @@ import { formatToPersianAddComma } from "../../Assets/utils/CommaSeprator";
 // import { json } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../Loader/Loader";
-import {prefixUrl} from "../../utils/utilsData";
+import { prefixUrl } from "../../utils/utilsData";
 
 const MainDashboard = () => {
   const [prices, setPrices] = useState({
@@ -46,10 +46,15 @@ const MainDashboard = () => {
     setCardData(e.currentTarget.id);
     let activeChild = cardSelector.current.querySelector(".softBoxActive_");
     if (activeChild) {
-      activeChild.classList.remove("softBoxActive_");
+      if (activeChild === e.currentTarget) {
+      } else if (activeChild !== e.currentTarget) {
+        activeChild.classList.remove("softBoxActive_");
+        e.currentTarget.classList.add("softBoxActive_");
+      }
+    } else {
+      e.currentTarget.classList.add("softBoxActive_");
+      setIsLoading(true);
     }
-    e.currentTarget.classList.add("softBoxActive_");
-    setIsLoading(true);
   };
 
   //اضافه شدن آیتم های  که تیک زده شدن به saveData
@@ -66,9 +71,7 @@ const MainDashboard = () => {
   //درخواست تمام آیتم های هر محصول
   useEffect(() => {
     axios
-      .get(
-        prefixUrl() + `/ravanhesabProductData/?productId=${cardData}`
-      )
+      .get(prefixUrl() + `/ravanhesabProductData/?productId=${cardData}`)
       .then((response) => {
         setListItem([...response.data.productData.items]); //لیست تمامی آیتم های هر محصول
         setUserOption([...response.data.productData.userOptions]); //تعداد کاربران
@@ -133,27 +136,23 @@ const MainDashboard = () => {
       formData.append(v.name, v.value);
     });
 
-    axios
-      .post(prefixUrl()+`/addBill/`, formData)
-      .then((response) => {
-        debugger;
-        if (response.data.status) {
-          toast("success", response.data.message);
-          setTimeout(() => {
-            // 👇️ redirects to an external URL
-            window.location.replace(response.data.link);
-          }, 3000);
-        } else {
-          toast("error", response.data.message);
-        }
-      });
+    axios.post(prefixUrl() + `/addBill/`, formData).then((response) => {
+      debugger;
+      if (response.data.status) {
+        toast("success", response.data.message);
+        setTimeout(() => {
+          // 👇️ redirects to an external URL
+          window.location.replace(response.data.link);
+        }, 3000);
+      } else {
+        toast("error", response.data.message);
+      }
+    });
   };
 
   useEffect(() => {
     axios
-      .get(
-        prefixUrl()+`/getRavanhesabProducts/?platform=${state}`
-      )
+      .get(prefixUrl() + `/getRavanhesabProducts/?platform=${state}`)
       .then((response) => {
         setData([...response.data.productsData]);
         setLoader(false);
@@ -176,8 +175,8 @@ const MainDashboard = () => {
         : time === "price_4"
         ? 1
         : 1;
-    const serverPrice = servicePrice / myNumberToCalulateData; //هزینه سرور
-    const supportPrice = support / myNumberToCalulateData; //هزینه پشتبانی
+    const serverPrice = Math.floor(servicePrice / myNumberToCalulateData); //هزینه سرور
+    const supportPrice = Math.floor(support / myNumberToCalulateData); //هزینه پشتبانی
     let totalUserPrice =
       (totalPrices + serverPrice + supportPrice) * (numberOfUsers / 100); //درصد هزینه کاربر
 
@@ -221,9 +220,9 @@ const MainDashboard = () => {
         : time === "price_4"
         ? 1
         : 1;
-    const serverPrice = servicePrice / myNumberToCalulateData; //هزینه سرور
+    const serverPrice = Math.floor(servicePrice / myNumberToCalulateData); //هزینه سرور
     setServerPrices(serverPrice); //هزینه سرور
-    const supportPrice = support / myNumberToCalulateData; //هزینه پشتبانی
+    const supportPrice = Math.floor(support / myNumberToCalulateData); //هزینه پشتبانی
     setSupportive(supportPrice); //هزینه پشتبانی
     numberOfUsersPercentage = parseFloat(numberOfUsersPercentage); //درصد کاربر
     totalPrice =
@@ -235,8 +234,9 @@ const MainDashboard = () => {
     setTotalPrice(totalPrice.toFixed(2));
 
     //جمع کل
-    let someCumputedwithDiscount =
-      totalPrice - discount + (totalPrice + discount) * (9 / 100);
+    let someCumputedwithDiscount = Math.floor(
+      totalPrice - discount + (totalPrice + discount) * (9 / 100)
+    );
     setTotalSum(someCumputedwithDiscount);
   };
 
@@ -282,6 +282,11 @@ const MainDashboard = () => {
   };
 
   const myAwsomeChangeHandler = (e, myAwesomeObject) => {
+    // if (myAwesomeObject === "all") {
+    //   setAllChecked(true);
+    //   listItem.map((item) => setSaveData(prevData => [...prevData, item]));
+
+    // }
     if (e.target.checked) {
       if (myAwesomeObject.prerequisite.length > 0) {
         let dependeny = false;
@@ -330,12 +335,20 @@ const MainDashboard = () => {
   useEffect(() => {
     calculateSum();
   }, [prices]);
+  useEffect(() => {
+    setListItem([]);
+    setSupportive(0);
+    setServerPrices(0);
+    setTotalPrice(0);
+    setTotalSum(0);
+  }, [state]);
 
   return (
     <div className="dashboard_wrapper">
       <MainHeader
         state={state}
         setState={setState}
+        setItems={setListItem}
         loader={loader}
         setLoader={setLoader}
       />
@@ -368,6 +381,20 @@ const MainDashboard = () => {
           <div className="header_section">
             <span>سیستم‌ ها</span>
           </div>
+          <PriceSection
+            className={"darkGray_"}
+            id={"all"}
+            key={749}
+            pricehidden={""}
+            price={""}
+            title={"انتخاب همه"}
+            discription={""}
+            picSrc={""}
+            videoSrc={""}
+            disabled={false}
+            checked={false}
+            changeHandler={(e) => myAwsomeChangeHandler(e, "all")}
+          />
           {isloading === false ? (
             listItem.map((v, index) => (
               <PriceSection

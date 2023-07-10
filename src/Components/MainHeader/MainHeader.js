@@ -33,11 +33,13 @@ const MainHeader = (props) => {
     setClick("1");
     props.setState(e.currentTarget.id);
     props.setLoader(true);
+    props.setItems([]);
   };
   const clickHandlerTwo = (e) => {
     setClick("2");
     props.setState(e.currentTarget.id);
     props.setLoader(true);
+    props.setItems([]);
   };
   // const clickHandler = (e) => {
   //   props.setState(e.currentTarget.id);
