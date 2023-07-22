@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import MainHeader from "../MainHeader/MainHeader";
 import "./MainDashboard.scss";
 import defaultPic from "../../Assets/img/frameee.png";
@@ -40,6 +40,8 @@ const MainDashboard = () => {
   const removeParentChecked = useRef();
   const [loader, setLoader] = useState(false);
   const [isloading, setIsLoading] = useState(false);
+  const [checkState, setCheckState] = useState(false);
+  const [checkboxes, setCheckBoxes] = useState({});
 
   //اکتیو کردن محصولی که روش کلیک شده
   const clickHandler = (e) => {
@@ -96,6 +98,14 @@ const MainDashboard = () => {
         setLoader(false);
       });
   }, [cardData]);
+  useEffect(() => {
+    const checkListObj = listItem.reduce((acc, item) => {
+      acc[item.itemId] = false;
+      return acc;
+    }, {});
+    console.log(checkListObj);
+    setCheckBoxes(checkListObj);
+  }, [listItem]);
 
   //درخواست تمام آیتم های هر محصول
 
@@ -280,13 +290,17 @@ const MainDashboard = () => {
       }
     });
   };
-
+ 
   const myAwsomeChangeHandler = (e, myAwesomeObject) => {
-    // if (myAwesomeObject === "all") {
-    //   setAllChecked(true);
-    //   listItem.map((item) => setSaveData(prevData => [...prevData, item]));
-
-    // }
+    if (myAwesomeObject === "all") {
+      const updatedResultObject = { ...checkboxes };
+      for (const key in updatedResultObject) {
+        updatedResultObject[key] = checkState;
+      }
+      console.log(updatedResultObject);
+      setCheckBoxes(updatedResultObject);
+      listItem.map((item) => setSaveData((prevData) => [...prevData, item]));
+    }
     if (e.target.checked) {
       if (myAwesomeObject.prerequisite.length > 0) {
         let dependeny = false;
@@ -326,7 +340,14 @@ const MainDashboard = () => {
       return;
     }
   };
-
+  const handleChangeAllCheckbox = useCallback(
+    (e) => {
+      // Toggle checkState and apply the change immediately
+      setCheckState((prevState) => !prevState);
+      myAwsomeChangeHandler(e, "all");
+    },
+    [myAwsomeChangeHandler] // Dependency array to ensure the function references the latest myAwsomeChangeHandler
+  );
   useEffect(() => {
     calculateSum();
     updatePrices();
@@ -393,7 +414,7 @@ const MainDashboard = () => {
             videoSrc={""}
             disabled={false}
             checked={false}
-            changeHandler={(e) => myAwsomeChangeHandler(e, "all")}
+            changeHandler={(e) => handleChangeAllCheckbox()}
           />
           {isloading === false ? (
             listItem.map((v, index) => (
@@ -401,6 +422,7 @@ const MainDashboard = () => {
                 className={index % 2 === 0 ? "lightGray_" : "darkGray_"}
                 id={v.itemId}
                 key={index}
+                setCheck={checkboxes[v.itemId]}
                 pricehidden={v.hiddenPrice}
                 price={
                   time === "price_1"
